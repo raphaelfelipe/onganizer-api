@@ -6,16 +6,28 @@ export class User {
   @PrimaryColumn("uuid")
   readonly id: string;
 
-  @Column()
+  @Column({
+    length: 100,
+    unique: true,
+    nullable: false,
+  })
   email: string;
 
-  @Column()
+  @Column({
+    length: 100,
+    nullable: false,
+  })
   name: string;
 
-  @Column()
+  @Column({
+    length: 100,
+  })
   description: string;
 
-  @Column()
+  @Column({
+    length: 100,
+    nullable: false,
+  })
   password: string;
 
   @Column()
