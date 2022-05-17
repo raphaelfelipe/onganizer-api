@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "name": "api_com_nome_criativo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Raphael Felipe <macedolima22@hotmail.com-Aspire-E5-571.local>",
+  "license": "MIT"
+}
