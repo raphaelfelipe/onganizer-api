@@ -1,9 +1,10 @@
 import express from "express";
+import usersRoutes from "./routes/user.routes";
 
 const app = express();
 
 app.use(express.json());
 
-//app.use(importar e colocar a rota);
+app.use("users", usersRoutes);
 
 app.listen(3000);
