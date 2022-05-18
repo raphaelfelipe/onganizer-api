@@ -1,11 +1,17 @@
-import { Entity, Column, PrimaryColumn, ManyToMany, JoinColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinColumn,
+} from "typeorm";
 
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
 
 @Entity()
 export class Project_User {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn("increment")
   readonly id: number;
 
   @ManyToMany((type) => User, {
