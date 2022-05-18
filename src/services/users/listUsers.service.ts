@@ -4,9 +4,12 @@ import { User } from "../../entities/user.entity"
 const listUsersSrvice = async()=>{
     const repository = AppDataSource.getRepository(User)
 
-    const users = repository.find()
+    const users = await repository.find()
+    
+    const usersReturn = users.map(user=>({...user,password:undefined}))
 
-    return users
+   
+    return usersReturn
 }
 
 export default listUsersSrvice 

@@ -9,7 +9,7 @@ const listUserByIdService = async(id:string)=>{
 
     const user = users.find(user=>user.id === id)
 
-    return user
+    return {...user,password:undefined}
 }
 
 export default listUserByIdService
