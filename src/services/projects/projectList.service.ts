@@ -1,7 +1,7 @@
 import { AppDataSource } from "../../data-source";
 import { Project } from "../../entities/project.entity";
 
-const userListService = async () => {
+const projectListService = async () => {
   const projectRepository = AppDataSource.getRepository(Project);
 
   const project = projectRepository.find();
@@ -9,4 +9,4 @@ const userListService = async () => {
   return project;
 };
 
-export default userListService;
+export default projectListService;
