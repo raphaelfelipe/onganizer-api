@@ -7,4 +7,4 @@ app.use(express.json());
 
 app.use("users", usersRoutes);
 
-app.listen(3000);
+export default app;
