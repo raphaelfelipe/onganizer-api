@@ -4,37 +4,39 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinColumn,
+  ManyToOne,
 } from "typeorm";
+
 import { v4 as uuid } from "uuid";
 
+import { Project } from "./project.entity";
+
 @Entity()
-export class User {
+export class Project_Posts {
   @PrimaryColumn("uuid")
   readonly id: string;
 
-  @Column({
-    length: 100,
-    unique: true,
-    nullable: false,
+  @ManyToOne((type) => Project, {
+    eager: true,
   })
-  email: string;
+  @JoinColumn()
+  project: Project;
+
+  @Column("uuid")
+  project_id: string;
 
   @Column({
-    length: 100,
+    length: 50,
     nullable: false,
   })
-  name: string;
+  title: string;
 
   @Column({
-    length: 100,
-  })
-  description: string;
-
-  @Column({
-    length: 100,
+    length: 1000,
     nullable: false,
   })
-  password: string;
+  content: string;
 
   @CreateDateColumn()
   created_at: Date;

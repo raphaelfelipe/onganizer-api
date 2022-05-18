@@ -8,16 +8,9 @@ import {
 import { v4 as uuid } from "uuid";
 
 @Entity()
-export class User {
+export class Project {
   @PrimaryColumn("uuid")
   readonly id: string;
-
-  @Column({
-    length: 100,
-    unique: true,
-    nullable: false,
-  })
-  email: string;
 
   @Column({
     length: 100,
@@ -26,21 +19,27 @@ export class User {
   name: string;
 
   @Column({
-    length: 100,
+    length: 200,
+    nullable: false,
   })
   description: string;
 
   @Column({
-    length: 100,
+    length: 1000,
     nullable: false,
   })
-  password: string;
+  objective: string;
 
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column({
+    default: true,
+  })
+  active: boolean;
 
   constructor() {
     if (!this.id) {
