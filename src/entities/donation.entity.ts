@@ -2,33 +2,48 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToMany,
+  CreateDateColumn,
+  OneToOne,
   JoinColumn,
+  ManyToOne,
 } from "typeorm";
 
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
 
 @Entity()
-export class Project_User {
+export class Donation {
   @PrimaryGeneratedColumn("increment")
   readonly id: number;
 
-  @ManyToMany((type) => User, {
+  @ManyToOne((type) => User, {
     eager: true,
   })
   @JoinColumn()
-  users: User[];
+  user: User;
 
   @Column("uuid")
-  users_id: string[];
+  user_id: string;
 
-  @ManyToMany((type) => Project, {
+  @OneToOne((type) => Project, {
     eager: true,
   })
   @JoinColumn()
-  projects: Project[];
+  project: Project;
 
   @Column("uuid")
-  projects_id: string[];
+  project_id: string;
+
+  @Column({
+    nullable: false,
+  })
+  value: number;
+
+  @Column({
+    length: 250,
+  })
+  message: string;
+
+  @CreateDateColumn()
+  created_at: Date;
 }
