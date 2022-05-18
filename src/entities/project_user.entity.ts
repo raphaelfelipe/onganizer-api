@@ -18,17 +18,17 @@ export class Project_User {
     eager: true,
   })
   @JoinColumn()
-  users: User[];
+  users: User;
 
   @Column("uuid")
-  users_id: string[];
+  users_id: string;
 
   @ManyToMany((type) => Project, {
     eager: true,
   })
   @JoinColumn()
-  projects: Project[];
+  projects: Project;
 
   @Column("uuid")
-  projects_id: string[];
+  projects_id: string;
 }
