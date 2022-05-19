@@ -1,7 +1,7 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   CreateDateColumn,
   OneToOne,
   JoinColumn,
@@ -12,8 +12,8 @@ import { Project } from "./project.entity";
 
 @Entity()
 export class Follow_Projects {
-  @PrimaryGeneratedColumn("increment")
-  readonly id: number;
+  @PrimaryColumn("uuid")
+  readonly id: string;
 
   @OneToOne((type) => User, {
     eager: true,

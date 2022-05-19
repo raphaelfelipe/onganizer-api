@@ -1,7 +1,7 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   ManyToMany,
   JoinColumn,
 } from "typeorm";
@@ -11,8 +11,8 @@ import { Project } from "./project.entity";
 
 @Entity()
 export class Project_User {
-  @PrimaryGeneratedColumn("increment")
-  readonly id: number;
+  @PrimaryColumn("uuid")
+  readonly id: string;
 
   @ManyToMany((type) => User, {
     eager: true,

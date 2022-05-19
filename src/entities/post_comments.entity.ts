@@ -1,7 +1,7 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
@@ -13,8 +13,8 @@ import { Project_Posts } from "./project_posts.entity";
 
 @Entity()
 export class Post_Comments {
-  @PrimaryGeneratedColumn("increment")
-  readonly id: number;
+  @PrimaryColumn("uuid")
+  readonly id: string;
 
   @ManyToOne((type) => User, {
     eager: true,
