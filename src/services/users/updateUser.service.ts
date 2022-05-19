@@ -8,7 +8,11 @@ const updateUserService = async({id, email, password, name, description}:IUpdate
     const users = await repository.find()
 
     const user = users.find(user=>user.id === id)
-  
+    
+    if(!user){
+        throw new Error ("User not found")
+    }
+
     await repository.update(user!.id,{name: name, email: email, password: password, description:description})
 
  
