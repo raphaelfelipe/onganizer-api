@@ -6,6 +6,7 @@ import deleteUserService from "../services/users/deleteUser.service";
 import updateUserService from "../services/users/updateUser.service";
 import userListMeService from "../services/users/userListMe.service";
 import userLoginService from "../services/users/userLogin.service";
+import userListMeFeedService from "../services/users/userListMeFeed.service";
 
 export default class UsersController {
   async create(req: Request, res: Response) {
@@ -87,7 +88,7 @@ export default class UsersController {
     try{
 
       const {id} = req.params
-      const user = await userListMeService(id)
+      const user = await userListMeFeedService(id)
 
       return res.status(200).send(user)
 
