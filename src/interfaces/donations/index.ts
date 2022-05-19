@@ -1,11 +1,18 @@
 export interface IDonationId {
-    id: string
+  id: string;
 }
 
 export interface IDonationProjectId {
-    project_id: string
+  project_id: string;
 }
 
 export interface IDonationUserId {
-    user_id: string
+  user_id: string;
+}
+
+export interface IDonationCreate {
+  project_id: string;
+  user_id: string;
+  message: string;
+  value: number;
 }
