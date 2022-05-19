@@ -12,7 +12,7 @@ import projectUsersService from '../services/projects/projectUsers.service'
 import userProjectCreateService from '../services/projects/projectUsersCreate.service'
  
 export default class ProjectsController{
-    static async createProject(req: Request, res: Response) {
+    async createProject(req: Request, res: Response) {
         try{
 
             const {name, description, objective, active} = req.body
@@ -36,7 +36,7 @@ export default class ProjectsController{
         }
     }
     
-    static async createPost(req: Request, res: Response) {
+    async createPost(req: Request, res: Response) {
         try{
 
             const {project_id, title, content} = req.body
@@ -59,7 +59,7 @@ export default class ProjectsController{
         }
     }
 
-    static async createProjectUsers(req: Request, res: Response) {
+    async createProjectUsers(req: Request, res: Response) {
         try{
 
             const {project_id, user_id} = req.body
@@ -77,7 +77,7 @@ export default class ProjectsController{
         }
     }
 
-    static async createFollowProject(req: Request, res: Response) {
+    async createFollowProject(req: Request, res: Response) {
         try{
 
             const {project_id, user_id} = req.body
@@ -95,7 +95,7 @@ export default class ProjectsController{
         }
     }
  
-    static async projectList(req: Request, res: Response) {
+    async projectList(req: Request, res: Response) {
         try{
             const projects = await projectListService();
 
@@ -110,7 +110,7 @@ export default class ProjectsController{
         }
     }
  
-    static async projectListOne(req: Request, res: Response) {
+    async projectListOne(req: Request, res: Response) {
         try{
             const { id } = req.params;
 
@@ -127,7 +127,7 @@ export default class ProjectsController{
         }
     }
 
-    static async listProjectUsers(req: Request, res: Response) {
+    async listProjectUsers(req: Request, res: Response) {
         try{
 
             const { id } = req.params;
@@ -145,7 +145,7 @@ export default class ProjectsController{
         }
     }
 
-    static async listProjectPosts(req: Request, res: Response) {
+    async listProjectPosts(req: Request, res: Response) {
         try{
 
             const { id } = req.params;
@@ -163,7 +163,7 @@ export default class ProjectsController{
         }
     }
  
-    static async projectUpdate(req: Request, res: Response) {
+    async projectUpdate(req: Request, res: Response) {
         try{
 
             const {id} = req.params
@@ -185,7 +185,7 @@ export default class ProjectsController{
         }
     }
  
-    static async projectDelete(req: Request, res: Response) {
+    async projectDelete(req: Request, res: Response) {
         try{
 
             const { id } = req.params;
@@ -203,7 +203,7 @@ export default class ProjectsController{
         }
     }
 
-    static async followProjectDelete(req: Request, res: Response) {
+    async followProjectDelete(req: Request, res: Response) {
         try{
 
             const { project_id, user_id } = req.body;
