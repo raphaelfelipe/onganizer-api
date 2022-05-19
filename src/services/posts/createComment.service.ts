@@ -1,7 +1,7 @@
 import { AppDataSource } from '../../data-source';
 import { Post_Comments } from '../../entities/post_comments.entity';
 import { ICreateComment } from './../../interfaces/posts/index';
-const createCommentService = async({user_id, post_id, comment}:ICreateComment)=>{
+const createCommentService = async({post_id, user_id, comment}:ICreateComment)=>{
 
     const repository = AppDataSource.getRepository(Post_Comments)
 
