@@ -9,3 +9,8 @@ export interface IDonationProjectId {
 export interface IDonationUserId {
     user_id: string
 }
+
+export interface IDonateUpdate {
+    id: string
+    message: string
+}
