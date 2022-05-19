@@ -13,7 +13,14 @@ const projectUpdateService = async({id, active, objective, name, description}:IP
 
  
 
-    return {message:'User successfully updated'}
+    return {message:'Project successfully updated', UpdatedInfo:{
+        
+        name:name,
+        description: description,
+        objective: objective,
+        active:active
+    }
+    }
 }
 
 export default projectUpdateService
