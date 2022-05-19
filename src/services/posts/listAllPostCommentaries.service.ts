@@ -1,7 +1,7 @@
 import { AppDataSource } from "../../data-source"
 import { Post_Comments } from "../../entities/post_comments.entity"
 
-const listAllPostCommentaries = async(id:string)=>{
+const listAllPostCommentariesService = async(id:string)=>{
 
     const repository = AppDataSource.getRepository(Post_Comments)
 
@@ -17,4 +17,4 @@ const listAllPostCommentaries = async(id:string)=>{
 
 }
 
-export default listAllPostCommentaries
+export default listAllPostCommentariesService

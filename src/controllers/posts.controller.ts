@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
 import commentDeleteService from "../services/posts/commentDelete.service";
 import createCommentService from "../services/posts/createComment.service";
+import listAllPostCommentariesService from "../services/posts/listAllPostCommentaries.service";
 import listAllPostCommentaries from "../services/posts/listAllPostCommentaries.service";
+import listCommentByIdService from "../services/posts/listCommentById.service";
 import listCommentById from "../services/posts/listCommentById.service";
 import listPostService from "../services/posts/listPost.service";
+import postCommentUpdateService from "../services/posts/postCommentsUpdate.service";
+import postDeleteService from "../services/posts/postDelete.service";
 
 class PostsController {
-    
+
   async storeCommentary(req: Request, res: Response) {
     try {
       const { post_id } = req.params;
@@ -49,7 +53,7 @@ class PostsController {
     try {
       const { id } = req.params;
 
-      const post = await listCommentById(id);
+      const post = await listCommentByIdService(id);
 
       return res.status(200).json(post);
     } catch (err) {
@@ -66,7 +70,7 @@ class PostsController {
     try {
       const { id } = req.params;
 
-      const post = await listAllPostCommentaries(id);
+      const post = await listAllPostCommentariesService(id);
 
       return res.status(200).json(post);
     } catch (err) {
@@ -79,7 +83,33 @@ class PostsController {
     }
   }
 
-  async delete(req: Request, res: Response) {
+//   async updatePost (req:Request, res:Response){
+//       try{
+//           const {id} = req.params
+//           const {}
+//       }
+//   }
+
+  async updateComentary (req:Request, res:Response){
+      try{
+          const {id}= req.params
+          const {comment} = req.body
+
+          const updatedComment = await postCommentUpdateService({id, comment})
+
+          return res.status(200).json(updatedComment)
+
+      }catch(err){
+        if (err instanceof Error) {
+            return res.status(400).send({
+              error: err.name,
+              message: err.message,
+            });
+          }
+      }
+  }
+
+  async deleteCommentary(req: Request, res: Response) {
     try {
       const { id } = req.params;
       const deletedComment = await commentDeleteService({ id });
@@ -95,6 +125,24 @@ class PostsController {
         });
       }
     }
+  }
+
+  async deletePost(req:Request, res:Response){
+      try{
+          const {id} = req.params
+
+          const deletedPost = postDeleteService({id})
+
+          res.status(200).json({message:"Post successfully deleted"})
+
+      }catch(err){
+        if (err instanceof Error) {
+            return res.status(400).send({
+              error: err.name,
+              message: err.message,
+            });
+          }
+      }
   }
 }
 
