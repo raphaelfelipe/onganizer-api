@@ -11,3 +11,10 @@ export interface IUserCreate {
   updated_at: Date;
   is_admin: boolean;
 }
+export interface IUpdatedUser {
+  id: string;
+  email: string;
+  password: string;
+  name: string;
+  description: string;
+}

@@ -7,6 +7,10 @@ const deleteUserService = async(id:string)=>{
     const users = await repository.find()
 
     const user = users.find(user=>user.id === id)
+    
+    if(!user){
+        throw new Error ("User not found")
+    }
 
     await repository.delete(user!.id)
 
