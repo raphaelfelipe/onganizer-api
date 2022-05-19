@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+// import userCreateService from "../services/users/createUser.service";
+import deleteUserService from "../services/users/deleteUser.service";
 
 export default class CategoriesController {
   async store(req: Request, res: Response) {}
@@ -13,7 +15,7 @@ export default class CategoriesController {
     try {
       const { id } = req.params;
 
-      const user = await userDeleteService(id);
+      const user = await deleteUserService(id);
 
       return res.status(200).json({ message: "User deleted with succes!" });
     } catch (err) {
