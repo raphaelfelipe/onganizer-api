@@ -16,10 +16,8 @@ export interface IDonationCreate {
   message: string;
   value: number;
 }
-    user_id: string
-}
 
 export interface IDonateUpdate {
-    id: string
-    message: string
+  id: string;
+  message: string;
 }
