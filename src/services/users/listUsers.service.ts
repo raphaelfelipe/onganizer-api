@@ -1,15 +1,14 @@
-import { AppDataSource } from "../../data-source"
-import { User } from "../../entities/user.entity"
+import { AppDataSource } from "../../data-source";
+import { User } from "../../entities/user.entity";
 
-const listUsersSrvice = async()=>{
-    const repository = AppDataSource.getRepository(User)
+const listUsersService = async () => {
+  const repository = AppDataSource.getRepository(User);
 
-    const users = await repository.find()
-    
-    const usersReturn = users.map(user=>({...user,password:undefined}))
+  const users = await repository.find();
 
-   
-    return usersReturn
-}
+  const usersReturn = users.map((user) => ({ ...user, password: undefined }));
 
-export default listUsersSrvice 
+  return usersReturn;
+};
+
+export default listUsersService;
