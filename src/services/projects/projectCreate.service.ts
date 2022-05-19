@@ -22,8 +22,6 @@ const projectCreateService = async ({
   project.name = name;
   project.description = description;
   project.objective = objective;
-  project.created_at = new Date();
-  project.updated_at = new Date();
   project.active = true;
 
   projectRepository.create(project);

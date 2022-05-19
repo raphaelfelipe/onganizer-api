@@ -8,8 +8,6 @@ const userCreateService = async ({
   email,
   password,
   description,
-  created_at,
-  updated_at,
   is_admin = false,
 }: IUserCreate) => {
   const userRepository = AppDataSource.getRepository(User);
@@ -26,8 +24,6 @@ const userCreateService = async ({
   user.email = email;
   user.password = bcrypt.hashSync(password, 10);
   user.description = description;
-  user.created_at = new Date();
-  user.updated_at = new Date();
   user.is_admin = is_admin;
 
   userRepository.create(user);

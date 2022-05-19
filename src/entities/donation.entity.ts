@@ -1,7 +1,7 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   CreateDateColumn,
   OneToOne,
   JoinColumn,
@@ -13,8 +13,8 @@ import { Project } from "./project.entity";
 
 @Entity()
 export class Donation {
-  @PrimaryGeneratedColumn("increment")
-  readonly id: number;
+  @PrimaryColumn("uuid")
+  readonly id: string;
 
   @ManyToOne((type) => User, {
     eager: true,
