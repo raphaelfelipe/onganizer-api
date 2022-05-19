@@ -16,3 +16,12 @@ export interface IFollowCreate {
 export interface IProjectId {
     id:string
 } 
+
+
+export interface IProjectUpdate {
+  id: string
+  name: string;
+  description: string;
+  objective: string;
+  active: boolean;
+}
