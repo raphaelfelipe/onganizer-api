@@ -9,3 +9,7 @@ export interface ICreateComment {
     post_id: string
     comment:string
 }
+
+export interface IPostId {
+    id: string
+}
