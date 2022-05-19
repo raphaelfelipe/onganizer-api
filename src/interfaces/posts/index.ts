@@ -3,3 +3,9 @@ export interface IPostCreate {
     title:string
     content:string
 }
+
+export interface ICreateComment {
+    user_id: string
+    post_id: string
+    comment:string
+}
