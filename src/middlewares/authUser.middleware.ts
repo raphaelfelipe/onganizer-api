@@ -7,6 +7,7 @@ export const authUser = (request: Request, response: Response, next: NextFunctio
 
         jwt.verify(token as string, process.env.JWT_SECRET as string, (err: any, decoded: any) =>{
             request.userEmail = decoded.email
+            request.userId = decoded.id
             next()
         })
     }catch(err){
