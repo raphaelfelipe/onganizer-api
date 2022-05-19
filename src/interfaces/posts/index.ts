@@ -13,7 +13,12 @@ export interface ICreateComment {
 export interface ICommentId {
   id: string;
 }
+
 export interface IPostComment {
   id: string;
   comment: string;
+}
+
+export interface IPostId {
+  id: string;
 }
