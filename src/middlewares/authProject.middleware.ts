@@ -14,13 +14,11 @@ export const authProject = async (
 
     const projectUsers = await projectUserRepository.find();
 
-    const selectedUser = projectUsers.find(
-      (projectUser) =>
-        projectUser.users_id === req.userId &&
-        projectUser.projects_id === projectId
+    const selectedProject = projectUsers.find(
+      (projectUser) => projectUser.projects_id === projectId
     );
 
-    if (!selectedUser) {
+    if (selectedProject?.users_id !== req.userId) {
       throw new Error();
     }
 
