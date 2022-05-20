@@ -1,18 +1,33 @@
-import {Request, Response, NextFunction} from "express"
-import jwt from "jsonwebtoken"
+import { Request, Response, NextFunction } from "express";
+import { AppDataSource } from "../data-source";
+import { Project_User } from "../entities/project_user.entity";
 
-export const authUser = (request: Request, response: Response, next: NextFunction) => {
-    try{
-        const token = request.headers.authorization
+export const authUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const projectUserRepository = AppDataSource.getRepository(Project_User);
 
-        jwt.verify(token as string, process.env.JWT_SECRET as string, (err: any, decoded: any) =>{
-            request.userEmail = decoded.email
-            request.userId = decoded.id
-            next()
-        })
-    }catch(err){
-        return response.status(401).json({
-            message: "Invalid token"
-        })
+    const { projectId } = req.params;
+
+    const projectUsers = await projectUserRepository.find();
+
+    const selectedUser = projectUsers.find(
+      (projectUser) =>
+        projectUser.users_id === req.userId &&
+        projectUser.projects_id === projectId
+    );
+
+    if (!selectedUser) {
+      throw new Error();
     }
-}
+
+    next();
+  } catch (err) {
+    return res.status(401).json({
+      message: "You are not allowed to do that on this project",
+    });
+  }
+};
