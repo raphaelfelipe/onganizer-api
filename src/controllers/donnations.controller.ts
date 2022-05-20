@@ -109,3 +109,5 @@ class DonationController {
           }
     }
 }
+
+export default DonationController
