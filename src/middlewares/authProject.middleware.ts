@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { AppDataSource } from "../data-source";
 import { Project_User } from "../entities/project_user.entity";
 
-export const authUser = async (
+export const authProject = async (
   req: Request,
   res: Response,
   next: NextFunction
