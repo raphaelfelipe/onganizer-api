@@ -10,8 +10,6 @@ const postCreateService = async ({project_id, title, content}:IPostCreate) =>{
     post.project_id = project_id
     post.title = title
     post.content = content
-    post.created_at = new Date()
-    post.updated_at = new Date()
 
     postsRepository.create(post)
     await postsRepository.save(post)

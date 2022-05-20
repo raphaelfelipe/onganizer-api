@@ -11,3 +11,5 @@ const projectUsersService = async ({id} : IProjectId) => {
 
     return projectUsersId
 }
+
+export default projectUsersService

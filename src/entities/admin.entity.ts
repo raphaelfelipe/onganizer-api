@@ -1,7 +1,7 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   JoinColumn,
   OneToOne,
 } from "typeorm";
@@ -10,8 +10,8 @@ import { User } from "./user.entity";
 
 @Entity()
 export class Admin {
-  @PrimaryGeneratedColumn("increment")
-  readonly id: number;
+  @PrimaryColumn("uuid")
+  readonly id: string;
 
   @OneToOne((type) => User, {
     eager: true,

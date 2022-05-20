@@ -42,6 +42,9 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date;
 
+  @Column()
+  is_admin: boolean;
+
   constructor() {
     if (!this.id) {
       this.id = uuid();

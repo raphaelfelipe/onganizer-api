@@ -9,6 +9,10 @@ const listUserByIdService = async(id:string)=>{
 
     const user = users.find(user=>user.id === id)
 
+    if(!user){
+        throw new Error ("User not found")
+    }
+
     return {...user,password:undefined}
 }
 
