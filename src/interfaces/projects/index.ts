@@ -1,5 +1,6 @@
 
 export interface IProjectCreate {
+  user_id: string;
   name: string;
   description: string;
   objective: string;
