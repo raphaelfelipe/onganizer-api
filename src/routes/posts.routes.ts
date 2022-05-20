@@ -10,6 +10,7 @@ postRoutes.get("/:id", postController.indexPost)
 postRoutes.get("/:id/comments", postController.indexAllPostCommentaries)
 postRoutes.get("/comments/:id", postController.indexCommentary)
 postRoutes.patch("/comments/:id", postController.updateComentary)
+postRoutes.patch("/:id", postController.updatePost)
 postRoutes.delete("/:id", postController.deletePost)
 postRoutes.delete("/comments/:id", postController.deleteCommentary)
 
