@@ -22,3 +22,9 @@ export interface IPostComment {
 export interface IPostId {
   id: string;
 }
+
+export interface IPostUpdate {
+  id: string;
+  title: string;
+  content: string;
+}
