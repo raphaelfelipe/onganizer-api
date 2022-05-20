@@ -87,7 +87,7 @@ export default class UsersController {
   async userListMeFeed(req: Request, res: Response) {
     try{
 
-      const {id} = req.params
+      const id = req.userId
       const user = await userListMeFeedService(id)
 
       return res.status(200).send(user)
