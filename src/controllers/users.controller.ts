@@ -70,14 +70,12 @@ export default class UsersController {
     try {
 
       const email = req.userEmail
-      console.log("email:", email)
       const user = await userListMeService(email)
 
       return res.status(200).send(user)
 
     } catch (err) {
       if (err instanceof Error) {
-        console.log("err:", err)
         return res.status(401).send({
           error: err.name,
           message: err.message,

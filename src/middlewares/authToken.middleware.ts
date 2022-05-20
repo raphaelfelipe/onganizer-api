@@ -6,7 +6,6 @@ export const authToken = (
   response: Response,
   next: NextFunction
 ) => {
-  console.log("jfdsgkf")
   try {
     const token = request.headers.authorization;
 
@@ -16,7 +15,6 @@ export const authToken = (
       (err: any, decoded: any) => {
         request.userEmail = decoded.email;
         request.userId = decoded.id;
-        console.log(decoded.email, decoded.id)
         next();
       }
     );
