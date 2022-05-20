@@ -12,6 +12,8 @@ usersRoutes.post("/login", usersController.login);
 
 usersRoutes.get("", usersController.list);
 usersRoutes.get("/:id", usersController.listById);
+usersRoutes.get("/me", usersController.userListMe)
+usersRoutes.get("/me/feed", usersController.userListMeFeed)
 
 usersRoutes.patch("/:id", usersController.update);
 
