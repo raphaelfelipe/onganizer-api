@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-export const authProject = async (
+export const authUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -12,6 +12,7 @@ export const authProject = async (
       throw new Error();
     }
     next();
+
   } catch (err) {
     return res.status(401).json({
       message: "You are not allowed to do that on this user",
