@@ -10,7 +10,7 @@ export const authUser = async (
   try {
     const projectUserRepository = AppDataSource.getRepository(Project_User);
 
-    const { projectId } = req.params;
+    const { id: projectId } = req.params;
 
     const projectUsers = await projectUserRepository.find();
 
