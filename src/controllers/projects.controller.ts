@@ -14,9 +14,10 @@ import userProjectCreateService from '../services/projects/projectUsersCreate.se
 export default class ProjectsController{
     async createProject(req: Request, res: Response) {
         try{
-
+            const user_id = req.userId
             const {name, description, objective, active} = req.body
             const newProject = projectCreateService({
+                user_id,
                 name,
                 description,
                 objective,
@@ -38,8 +39,8 @@ export default class ProjectsController{
     
     async createPost(req: Request, res: Response) {
         try{
-
-            const {project_id, title, content} = req.body
+            const {project_id} = req.params
+            const { title, content} = req.body
             const newPost = postCreateService({
                 project_id, 
                 title, 
@@ -61,8 +62,8 @@ export default class ProjectsController{
 
     async createProjectUsers(req: Request, res: Response) {
         try{
-
-            const {project_id, user_id} = req.body
+            const user_id = req.userId
+            const {project_id} = req.params
             const newProjectUsers = userProjectCreateService({project_id, user_id})
 
             return res.status(201).send(newProjectUsers)
@@ -79,8 +80,8 @@ export default class ProjectsController{
 
     async createFollowProject(req: Request, res: Response) {
         try{
-
-            const {project_id, user_id} = req.body
+            const user_id = req.userId
+            const {project_id} = req.params
             const newFollowProject = followProjectService({project_id, user_id})
 
             return res.status(201).send(newFollowProject)
@@ -205,8 +206,8 @@ export default class ProjectsController{
 
     async followProjectDelete(req: Request, res: Response) {
         try{
-
-            const { project_id, user_id } = req.body;
+            const user_id = req.userId
+            const { project_id } = req.params;
             const followProject = await deleteFollowService({project_id, user_id});
 
             return res.status(200).json({ message: "Follow project deleted with succes!" });
