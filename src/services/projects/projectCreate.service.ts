@@ -30,18 +30,17 @@ const projectCreateService = async ({
   await projectRepository.save(project);
 
   const projectRepositoryRegister = AppDataSource.getRepository(Project);
-  const projectsNew = await projectRepositoryRegister.find()
-  const createdProject = projectsNew.find((project) => project.name === name)
+  const projectsNew = await projectRepositoryRegister.find();
+  const createdProject = projectsNew.find((project) => project.name === name);
 
+  const projectUserRepository = AppDataSource.getRepository(Project_User);
 
-  const projectUserRepository = AppDataSource.getRepository(Project_User)
+  const projectUser = new Project_User();
+  projectUser.projects_id = createdProject!.id;
+  projectUser.users_id = user_id;
 
-  const projectUser = new Project_User()
-  projectUser.projects_id = createdProject.id
-  projectUser.users_id = user_id
-
-  projectUserRepository.create(projectUser)
-  await projectUserRepository.save(projectUser)
+  projectUserRepository.create(projectUser);
+  await projectUserRepository.save(projectUser);
 
   return project;
 };
