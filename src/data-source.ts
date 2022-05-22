@@ -1,5 +1,4 @@
 import { DataSource } from "typeorm";
-
 require("dotenv").config();
 
 export const AppDataSource = new DataSource({
@@ -9,7 +8,6 @@ export const AppDataSource = new DataSource({
     process.env.NODE_ENV === "production"
       ? { rejectUnauthorized: false }
       : false,
-
   synchronize: false,
   logging: true,
   entities:
@@ -24,8 +22,8 @@ export const AppDataSource = new DataSource({
 
 AppDataSource.initialize()
   .then(() => {
-    console.log("Data Source Initialized");
+    console.log("Data Source initialized!");
   })
   .catch((err) => {
-    console.error("Error during Data Source Initialization", err);
+    console.error("Error during Data Source initialization", err);
   });
