@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const posts_controller_1 = __importDefault(require("../controllers/posts.controller"));
+const authCommentAdmin_middleware_1 = require("../middlewares/authCommentAdmin.middleware");
+const authProject_middleware_1 = require("../middlewares/authProject.middleware");
+const authToken_middleware_1 = require("../middlewares/authToken.middleware");
+const postRoutes = (0, express_1.Router)();
+const postController = new posts_controller_1.default();
+postRoutes.post("/:id/comments", authToken_middleware_1.authToken, postController.storeCommentary);
+postRoutes.get("/:id", postController.indexPost);
+postRoutes.get("/:id/comments", postController.indexAllPostCommentaries);
+postRoutes.get("/comments/:id", postController.indexCommentary);
+postRoutes.patch("/comments/:id", authToken_middleware_1.authToken, authCommentAdmin_middleware_1.authCommentOrAdmin, postController.updateComentary);
+postRoutes.patch("/:id", authToken_middleware_1.authToken, authProject_middleware_1.authProject, postController.updatePost);
+postRoutes.delete("/:id", authToken_middleware_1.authToken, authProject_middleware_1.authProject, postController.deletePost);
+postRoutes.delete("/comments/:id", authToken_middleware_1.authToken, authCommentAdmin_middleware_1.authCommentOrAdmin, postController.deleteCommentary);
+exports.default = postRoutes;
