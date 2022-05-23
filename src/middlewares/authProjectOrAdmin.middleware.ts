@@ -1,15 +1,15 @@
-import {Request, Response, NextFunction} from "express"
+import { Request, Response, NextFunction } from "express"
 import { AppDataSource } from "../data-source"
 import { Project_User } from "../entities/project_user.entity"
 import { User } from "../entities/user.entity"
 
 export const authProjectOrAdmin = async (req: Request, res: Response, next: NextFunction) => {
-    try{
+    try {
         const repository = AppDataSource.getRepository(User)
         const users = await repository.find()
         const account = users.find(user => user.id === req.userId)
 
-        if(account?.is_admin){
+        if (account?.is_admin) {
             next()
         }
 
@@ -21,15 +21,13 @@ export const authProjectOrAdmin = async (req: Request, res: Response, next: Next
             (projectUser) =>
                 projectUser.users_id === req.userId &&
                 projectUser.projects_id === projectId
-            );
+        );
 
         if (selectedUser) {
             next();
-        }else{
-            throw new Error();
         }
 
-    }catch(err){
+    } catch (err) {
         return res.status(401).json({
             message: "Not allowed"
         })

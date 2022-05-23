@@ -11,7 +11,7 @@ import userListMeFeedService from "../services/users/userListMeFeed.service";
 export default class UsersController {
   async create(req: Request, res: Response) {
     try {
-      const { name, email, description, password} = req.body;
+      const { name, email, description, password } = req.body;
 
       const newUser = await userCreateService({
         name,
@@ -122,10 +122,7 @@ export default class UsersController {
       const { email, password, name, description } = req.body
       const user = await updateUserService({ id, email, password, name, description })
 
-      return res.status(201).send({
-        message: "User updated!",
-        user
-      })
+      return res.status(201).send({ user })
 
     } catch (err) {
       if (err instanceof Error) {

@@ -14,7 +14,7 @@ usersRoutes.post("/login", usersController.login);
 usersRoutes.get("", usersController.list);
 usersRoutes.get("/:id", usersController.listById);
 usersRoutes.use(authToken);
-usersRoutes.get("/me/myself", usersController.userListMe);
+usersRoutes.get("/me/info", usersController.userListMe);
 usersRoutes.get("/me/feed", usersController.userListMeFeed);
 usersRoutes.use(authUserAdmin);
 usersRoutes.patch("/:id", usersController.update);

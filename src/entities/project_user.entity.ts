@@ -8,6 +8,7 @@ import {
 
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
+import { v4 as uuid } from "uuid";
 
 @Entity()
 export class Project_User {
@@ -31,4 +32,10 @@ export class Project_User {
 
   @Column("uuid")
   projects_id: string;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
+    }
+  }
 }
