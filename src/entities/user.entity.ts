@@ -42,7 +42,7 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column()
+  @Column({ default: false })
   is_admin: boolean;
 
   constructor() {
