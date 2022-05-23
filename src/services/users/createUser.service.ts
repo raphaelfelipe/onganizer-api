@@ -7,8 +7,7 @@ const userCreateService = async ({
   name,
   email,
   password,
-  description,
-  is_admin = false,
+  description
 }: IUserCreate) => {
   const userRepository = AppDataSource.getRepository(User);
   const users = await userRepository.find();
@@ -24,7 +23,6 @@ const userCreateService = async ({
   user.email = email;
   user.password = bcrypt.hashSync(password, 10);
   user.description = description;
-  user.is_admin = is_admin;
 
   userRepository.create(user);
   await userRepository.save(user);
