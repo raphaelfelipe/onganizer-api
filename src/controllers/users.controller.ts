@@ -18,8 +18,6 @@ export default class UsersController {
         email,
         description,
         password,
-        created_at: new Date(),
-        updated_at: new Date(),
         is_admin,
       });
 
@@ -126,7 +124,7 @@ export default class UsersController {
       const user = await updateUserService({ id, email, password, name, description })
 
       return res.status(201).send({
-        message: "User updated!",
+        message: "User updated",
         user
       })
 
@@ -146,7 +144,7 @@ export default class UsersController {
 
       const user = await deleteUserService(id);
 
-      return res.status(200).json({ message: "User deleted with succes!" });
+      return res.status(200).json({ message: "User deleted with success" });
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).send({

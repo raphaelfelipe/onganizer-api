@@ -23,7 +23,7 @@ export const authUserOrAdmin = async (req: Request, res: Response, next: NextFun
 
     }catch(err){
         return res.status(401).json({
-            message: "Not allowed"
+            message: "Unauthorised access"
         })
     }
 }
