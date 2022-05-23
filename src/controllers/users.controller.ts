@@ -67,38 +67,38 @@ export default class UsersController {
   }
 
   async userListMe(req: Request, res: Response) {
-    try{
+    try {
 
       const email = req.userEmail
       const user = await userListMeService(email)
 
       return res.status(200).send(user)
 
-    }catch(err){
-        if(err instanceof Error){
-            return res.status(401).send({
-                error: err.name,
-                message: err.message,
-            })
-        }
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(401).send({
+          error: err.name,
+          message: err.message,
+        })
+      }
     }
   }
 
   async userListMeFeed(req: Request, res: Response) {
-    try{
+    try {
 
       const id = req.userId
       const user = await userListMeFeedService(id)
 
       return res.status(200).send(user)
 
-    }catch(err){
-        if(err instanceof Error){
-            return res.status(401).send({
-                error: err.name,
-                message: err.message,
-            })
-        }
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(401).send({
+          error: err.name,
+          message: err.message,
+        })
+      }
     }
   }
 
@@ -121,20 +121,20 @@ export default class UsersController {
 
   async update(req: Request, res: Response) {
     try {
-      const {id} = req.params
-      const {email, password, name, description} = req.body
-      const user = await updateUserService({id, email, password, name, description})
+      const { id } = req.params
+      const { email, password, name, description } = req.body
+      const user = await updateUserService({ id, email, password, name, description })
 
       return res.status(201).send({
-          message: "User updated!",
-          user
+        message: "User updated!",
+        user
       })
 
-  } catch (err) {
+    } catch (err) {
       if (err instanceof Error) {
         return res.status(400).send({
-            "error": err.name,
-            "message": err.message
+          "error": err.name,
+          "message": err.message
         })
       }
     }
