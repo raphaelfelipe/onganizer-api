@@ -10,208 +10,208 @@ import projectListOneService from '../services/projects/projectListOne.service'
 import projectUpdateService from '../services/projects/projectUpdate.service'
 import projectUsersService from '../services/projects/projectUsers.service'
 import userProjectCreateService from '../services/projects/projectUsersCreate.service'
- 
-export default class ProjectsController{
+
+export default class ProjectsController {
     async createProject(req: Request, res: Response) {
-        try{
+        try {
             const user_id = req.userId
-            const {name, description, objective, active} = req.body
-            const newProject = projectCreateService({
+            const { name, description, objective, active } = req.body
+            const newProject = await projectCreateService({
                 user_id,
                 name,
                 description,
                 objective
             })
             return res.status(201).send(newProject)
- 
-        }catch(err){
+
+        } catch (err) {
             if (err instanceof Error) {
                 return res.status(400).send({
-                  error: err.name,
-                  message: err.message,
+                    error: err.name,
+                    message: err.message,
                 });
             }
         }
     }
-    
+
     async createPost(req: Request, res: Response) {
-        try{
-            const {project_id} = req.params
-            const { title, content} = req.body
-            const newPost = postCreateService({
-                project_id, 
-                title, 
+        try {
+            const { project_id } = req.params
+            const { title, content } = req.body
+            const newPost = await postCreateService({
+                project_id,
+                title,
                 content,
             })
             return res.status(201).send(newPost)
 
-        }catch(err){
+        } catch (err) {
             if (err instanceof Error) {
                 return res.status(400).send({
-                  error: err.name,
-                  message: err.message,
+                    error: err.name,
+                    message: err.message,
                 });
             }
         }
     }
 
     async createProjectUsers(req: Request, res: Response) {
-        try{
+        try {
             const user_id = req.userId
-            const {project_id} = req.params
-            const newProjectUsers = userProjectCreateService({project_id, user_id})
+            const { project_id } = req.params
+            const newProjectUsers = await userProjectCreateService({ project_id, user_id })
 
             return res.status(201).send(newProjectUsers)
 
-        }catch(err){
+        } catch (err) {
             if (err instanceof Error) {
                 return res.status(400).send({
-                  error: err.name,
-                  message: err.message,
+                    error: err.name,
+                    message: err.message,
                 });
             }
         }
     }
 
     async createFollowProject(req: Request, res: Response) {
-        try{
+        try {
             const user_id = req.userId
-            const {project_id} = req.params
-            const newFollowProject = followProjectService({project_id, user_id})
+            const { project_id } = req.params
+            const newFollowProject = await followProjectService({ project_id, user_id })
 
             return res.status(201).send(newFollowProject)
 
-        }catch(err){
+        } catch (err) {
             if (err instanceof Error) {
                 return res.status(400).send({
-                  error: err.name,
-                  message: err.message,
+                    error: err.name,
+                    message: err.message,
                 });
             }
         }
     }
- 
+
     async projectList(req: Request, res: Response) {
-        try{
+        try {
             const projects = await projectListService();
 
             return res.send(projects);
-        }catch(err){
+        } catch (err) {
             if (err instanceof Error) {
                 return res.status(400).send({
-                  error: err.name,
-                  message: err.message,
+                    error: err.name,
+                    message: err.message,
                 });
             }
         }
     }
- 
+
     async projectListOne(req: Request, res: Response) {
-        try{
+        try {
             const { id } = req.params;
 
-            const project = await projectListOneService({id});
-      
+            const project = await projectListOneService({ id });
+
             return res.status(200).send(project);
-        }catch(err){
+        } catch (err) {
             if (err instanceof Error) {
                 return res.status(400).send({
-                  error: err.name,
-                  message: err.message,
+                    error: err.name,
+                    message: err.message,
                 });
             }
         }
     }
 
     async listProjectUsers(req: Request, res: Response) {
-        try{
+        try {
 
             const { id } = req.params;
-            const projectUsers = await projectUsersService({id});
-      
+            const projectUsers = await projectUsersService({ id });
+
             return res.status(200).send(projectUsers);
 
-        }catch(err){
+        } catch (err) {
             if (err instanceof Error) {
                 return res.status(400).send({
-                  error: err.name,
-                  message: err.message,
+                    error: err.name,
+                    message: err.message,
                 });
             }
         }
     }
 
     async listProjectPosts(req: Request, res: Response) {
-        try{
+        try {
 
             const { id } = req.params;
-            const projectPosts = await projectPostsService({id});
-      
+            const projectPosts = await projectPostsService({ id });
+
             return res.status(200).send(projectPosts);
 
-        }catch(err){
+        } catch (err) {
             if (err instanceof Error) {
                 return res.status(400).send({
-                  error: err.name,
-                  message: err.message,
+                    error: err.name,
+                    message: err.message,
                 });
             }
         }
     }
- 
-    async projectUpdate(req: Request, res: Response) {
-        try{
 
-            const {id} = req.params
-            const {active, objective, name, description} = req.body
-            const project = await projectUpdateService({id, active, objective, name, description})
+    async projectUpdate(req: Request, res: Response) {
+        try {
+
+            const { id } = req.params
+            const { active, objective, name, description } = req.body
+            const project = await projectUpdateService({ id, active, objective, name, description })
 
             return res.status(201).send({
                 message: "Project updated",
                 project
             })
 
-        }catch(err){
+        } catch (err) {
             if (err instanceof Error) {
                 return res.status(400).send({
-                  error: err.name,
-                  message: err.message,
+                    error: err.name,
+                    message: err.message,
                 });
             }
         }
     }
- 
+
     async projectDelete(req: Request, res: Response) {
-        try{
+        try {
 
             const { id } = req.params;
             const project = await projectDeleteSelfService(id);
 
             return res.status(200).json({ message: "Project deleted with success" });
 
-        }catch(err){
+        } catch (err) {
             if (err instanceof Error) {
                 return res.status(400).send({
-                  error: err.name,
-                  message: err.message,
+                    error: err.name,
+                    message: err.message,
                 });
             }
         }
     }
 
     async followProjectDelete(req: Request, res: Response) {
-        try{
+        try {
             const user_id = req.userId
             const { project_id } = req.params;
-            const followProject = await deleteFollowService({project_id, user_id});
+            const followProject = await deleteFollowService({ project_id, user_id });
 
             return res.status(200).json({ message: "Project unfollowed" });
 
-        }catch(err){
+        } catch (err) {
             if (err instanceof Error) {
                 return res.status(400).send({
-                  error: err.name,
-                  message: err.message,
+                    error: err.name,
+                    message: err.message,
                 });
             }
         }
