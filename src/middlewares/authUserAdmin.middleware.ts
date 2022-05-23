@@ -23,7 +23,7 @@ export const authUserOrAdmin = async (req: Request, res: Response, next: NextFun
 
     }catch(err){
         return res.status(401).json({
-            message: "You are not an admin and you are not allowed to do that on this user"
+            message: "Not allowed"
         })
     }
 }

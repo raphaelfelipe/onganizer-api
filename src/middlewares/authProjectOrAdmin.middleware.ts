@@ -31,7 +31,7 @@ export const authProjectOrAdmin = async (req: Request, res: Response, next: Next
 
     }catch(err){
         return res.status(401).json({
-            message: "You are not an admin and you are not allowed to do this in this project"
+            message: "Not allowed"
         })
     }
 }

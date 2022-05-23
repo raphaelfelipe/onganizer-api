@@ -25,7 +25,7 @@ export const authProject = async (
     next();
   } catch (err) {
     return res.status(401).json({
-      message: "You are not allowed to do that on this project",
+      message: "Not allowed",
     });
   }
 };

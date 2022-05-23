@@ -7,7 +7,8 @@ export const authToken = (
   next: NextFunction
 ) => {
   try {
-    const token = request.headers.Authorization;
+    const token = request.headers.authorization;
+
 
     jwt.verify(
       token as string,
