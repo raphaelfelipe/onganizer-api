@@ -11,16 +11,13 @@ import userListMeFeedService from "../services/users/userListMeFeed.service";
 export default class UsersController {
   async create(req: Request, res: Response) {
     try {
-      const { name, email, description, password, is_admin = false } = req.body;
+      const { name, email, description, password} = req.body;
 
       const newUser = await userCreateService({
         name,
         email,
         description,
-        password,
-        created_at: new Date(),
-        updated_at: new Date(),
-        is_admin,
+        password
       });
 
       return res.status(201).send(newUser);
