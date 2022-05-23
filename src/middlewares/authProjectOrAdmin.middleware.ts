@@ -29,7 +29,7 @@ export const authProjectOrAdmin = async (req: Request, res: Response, next: Next
 
     } catch (err) {
         return res.status(401).json({
-            message: "Not allowed"
+            message: "Unauthorised access"
         })
     }
 }

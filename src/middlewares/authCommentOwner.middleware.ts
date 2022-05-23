@@ -25,7 +25,7 @@ export const authCommentOwner = async (
     next();
   } catch (err) {
     return res.status(401).json({
-      message: "Not allowed",
+      message: "Unauthorised access",
     });
   }
 };

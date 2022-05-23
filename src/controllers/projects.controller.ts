@@ -167,7 +167,7 @@ export default class ProjectsController{
             const project = await projectUpdateService({id, active, objective, name, description})
 
             return res.status(201).send({
-                message: "Project updated!",
+                message: "Project updated",
                 project
             })
 
@@ -187,7 +187,7 @@ export default class ProjectsController{
             const { id } = req.params;
             const project = await projectDeleteSelfService(id);
 
-            return res.status(200).json({ message: "Project deleted with succes!" });
+            return res.status(200).json({ message: "Project deleted with success" });
 
         }catch(err){
             if (err instanceof Error) {
@@ -205,7 +205,7 @@ export default class ProjectsController{
             const { project_id } = req.params;
             const followProject = await deleteFollowService({project_id, user_id});
 
-            return res.status(200).json({ message: "Follow project deleted with succes!" });
+            return res.status(200).json({ message: "Project unfollowed" });
 
         }catch(err){
             if (err instanceof Error) {

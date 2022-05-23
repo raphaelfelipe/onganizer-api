@@ -18,7 +18,7 @@ router.delete("/follow/:id", projectsController.followProjectDelete)
 router.post("/:id/users", authProject, projectsController.createProjectUsers)
 router.post("/:id/posts", authProject, projectsController.createPost)
 router.patch("/:id", authProjectOrAdmin, projectsController.projectUpdate)
-router.delete("/:id", authProjectOrAdmin, projectsController.projectDelete)
+router.delete("/:id",  projectsController.projectDelete)
 
 
 export default router

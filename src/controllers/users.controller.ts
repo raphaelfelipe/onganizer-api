@@ -122,6 +122,7 @@ export default class UsersController {
       const { email, password, name, description } = req.body
       const user = await updateUserService({ id, email, password, name, description })
 
+
       return res.status(201).send({ user })
 
     } catch (err) {
@@ -140,7 +141,7 @@ export default class UsersController {
 
       const user = await deleteUserService(id);
 
-      return res.status(200).json({ message: "User deleted with succes!" });
+      return res.status(200).json({ message: "User deleted with success" });
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).send({
