@@ -10,6 +10,7 @@ import {
 
 import { User } from "./user.entity";
 import { Project_Posts } from "./project_posts.entity";
+import { v4 as uuid } from "uuid";
 
 @Entity()
 export class Post_Comments {
@@ -45,4 +46,10 @@ export class Post_Comments {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
+    }
+  }
 }

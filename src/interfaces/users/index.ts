@@ -7,7 +7,6 @@ export interface IUserCreate {
   name: string;
   description: string;
   password: string;
-  is_admin: boolean;
 }
 export interface IUpdatedUser {
   id: string;

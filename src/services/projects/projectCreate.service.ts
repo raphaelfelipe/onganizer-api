@@ -7,10 +7,7 @@ const projectCreateService = async ({
   user_id,
   name,
   description,
-  objective,
-  created_at,
-  updated_at,
-  active,
+  objective
 }: IProjectCreate) => {
   const projectRepository = AppDataSource.getRepository(Project);
   const projects = await projectRepository.find();
@@ -42,7 +39,7 @@ const projectCreateService = async ({
   projectUserRepository.create(projectUser);
   await projectUserRepository.save(projectUser);
 
-  return project;
+  return createdProject;
 };
 
 export default projectCreateService;

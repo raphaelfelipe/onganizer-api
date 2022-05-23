@@ -6,7 +6,7 @@ const listUsersService = async () => {
 
   const users = await repository.find();
 
-  const usersReturn = users.map((user) => ({ ...user, password: undefined }));
+  const usersReturn = users.map((user) => ({ ...user, password: undefined, email: undefined, created_at: undefined, updated_at: undefined, is_admin: undefined }));
 
   return usersReturn;
 };

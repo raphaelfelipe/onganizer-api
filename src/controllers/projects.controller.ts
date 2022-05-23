@@ -20,10 +20,7 @@ export default class ProjectsController{
                 user_id,
                 name,
                 description,
-                objective,
-                created_at: new Date(),
-                updated_at: new Date(),
-                active,
+                objective
             })
             return res.status(201).send(newProject)
  
@@ -45,8 +42,6 @@ export default class ProjectsController{
                 project_id, 
                 title, 
                 content,
-                // created_at: new Date(),
-                // updated_at: new Date(),
             })
             return res.status(201).send(newPost)
 
