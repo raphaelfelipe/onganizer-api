@@ -9,6 +9,7 @@ import {
 
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
+import { v4 as uuid } from "uuid";
 
 @Entity()
 export class Follow_Projects {
@@ -35,4 +36,10 @@ export class Follow_Projects {
 
   @CreateDateColumn()
   created_at: Date;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
+    }
+  }
 }
