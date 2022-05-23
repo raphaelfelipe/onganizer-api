@@ -1,6 +1,5 @@
 import { Router } from "express";
 import UsersController from "../controllers/users.controller";
-import { authProject } from "../middlewares/authProject.middleware";
 import { authToken } from "../middlewares/authToken.middleware";
 import { authUser } from "../middlewares/authUser.middleware";
 
@@ -14,11 +13,12 @@ usersRoutes.post("/login", usersController.login);
 usersRoutes.get("", usersController.list);
 usersRoutes.get("/:id", usersController.listById);
 
-usersRoutes.get("/me/myself", authToken, usersController.userListMe);
-usersRoutes.get("/me/feed", authToken, usersController.userListMeFeed);
+usersRoutes.use(authToken)
+usersRoutes.get("/me/myself", usersController.userListMe);
+usersRoutes.get("/me/feed", usersController.userListMeFeed);
 
-usersRoutes.patch("/:id", authToken, authUser, usersController.update);
-
-usersRoutes.delete("/:id", authToken, authUser, usersController.delete);
+usersRoutes.use(authUser)
+usersRoutes.patch("/:id", usersController.update);
+usersRoutes.delete("/:id",usersController.delete);
 
 export default usersRoutes;
