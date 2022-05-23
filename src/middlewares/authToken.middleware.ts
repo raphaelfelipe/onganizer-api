@@ -20,7 +20,7 @@ export const authToken = (
     );
   } catch (err) {
     return response.status(401).json({
-      message: "Invalid token",
+      message: "Not allowed",
     });
   }
 };
