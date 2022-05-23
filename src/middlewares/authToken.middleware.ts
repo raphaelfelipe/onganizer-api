@@ -9,6 +9,7 @@ export const authToken = (
   try {
     const token = request.headers.authorization;
 
+
     jwt.verify(
       token as string,
       process.env.JWT_SECRET as string,
@@ -20,7 +21,7 @@ export const authToken = (
     );
   } catch (err) {
     return response.status(401).json({
-      message: "Not allowed",
+      message: "Invalid token",
     });
   }
 };

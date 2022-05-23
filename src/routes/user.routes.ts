@@ -1,5 +1,7 @@
 import { Router } from "express";
 import UsersController from "../controllers/users.controller";
+import { authUserAdmin } from "../middlewares/authAdmin.middleware";
+import { authProject } from "../middlewares/authProject.middleware";
 import { authToken } from "../middlewares/authToken.middleware";
 import { authUser } from "../middlewares/authUser.middleware";
 
@@ -9,16 +11,13 @@ const usersRoutes = Router();
 
 usersRoutes.post("", usersController.create);
 usersRoutes.post("/login", usersController.login);
-
 usersRoutes.get("", usersController.list);
 usersRoutes.get("/:id", usersController.listById);
-
-usersRoutes.use(authToken)
+usersRoutes.use(authToken);
 usersRoutes.get("/me/myself", usersController.userListMe);
 usersRoutes.get("/me/feed", usersController.userListMeFeed);
-
-usersRoutes.use(authUser)
+usersRoutes.use(authUserAdmin);
 usersRoutes.patch("/:id", usersController.update);
-usersRoutes.delete("/:id",usersController.delete);
+usersRoutes.delete("/:id", usersController.delete);
 
 export default usersRoutes;
