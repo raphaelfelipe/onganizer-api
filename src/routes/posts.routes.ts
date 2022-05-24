@@ -1,6 +1,5 @@
 import { Router } from "express";
 import PostsController from "../controllers/posts.controller";
-//import { authCommentOrAdmin } from "../middlewares/authCommentAdmin.middleware";
 import { authPostOrAdmin } from "../middlewares/authPostAdmin.middleware";
 import { authToken } from "../middlewares/authToken.middleware";
 

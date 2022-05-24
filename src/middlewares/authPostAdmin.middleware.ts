@@ -18,24 +18,26 @@ export const authPostOrAdmin = async (req: Request, res: Response, next: NextFun
 
         const postsRepository = AppDataSource.getRepository(Project_Posts)
         const post = await postsRepository.findOne({
-            where: {id:postId}
+            where: { id: postId },
+            relations: ["project"]
         })
 
         const projectUserRepository = AppDataSource.getRepository(Project);
         const project = await projectUserRepository.findOne({
-            where: {id:post?.project.id},
+            where: { id: post!.project.id },
             relations: ["users"]
         });
 
+        let selectedUser: boolean = false
 
-        let selectedUser : boolean = false
-
-        project?.users.forEach(user => { 
+        project?.users.forEach(user => {
             user.id === req.userId ? selectedUser = true : selectedUser = selectedUser
         });
 
+        console.log(selectedUser)
 
         if (selectedUser) {
+            console.log("entrou", selectedUser)
             next();
         }
 
