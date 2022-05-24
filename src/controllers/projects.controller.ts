@@ -58,7 +58,7 @@ export default class ProjectsController {
     async createProjectUsers(req: Request, res: Response) {
         try {
             const user_id = req.userId
-            const { project_id } = req.params
+            const { id: project_id } = req.params
             const newProjectUsers = await userProjectCreateService({ project_id, user_id })
 
             return res.status(201).send(newProjectUsers)

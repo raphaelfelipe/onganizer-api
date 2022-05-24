@@ -3,25 +3,25 @@ import { AppDataSource } from "../data-source"
 import { User } from "../entities/user.entity"
 
 export const authUserOrAdmin = async (req: Request, res: Response, next: NextFunction) => {
-    try{
+    try {
 
         const repository = AppDataSource.getRepository(User)
         const users = await repository.find()
         const account = users.find(user => user.id === req.userId)
 
-        if(account?.is_admin){
-            next()
+        if (account?.is_admin) {
+            return next()
         }
 
         const { id: userId } = req.params;
 
-        if (userId === req.userId) {
-            next();
-        }else{
+        if (req.userId === userId) {
+            return next();
+        } else {
             throw new Error();
         }
 
-    }catch(err){
+    } catch (err) {
         return res.status(401).json({
             message: "Unauthorised access"
         })

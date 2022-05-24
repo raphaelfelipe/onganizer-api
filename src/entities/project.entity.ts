@@ -4,7 +4,10 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
+import { User } from "./user.entity"
 import { v4 as uuid } from "uuid";
 
 @Entity()
@@ -40,6 +43,13 @@ export class Project {
     default: true,
   })
   active: boolean;
+
+  @ManyToMany(() => User, {
+    cascade: true
+  })
+
+  @JoinTable()
+  users: User[]
 
   constructor() {
     if (!this.id) {

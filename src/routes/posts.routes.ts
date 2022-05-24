@@ -1,7 +1,7 @@
 import { Router } from "express";
 import PostsController from "../controllers/posts.controller";
 import { authCommentOrAdmin } from "../middlewares/authCommentAdmin.middleware";
-import { authProject } from "../middlewares/authProject.middleware";
+// import { authProject } from "../middlewares/authProject.middleware";
 import { authToken } from "../middlewares/authToken.middleware";
 
 const postRoutes = Router()
@@ -15,8 +15,8 @@ postRoutes.use(authToken)
 postRoutes.post("/:id/comments", postController.storeCommentary)
 postRoutes.patch("/comments/:id", authCommentOrAdmin, postController.updateComentary)
 postRoutes.delete("/comments/:id", authCommentOrAdmin, postController.deleteCommentary)
-postRoutes.patch("/:id", authProject, postController.updatePost)
-postRoutes.delete("/:id", authProject, postController.deletePost)
+postRoutes.patch("/:id", /*authProject*/ postController.updatePost)
+postRoutes.delete("/:id", /*authProject*/ postController.deletePost)
 
 
 export default postRoutes

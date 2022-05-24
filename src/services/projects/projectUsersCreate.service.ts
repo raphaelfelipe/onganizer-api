@@ -1,20 +1,28 @@
 import { IFollowCreate } from "../../interfaces/projects";
-import { Project_User } from "../../entities/project_user.entity";
 import { AppDataSource } from "../../data-source";
+import { Project } from "../../entities/project.entity";
+import { User } from "../../entities/user.entity";
 
-const userProjectCreateService = async ({project_id, user_id}: IFollowCreate) =>{
-    const projectUsersRepository = AppDataSource.getRepository(Project_User)
-    const projectUsers = await projectUsersRepository.find()
+const userProjectCreateService = async ({ project_id, user_id }: IFollowCreate) => {
 
-    const projectUser = new Project_User()
-    projectUser.projects_id = project_id
-    projectUser.users_id = user_id
-  
-    
-    projectUsersRepository.create(projectUser)
-    await projectUsersRepository.save(projectUser)
+    const projectRepository = AppDataSource.getRepository(Project)
+    const project = await projectRepository.findOne({
+        where: { id: project_id },
+        relations: ["users"]
+    });
 
-    return projectUser
+    const userRepository = AppDataSource.getRepository(User)
+    const user = await userRepository.findOne({
+        select: ["id", "name", "description"],
+        where: { id: user_id }
+    })
+
+    project!.users.push(user!)
+
+    console.log([...project!.users, user!])
+    await projectRepository.save(project!)
+
+    return project
 }
 
 export default userProjectCreateService
