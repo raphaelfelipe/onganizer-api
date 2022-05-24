@@ -7,7 +7,7 @@ const userCreateService = async ({
   name,
   email,
   password,
-  description
+  description,
 }: IUserCreate) => {
   const userRepository = AppDataSource.getRepository(User);
   const users = await userRepository.find();
@@ -27,7 +27,17 @@ const userCreateService = async ({
   userRepository.create(user);
   await userRepository.save(user);
 
-  return { ...user, password: undefined };
+  return await userRepository
+    .createQueryBuilder("user")
+    .select([
+      "user.name",
+      "user.email",
+      "user.description",
+      "user.created_at",
+      "user.updated_at",
+    ])
+    .where({ id: user.id })
+    .getOne();
 };
 
 export default userCreateService;
