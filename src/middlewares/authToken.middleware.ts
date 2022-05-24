@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { AppError } from "../errors/appError";
 
 export const authToken = (
   request: Request,
@@ -8,7 +9,6 @@ export const authToken = (
 ) => {
   try {
     const token = request.headers.authorization;
-
 
     jwt.verify(
       token as string,
@@ -19,9 +19,7 @@ export const authToken = (
         next();
       }
     );
-  } catch (err) {
-    return response.status(401).json({
-      message: "Invalid token",
-    });
+  } catch (error) {
+    throw new AppError("Invalid token", 401);
   }
 };

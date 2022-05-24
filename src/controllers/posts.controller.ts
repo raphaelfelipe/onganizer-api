@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { AppError, handleError } from "../errors/appError";
 import commentDeleteService from "../services/posts/commentDelete.service";
 import createCommentService from "../services/posts/createComment.service";
 import listAllPostCommentariesService from "../services/posts/listAllPostCommentaries.service";
@@ -21,12 +22,9 @@ class PostsController {
       });
 
       return res.status(201).json(commetary);
-    } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).send({
-          error: err.name,
-          message: err.message,
-        });
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error, res);
       }
     }
   }
@@ -38,12 +36,9 @@ class PostsController {
       const post = await listPostService(id);
 
       return res.status(200).json(post);
-    } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).send({
-          error: err.name,
-          message: err.message,
-        });
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error, res);
       }
     }
   }
@@ -55,12 +50,9 @@ class PostsController {
       const post = await listCommentByIdService(id);
 
       return res.status(200).json(post);
-    } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).send({
-          error: err.name,
-          message: err.message,
-        });
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error, res);
       }
     }
   }
@@ -72,12 +64,9 @@ class PostsController {
       const post = await listAllPostCommentariesService(id);
 
       return res.status(200).json(post);
-    } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).send({
-          error: err.name,
-          message: err.message,
-        });
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error, res);
       }
     }
   }
@@ -90,12 +79,9 @@ class PostsController {
       const updatedPost = await postUpdateService({ id, title, content });
 
       res.status(200).json(updatedPost);
-    } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).send({
-          error: err.name,
-          message: err.message,
-        });
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error, res);
       }
     }
   }
@@ -108,12 +94,9 @@ class PostsController {
       const updatedComment = await postCommentUpdateService({ id, comment });
 
       return res.status(200).json(updatedComment);
-    } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).send({
-          error: err.name,
-          message: err.message,
-        });
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error, res);
       }
     }
   }
@@ -126,12 +109,9 @@ class PostsController {
       return res
         .status(200)
         .json({ message: "Commentary deleted successfully" });
-    } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).send({
-          error: err.name,
-          message: err.message,
-        });
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error, res);
       }
     }
   }
@@ -143,12 +123,9 @@ class PostsController {
       const deletedPost = postDeleteService({ id });
 
       res.status(200).json({ message: "Post successfully deleted" });
-    } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).send({
-          error: err.name,
-          message: err.message,
-        });
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error, res);
       }
     }
   }

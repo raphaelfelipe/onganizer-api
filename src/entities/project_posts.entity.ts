@@ -17,14 +17,8 @@ export class Project_Posts {
   @PrimaryColumn("uuid")
   readonly id: string;
 
-  @ManyToOne((type) => Project, {
-    eager: true,
-  })
-  @JoinColumn()
+  @ManyToOne(() => Project, (project) => project)
   project: Project;
-
-  @Column("uuid")
-  project_id: string;
 
   @Column({
     length: 50,
