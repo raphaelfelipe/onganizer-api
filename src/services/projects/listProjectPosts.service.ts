@@ -9,9 +9,8 @@ const projectPostsService = async ({id} : IProjectId) => {
     const projectPostsRepository = AppDataSource.getRepository(Project_Posts)
 
 
-    const projectPosts = await projectPostsRepository.find()
-
-    const posts = projectPosts.filter((post)=>post.project_id === id)
+    const projectPosts = await projectPostsRepository.find({relations:["project"]})
+    const posts = projectPosts.filter((post)=>post.project.id === id)
     
     if(!posts){
         throw new AppError("Post not found", 404)
