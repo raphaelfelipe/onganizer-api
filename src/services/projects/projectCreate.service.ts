@@ -1,7 +1,7 @@
 import { Project } from "../../entities/project.entity";
 import { IProjectCreate } from "../../interfaces/projects";
 import { AppDataSource } from "../../data-source";
-import { Project_User } from "../../entities/project_user.entity";
+import { User } from "../../entities/user.entity";
 
 const projectCreateService = async ({
   user_id,
@@ -17,29 +17,25 @@ const projectCreateService = async ({
   if (projectAlreadyExists) {
     throw new Error("Project already exists");
   }
+
+  const projectUserRepository = AppDataSource.getRepository(User);
+  const user = await projectUserRepository.find({
+    select: ["id", "name", "description"],
+    where: { id: user_id }
+  })
+
   const project = new Project();
   project.name = name;
   project.description = description;
   project.objective = objective;
   project.active = true;
 
+  project.users = [user[0]]
+
   projectRepository.create(project);
   await projectRepository.save(project);
 
-  const projectRepositoryRegister = AppDataSource.getRepository(Project);
-  const projectsNew = await projectRepositoryRegister.find();
-  const createdProject = projectsNew.find((project) => project.name === name);
-
-  const projectUserRepository = AppDataSource.getRepository(Project_User);
-
-  const projectUser = new Project_User();
-  projectUser.projects_id = createdProject!.id;
-  projectUser.users_id = user_id;
-
-  projectUserRepository.create(projectUser);
-  await projectUserRepository.save(projectUser);
-
-  return createdProject;
+  return project;
 };
 
 export default projectCreateService;
