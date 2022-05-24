@@ -33,7 +33,7 @@ export default class ProjectsController {
 
   async createPost(req: Request, res: Response) {
     try {
-      const { project_id } = req.params;
+      const { id: project_id } = req.params;
       const { title, content } = req.body;
       const newPost = await postCreateService({
         project_id,
@@ -68,7 +68,7 @@ export default class ProjectsController {
   async createFollowProject(req: Request, res: Response) {
     try {
       const user_id = req.userId;
-      const { project_id } = req.params;
+      const { id: project_id } = req.params;
       const newFollowProject = await followProjectService({
         project_id,
         user_id,
@@ -173,7 +173,7 @@ export default class ProjectsController {
   async followProjectDelete(req: Request, res: Response) {
     try {
       const user_id = req.userId;
-      const { project_id } = req.params;
+      const { id: project_id } = req.params;
       const followProject = await deleteFollowService({ project_id, user_id });
 
       return res.status(200).json({ message: "Project unfollowed" });
