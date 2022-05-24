@@ -7,7 +7,7 @@ const userCreateService = async ({
   name,
   email,
   password,
-  description
+  description,
 }: IUserCreate) => {
   const userRepository = AppDataSource.getRepository(User);
   const users = await userRepository.find();
