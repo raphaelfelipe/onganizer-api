@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { AppDataSource } from "../data-source";
 import { Post_Comments } from "../entities/post_comments.entity";
+import { AppError } from "../errors/appError";
 
 export const authCommentOwner = async (
   req: Request,
@@ -19,13 +20,11 @@ export const authCommentOwner = async (
     );
 
     if (selectedComment?.user_id !== req.userId) {
-      throw new Error();
+      throw new AppError("Unauthorised access", 401)
     }
 
     next();
-  } catch (err) {
-    return res.status(401).json({
-      message: "Unauthorised access",
-    });
-  }
+  } catch (error) {
+    throw new AppError("Unauthorised access", 401)
+   }
 };
