@@ -1,5 +1,6 @@
 import { AppDataSource } from "../../data-source"
 import { User } from "../../entities/user.entity"
+import { AppError } from "../../errors/appError"
 
 const deleteUserService = async(id:string)=>{
     const repository = AppDataSource.getRepository(User)
@@ -9,7 +10,7 @@ const deleteUserService = async(id:string)=>{
     const user = users.find(user=>user.id === id)
     
     if(!user){
-        throw new Error ("User not found")
+        throw new AppError ("User not found", 404)
     }
 
     await repository.delete(user!.id)

@@ -1,20 +1,34 @@
 import { IFollowCreate } from "../../interfaces/projects";
-import { Project_User } from "../../entities/project_user.entity";
 import { AppDataSource } from "../../data-source";
+import { Project } from "../../entities/project.entity";
+import { User } from "../../entities/user.entity";
 
-const userProjectCreateService = async ({project_id, user_id}: IFollowCreate) =>{
-    const projectUsersRepository = AppDataSource.getRepository(Project_User)
-    const projectUsers = await projectUsersRepository.find()
+const userProjectCreateService = async ({ project_id, user_id }: IFollowCreate) => {
 
-    const projectUser = new Project_User()
-    projectUser.projects_id = project_id
-    projectUser.users_id = user_id
-  
+    const projectRepository = AppDataSource.getRepository(Project)
+    const project = await projectRepository.findOne({
+        where: { id: project_id },
+        relations: ["users"]
+    });
+
+    const userRepository = AppDataSource.getRepository(User)
+    const user = await userRepository.findOne({
+        where: { id: user_id }
+    })
+
+    project!.users.push(user!)
+
+    console.log([...project!.users, user!])
+    await projectRepository.save(project!)
+
+
+    return await projectRepository.createQueryBuilder('project')
+    .leftJoinAndSelect('project.users', 'user')
+    .select(["project","user.name", "user.email", "user.description"])
+    .where({"id":project_id})
+    .getOne()
+
     
-    projectUsersRepository.create(projectUser)
-    await projectUsersRepository.save(projectUser)
-
-    return projectUser
 }
 
 export default userProjectCreateService

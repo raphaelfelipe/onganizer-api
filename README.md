@@ -169,8 +169,7 @@ Content-type: application/json
   "name": "Raphael Felipe M Lima",
   "email": "RaphaelFelipeMLima@kenzie.com.br",
   "password": "123456",
-  "description": "Sou uma descrição daquelas Amazing",
-  "is_admin": true
+  "description": "Sou uma descrição daquelas Amazing"
 }
 ```
 
@@ -421,7 +420,14 @@ Vazio
 ```
 
 ```json
-[]
+{
+  "id": "faea5cca-e10d-4440-9849-c19610d6aabf",
+  "email": "RaphaelFelipeMLima@kenzie.com.br",
+  "name": "Raphael Felipe M Lima",
+  "description": "Sou uma descrição daquelas Amazing",
+  "created_at": "2022-05-23T23:52:26.173Z",
+  "updated_at": "2022-05-23T23:52:26.173Z"
+}
 ```
 
 ### Possíveis Erros:
@@ -528,43 +534,49 @@ Vazio
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
-O objeto User é definido como:
+O objeto Project é definido como:
 
-| Campo    | Tipo    | Descrição                                    |
-| -------- | ------- | -------------------------------------------- |
-| id       | string  | Identificador único do usuário               |
-| name     | string  | O nome do usuário.                           |
-| email    | string  | O e-mail do usuário.                         |
-| password | string  | A senha de acesso do usuário                 |
-| isAdm    | boolean | Define se um usuário é Administrador ou não. |
+| Campo       | Tipo    | Descrição                                           |
+| ----------- | ------- | --------------------------------------------------- |
+| id          | string  | Identificador único do projeto                      |
+| name        | string  | O nome do projeto.                                  |
+| description | string  | A descrição projeto do usuário.                     |
+| objective   | string  | O objetivo do projeto.                              |
+| active      | boolean | Define se o projeto está ativo ou não.              |
+| users       | Array   | Lista todos os usuários administradores do projeto. |
+| created_at  | Date    | Data de criação do projeto.                         |
+| updated_at  | Date    | Data de atualização do projeto.                     |
 
 ### Endpoints
 
-| Método | Rota           | Descrição                                          |
-| ------ | -------------- | -------------------------------------------------- |
-| POST   | /users         | Criação de um usuário.                             |
-| POST   | /users/login   | Faz login com os dados de um usuário.              |
-| GET    | /users         | Lista todos os usuários.                           |
-| GET    | /users/:id     | Lista um usuário usando seu ID como parâmetro      |
-| GET    | /users/me/info | Lista o usuário que está logado atualmente         |
-| GET    | /users/me/feed | Lista o feed do usuário que está logado atualmente |
-| PATCH  | /users/:id     | Atualiza um usuário usando seu ID como parâmetro   |
-| DELETE | /users/:id     | Apaga um usuário usando seu ID como parâmetro      |
+| Método | Rota                | Descrição                                                       |
+| ------ | ------------------- | --------------------------------------------------------------- |
+| POST   | /project            | Criação de um projeto.                                          |
+| GET    | /project            | Lista todos os projetos.                                        |
+| GET    | /project/:id        | Lista um projeto usando seu ID como parâmetro                   |
+| GET    | /project/:id/users  | Lista todos os usuários de projeto usando seu ID como parâmetro |
+| GET    | /project/:id/posts  | Lista todos os posts de projeto usando seu ID como parâmetro    |
+| POST   | /project/follow/:id | Segue o projeto usando seu ID como parâmetro                    |
+| DELETE | /project/follow/:id | Para de seguir o projeto usando seu ID como parâmetro           |
+| POST   | /project/:id/users/ | Vira um administrador do projeto usando seu ID como parâmetro   |
+| POST   | /project/:id/posts/ | Cria um post no projeto usando seu ID como parâmetro            |
+| PATCH  | /project/:id        | Atualiza um projeto usando seu ID como parâmetro                |
+| DELETE | /project/:id        | Apaga um projeto usando seu ID como parâmetro                   |
 
 ---
 
-### 2.1. **Criação de Usuário**
+### 2.1. **Criação de Projeto**
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
-### `/users`
+### `/project`
 
 ### Exemplo de Request:
 
 ```
-POST /users
+POST /project
 Host: https://api-onganizer.herokuapp.com/
-Authorization: None
+Authorization: Bearer <token>
 Content-type: application/json
 ```
 
@@ -572,11 +584,9 @@ Content-type: application/json
 
 ```json
 {
-  "name": "Raphael Felipe M Lima",
-  "email": "RaphaelFelipeMLima@kenzie.com.br",
-  "password": "123456",
-  "description": "Sou uma descrição daquelas Amazing",
-  "is_admin": true
+  "name": "Projeto animaravilhoso",
+  "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
+  "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!"
 }
 ```
 
@@ -588,79 +598,42 @@ Content-type: application/json
 
 ```json
 {
-  "id": "bc5e288f-ca5a-4f61-9d73-cfc454a40296",
-  "name": "Raphael Felipe M Lima",
-  "email": "RaphaelFelipeMLima@kenzie.com.br",
-  "password": "$2b$10$zjbYnAwqymrrfcSiq6.vLeBj57TtZhW15/MqGARUG5yRCSCWxXGoK",
-  "description": "Sou uma descrição daquelas Amazing",
-  "is_admin": true,
-  "created_at": "2022-05-23T23:26:02.737Z",
-  "updated_at": "2022-05-23T23:26:02.737Z"
+  "id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
+  "name": "Projeto animaravilhoso",
+  "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!",
+  "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
+  "active": true,
+  "users": [
+    {
+      "id": "faea5cca-e10d-4440-9849-c19610d6aabf",
+      "name": "Oswaldo Deco",
+      "description": "Sou uma descrição daquelas Amazing"
+    }
+  ],
+  "created_at": "2022-05-24T22:02:19.740Z",
+  "updated_at": "2022-05-24T22:02:19.740Z"
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro  | Descrição             |
-| --------------- | --------------------- |
-| 400 Bad Request | Email already exists. |
+| Código do Erro   | Descrição               |
+| ---------------- | ----------------------- |
+| 409 Conflict     | Project already exists. |
+| 401 Unauthorized | Invalid token.          |
 
 ---
 
-### 2.2. **Fazer login**
+### 2.2. **Listando Projetos**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
-### `/users/login`
+### `/project`
 
 ### Exemplo de Request:
 
 ```
-POST /users/login
-Host: https://api-onganizer.herokuapp.com/
-Authorization: None
-Content-type: application/json
-```
-
-### Corpo da Requisição:
-
-```json
-{
-  "email": "RaphaelFelipeMLima@kenzie.com.br",
-  "password": "123456"
-}
-```
-
-### Exemplo de Response:
-
-```
-201 Created
-```
-
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlJhcGhhZWxGZWxpcGVNTGltYUBrZW56aWUuY29tLmJyIiwiaWQiOiJiYzVlMjg4Zi1jYTVhLTRmNjEtOWQ3My1jZmM0NTRhNDAyOTYiLCJpYXQiOjE2NTMzNDgzOTYsImV4cCI6MTY1Mzk1MzE5Nn0.mrknYX1j5siSPE4Cyg0vh09TL--d05rANGJ4MCByJ0A"
-}
-```
-
-### Possíveis Erros:
-
-| Código do Erro  | Descrição             |
-| --------------- | --------------------- |
-| 400 Bad Request | Wrong email/password. |
-
----
-
-### 2.3. **Listando Usuários**
-
-[ Voltar aos Endpoints ](#5-endpoints)
-
-### `/users`
-
-### Exemplo de Request:
-
-```
-GET /users
+GET /project
 Host: https://api-onganizer.herokuapp.com/
 Authorization: None
 Content-type: application/json
@@ -675,19 +648,19 @@ Vazio
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
 [
   {
-    "id": "bc5e288f-ca5a-4f61-9d73-cfc454a40296",
-    "name": "Raphael Felipe M Lima",
-    "email": "RaphaelFelipeMLima@kenzie.com.br",
-    "description": "Sou uma descrição daquelas Amazing",
-    "is_admin": true,
-    "created_at": "2022-05-23T23:26:02.737Z",
-    "updated_at": "2022-05-23T23:26:02.737Z"
+    "id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
+    "name": "Projeto animaravilhoso",
+    "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!",
+    "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
+    "created_at": "2022-05-24T22:02:19.740Z",
+    "updated_at": "2022-05-24T22:02:19.740Z",
+    "active": true
   }
 ]
 ```
@@ -698,16 +671,16 @@ Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
 
 ---
 
-### 2.4. **Listar Usuário por ID**
+### 2.3. **Listar Projeto por ID**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
-### `/users/:id`
+### `/project/:id`
 
 ### Exemplo de Request:
 
 ```
-GET /users/bc5e288f-ca5a-4f61-9d73-cfc454a40296
+GET /project/d78b7b9b-f9bd-4976-9e54-a06b24033bd9
 Host: https://api-onganizer.herokuapp.com/
 Authorization: None
 Content-type: application/json
@@ -715,9 +688,9 @@ Content-type: application/json
 
 ### Parâmetros da Requisição:
 
-| Parâmetro | Tipo   | Descrição                             |
-| --------- | ------ | ------------------------------------- |
-| id        | string | Identificador único do usuário (User) |
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
 
 ### Corpo da Requisição:
 
@@ -733,36 +706,36 @@ Vazio
 
 ```json
 {
-  "id": "bc5e288f-ca5a-4f61-9d73-cfc454a40296",
-  "name": "Raphael Felipe M Lima",
-  "email": "RaphaelFelipeMLima@kenzie.com.br",
-  "description": "Sou uma descrição daquelas Amazing",
-  "is_admin": true,
-  "created_at": "2022-05-23T23:26:02.737Z",
-  "updated_at": "2022-05-23T23:26:02.737Z"
+  "id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
+  "name": "Projeto animaravilhoso",
+  "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!",
+  "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
+  "created_at": "2022-05-24T22:02:19.740Z",
+  "updated_at": "2022-05-24T22:02:19.740Z",
+  "active": true
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro  | Descrição       |
-| --------------- | --------------- |
-| 400 Bad Request | User not found. |
+| Código do Erro | Descrição          |
+| -------------- | ------------------ |
+| 404 Not Found  | Project not found. |
 
 ---
 
-### 2.5. **Listar Usuário Logado**
+### 2.4. **Listar Usuários de um Projeto**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
-### `/users/me/info`
+### `/project/:id/users`
 
 ### Exemplo de Request:
 
 ```
-GET /users/me/inf2
+GET /project/d78b7b9b-f9bd-4976-9e54-a06b24033bd9/users
 Host: https://api-onganizer.herokuapp.com/
-Authorization: Bearer <token>
+Authorization: None
 Content-type: application/json
 ```
 
@@ -780,37 +753,39 @@ Vazio
 
 ```json
 {
-  "id": "faea5cca-e10d-4440-9849-c19610d6aabf",
-  "email": "RaphaelFelipeMLima@kenzie.com.br",
-  "name": "Raphael Felipe M Lima",
-  "description": "Sou uma descrição daquelas Amazing",
-  "password": "$2b$10$5r0Gbu/5RcxHwMxiF7188esfFtsKwoy/D3HzQ3dTdjuef0JH.o6qC",
-  "created_at": "2022-05-23T23:52:26.173Z",
-  "updated_at": "2022-05-23T23:52:26.173Z",
-  "is_admin": true
+  "id": "85bdc868-c68e-4855-9d24-a116c04dd25e",
+  "name": "Projeto animaravilhoso",
+  "users": [
+    {
+      "id": "faea5cca-e10d-4440-9849-c19610d6aabf",
+      "email": "OswaldoDeco@kenzie.com.br",
+      "name": "Oswaldo Deco",
+      "description": "Sou uma descrição daquelas Amazing"
+    }
+  ]
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição      |
-| ---------------- | -------------- |
-| 401 Unauthorized | Invalid token. |
+| Código do Erro | Descrição          |
+| -------------- | ------------------ |
+| 404 Not Found  | Project not found. |
 
 ---
 
-### 2.6. **Listar Feed de Usuário Logado**
+### 2.5. **Listar Feed de Usuário Logado**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
-### `/users/me/info`
+### `/project/:id/posts`
 
 ### Exemplo de Request:
 
 ```
-GET /users/me/inf2
+GET /project/85bdc868-c68e-4855-9d24-a116c04dd25e/posts
 Host: https://api-onganizer.herokuapp.com/
-Authorization: Bearer <token>
+Authorization: None
 Content-type: application/json
 ```
 
@@ -832,22 +807,22 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição      |
-| ---------------- | -------------- |
-| 401 Unauthorized | Invalid token. |
+| Código do Erro | Descrição          |
+| -------------- | ------------------ |
+| 404 Not Found  | Project not found. |
 
 ---
 
-### 2.7. **Atualizar Usuário**
+### 2.6. **Seguir um Projeto**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
-### `/users/:id`
+### `/project/follow/:id`
 
 ### Exemplo de Request:
 
 ```
-PATCH /users/faea5cca-e10d-4440-9849-c19610d6aabf
+POST /project/follow/faea5cca-e10d-4440-9849-c19610d6aabf
 Host: https://api-onganizer.herokuapp.com/
 Authorization: Bearer <token>
 Content-type: application/json
@@ -892,12 +867,12 @@ Content-type: application/json
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
-### `/users/:id`
+### `/project/:id`
 
 ### Exemplo de Request:
 
 ```
-PATCH /users/faea5cca-e10d-4440-9849-c19610d6aabf
+PATCH /project/faea5cca-e10d-4440-9849-c19610d6aabf
 Host: https://api-onganizer.herokuapp.com/
 Authorization: Bearer <token>
 Content-type: application/json

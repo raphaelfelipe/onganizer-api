@@ -1,5 +1,6 @@
 import { AppDataSource } from "../../data-source"
 import { Post_Comments } from "../../entities/post_comments.entity"
+import { AppError } from "../../errors/appError"
 
 const listCommentByIdService = async(id:string)=>{
     const repository = AppDataSource.getRepository(Post_Comments)
@@ -9,7 +10,7 @@ const listCommentByIdService = async(id:string)=>{
     const commentary = comments.find(commentary=>commentary.id === id)
 
     if(!commentary){
-        throw new Error("Commentary not found")
+        throw new AppError("Commentary not found", 404)
 
     }
 
