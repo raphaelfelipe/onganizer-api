@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { AppDataSource } from "../data-source"
 import { User } from "../entities/user.entity"
+import { Project } from "../entities/project.entity"
 
 export const authProjectOrAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -12,19 +13,23 @@ export const authProjectOrAdmin = async (req: Request, res: Response, next: Next
             next()
         }
 
-        // const projectUserRepository = AppDataSource.getRepository(Project_User);
-        // const { id: projectId } = req.params;
-        // const projectUsers = await projectUserRepository.find();
+        const projectUserRepository = AppDataSource.getRepository(Project);
+        const { id: projectId } = req.params;
+        const project = await projectUserRepository.findOne({
+            where: {id:projectId},
+            relations: ["users"]
+        });
+        console.log(account, project)
+        let selectedUser : boolean = false
 
-        // const selectedUser = projectUsers.find(
-        //     (projectUser) =>
-        //         projectUser.users_id === req.userId &&
-        //         projectUser.projects_id === projectId
-        // );
+        project?.users.forEach(user => { 
+            user.id === req.userId ? selectedUser = true : selectedUser = selectedUser
+        });
 
-        // if (selectedUser) {
-        //     next();
-        // }
+
+        if (selectedUser) {
+            next();
+        }
 
     } catch (err) {
         return res.status(401).json({
