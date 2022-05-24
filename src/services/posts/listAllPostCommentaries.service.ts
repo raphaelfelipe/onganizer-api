@@ -11,7 +11,7 @@ const listAllPostCommentariesService = async(id:string)=>{
     const postCommentaries = posts.find(post => post.post_id === id)
      
     if(!postCommentaries){
-        throw new AppError ("Post not found", 404)
+        throw new AppError("Post not found", 404)
     }
 
    return postCommentaries
