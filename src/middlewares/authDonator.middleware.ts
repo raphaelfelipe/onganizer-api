@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { AppDataSource } from "../data-source";
 
 import { Donation } from "../entities/donation.entity";
+import { AppError } from "../errors/appError";
 
 export const authDonator = async (
   req: Request,
@@ -20,13 +21,11 @@ export const authDonator = async (
     );
 
     if (selectedDonation?.user_id !== req.userId) {
-      throw new Error();
+      throw new AppError("Unauthorised access", 401)
     }
 
     next();
-  } catch (err) {
-    return res.status(401).json({
-      message: "Unauthorised access",
-    });
-  }
+  } catch (error) {
+    throw new AppError("Unauthorised access", 401)
+   }
 };

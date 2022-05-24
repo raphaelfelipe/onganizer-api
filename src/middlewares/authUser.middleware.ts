@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { AppError } from "../errors/appError";
 
 export const authUser = async (
   req: Request,
@@ -9,13 +10,10 @@ export const authUser = async (
     const { id: userId } = req.params;
 
     if (userId !== req.userId) {
-      throw new Error();
+      throw new AppError("Unauthorised access", 401);
     }
     next();
-
-  } catch (err) {
-    return res.status(401).json({
-      message: "Unauthorised access",
-    });
+  } catch (error) {
+    throw new AppError("Unauthorised access", 401);
   }
 };
