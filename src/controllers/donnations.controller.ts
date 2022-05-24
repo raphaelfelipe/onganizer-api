@@ -9,7 +9,7 @@ import userDonationsService from "../services/donations/userDonationList.service
 class DonationController {
   async donationCreate(req: Request, res: Response) {
     try {
-      const { project_id } = req.params;
+      const { id: project_id } = req.params;
       const { message, value } = req.body;
       const user_id = req.userId;
 
@@ -64,7 +64,7 @@ class DonationController {
 
   async projectDonations(req: Request, res: Response) {
     try {
-      const { project_id } = req.params;
+      const { id: project_id } = req.params;
 
       const donations = await projectDonationsService({
         project_id,
@@ -80,7 +80,7 @@ class DonationController {
 
   async userDonations(req: Request, res: Response) {
     try {
-      const { user_id } = req.params;
+      const { id: user_id } = req.params;
 
       const donations = await userDonationsService({
         user_id,
