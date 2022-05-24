@@ -13,7 +13,7 @@ const userListMeFeedService = async (id: string) => {
 
     let feed: Project_Posts[][] = []
     follows.forEach(follow => {
-        feed.push(projectsPosts.filter(post => post.project_id === follow.project_id))
+        feed.push(projectsPosts.filter(post => post.project === follow.project))
     });
 
     return feed

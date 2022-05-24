@@ -21,14 +21,11 @@ const userProjectCreateService = async ({ project_id, user_id }: IFollowCreate) 
     console.log([...project!.users, user!])
     await projectRepository.save(project!)
 
-
     return await projectRepository.createQueryBuilder('project')
-    .leftJoinAndSelect('project.users', 'user')
-    .select(["project","user.name", "user.email", "user.description"])
-    .where({"id":project_id})
-    .getOne()
-
-    
+        .leftJoinAndSelect('project.users', 'user')
+        .select(["project", "user.id", "user.name", "user.email", "user.description"])
+        .where({ "id": project_id })
+        .getOne()
 }
 
 export default userProjectCreateService
