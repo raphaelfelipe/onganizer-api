@@ -12,11 +12,14 @@ export const authProject = async (
 
     const { id: projectId } = req.params;
 
+    console.log(projectUserRepository)
     const projectUsers = await projectUserRepository.find();
+
 
     const selectedProject = projectUsers.find(
       (projectUser) => projectUser.projects_id === projectId
     );
+    console.log(selectedProject)
 
     if (selectedProject?.users_id !== req.userId) {
       throw new Error();
@@ -24,6 +27,7 @@ export const authProject = async (
 
     next();
   } catch (err) {
+    console.log(err)
     return res.status(401).json({
       message: "Unauthorised access",
     });
