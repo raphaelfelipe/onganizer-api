@@ -1,7 +1,10 @@
-import { Request, Response, NextFunction } from "express";
-import { AppDataSource } from "../data-source";
-import { User } from "../entities/user.entity";
+
 import { AppError } from "../errors/appError";
+import { Request, Response, NextFunction } from "express"
+import { AppDataSource } from "../data-source"
+import { User } from "../entities/user.entity"
+import { Project } from "../entities/project.entity"
+
 
 export const authProjectOrAdmin = async (
   req: Request,
@@ -13,23 +16,28 @@ export const authProjectOrAdmin = async (
     const users = await repository.find();
     const account = users.find((user) => user.id === req.userId);
 
-    if (account?.is_admin) {
-      next();
-    }
 
-    // const projectUserRepository = AppDataSource.getRepository(Project_User);
-    // const { id: projectId } = req.params;
-    // const projectUsers = await projectUserRepository.find();
+        if (account?.is_admin) {
+            next()
+        }
 
-    // const selectedUser = projectUsers.find(
-    //     (projectUser) =>
-    //         projectUser.users_id === req.userId &&
-    //         projectUser.projects_id === projectId
-    // );
+        const projectUserRepository = AppDataSource.getRepository(Project);
+        const { id: projectId } = req.params;
+        const project = await projectUserRepository.findOne({
+            where: {id:projectId},
+            relations: ["users"]
+        });
+        console.log(account, project)
+        let selectedUser : boolean = false
 
-    // if (selectedUser) {
-    //     next();
-    // }
+        project?.users.forEach(user => { 
+            user.id === req.userId ? selectedUser = true : selectedUser = selectedUser
+        });
+
+
+        if (selectedUser) {
+            next();
+        }
   } catch (error) {
     throw new AppError("Unauthorised access", 401);
   }

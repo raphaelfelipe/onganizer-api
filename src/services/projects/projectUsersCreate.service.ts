@@ -13,7 +13,6 @@ const userProjectCreateService = async ({ project_id, user_id }: IFollowCreate) 
 
     const userRepository = AppDataSource.getRepository(User)
     const user = await userRepository.findOne({
-        select: ["id", "name", "description"],
         where: { id: user_id }
     })
 
@@ -22,7 +21,14 @@ const userProjectCreateService = async ({ project_id, user_id }: IFollowCreate) 
     console.log([...project!.users, user!])
     await projectRepository.save(project!)
 
-    return project
+
+    return await projectRepository.createQueryBuilder('project')
+    .leftJoinAndSelect('project.users', 'user')
+    .select(["project","user.name", "user.email", "user.description"])
+    .where({"id":project_id})
+    .getOne()
+
+    
 }
 
 export default userProjectCreateService

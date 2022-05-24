@@ -1,15 +1,15 @@
 import { AppDataSource } from "../../data-source";
-import { User } from "../../entities/user.entity";
+import { Project } from "../../entities/project.entity";
 import { IProjectId } from "../../interfaces/projects";
 
 const projectUsersService = async ({ id }: IProjectId) => {
-    // const projectUserRepository = AppDataSource.getRepository(User)
+    const projectUserRepository = AppDataSource.getRepository(Project)
 
-    // const projectUsers = await projectUserRepository.find()
-
-    // const projectUsersId = projectUsers.filter((project)=>project.projects_id === id)
-
-    // return projectUsersId
+    return await projectUserRepository.createQueryBuilder('project')
+    .leftJoinAndSelect('project.users', 'user')
+    .select(["project.name","user.name", "user.email", "user.description"])
+    .where({"id":id})
+    .getOne()
 }
 
 export default projectUsersService
