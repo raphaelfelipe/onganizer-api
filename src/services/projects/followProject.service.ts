@@ -9,7 +9,6 @@ const followProjectService = async ({project_id, user_id}: IFollowCreate) =>{
     const follow = new Follow_Projects()
     follow.project_id = project_id
     follow.user_id = user_id
-    follow.created_at = new Date()
     
     followsRepository.create(follow)
     await followsRepository.save(follow)
