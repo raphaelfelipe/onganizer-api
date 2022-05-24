@@ -12,7 +12,7 @@ import postUpdateService from "../services/posts/postUpdate.service";
 class PostsController {
   async storeCommentary(req: Request, res: Response) {
     try {
-      const { post_id } = req.params;
+      const { id: post_id } = req.params;
       const { comment } = req.body;
       const user_id = req.userId;
       const commetary = await createCommentService({
