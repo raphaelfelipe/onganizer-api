@@ -1,5 +1,6 @@
 import { AppDataSource } from "../../data-source"
 import { User } from "../../entities/user.entity"
+import { AppError } from "../../errors/appError"
 import { IUpdatedUser } from "../../interfaces/users"
 
 const updateUserService = async({id, email, password, name, description}:IUpdatedUser)=>{
@@ -10,7 +11,7 @@ const updateUserService = async({id, email, password, name, description}:IUpdate
     const user = users.find(user=>user.id === id)
     
     if(!user){
-        throw new Error ("User not found")
+        throw new AppError ("User not found", 404)
     }
 
     await repository.update(user!.id,{name: name, email: email, password: password, description:description})

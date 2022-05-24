@@ -1,5 +1,6 @@
 import { AppDataSource } from "../../data-source"
 import { User } from "../../entities/user.entity"
+import { AppError } from "../../errors/appError"
 
 
 const listUserByIdService = async (id: string) => {
@@ -12,7 +13,7 @@ const listUserByIdService = async (id: string) => {
     const usersReturn = users.map((user) => ({ ...user, email: undefined, created_at: undefined, updated_at: undefined, is_admin: undefined }));
 
     if (!user) {
-        throw new Error("User not found")
+        throw new AppError("User not found", 404)
     }
 
     return { ...user, password: undefined, email: undefined, created_at: undefined, updated_at: undefined, is_admin: undefined }

@@ -2,12 +2,13 @@ import { User } from "../../entities/user.entity";
 import { IUserCreate } from "../../interfaces/users";
 import { AppDataSource } from "../../data-source";
 import bcrypt from "bcrypt";
+import { AppError } from "../../errors/appError";
 
 const userCreateService = async ({
   name,
   email,
   password,
-  description
+  description,
 }: IUserCreate) => {
   const userRepository = AppDataSource.getRepository(User);
   const users = await userRepository.find();
@@ -15,7 +16,7 @@ const userCreateService = async ({
   const emailAlreadyExists = users.find((user) => user.email === email);
 
   if (emailAlreadyExists) {
-    throw new Error("Email already exists");
+    throw new AppError("Email already in use", 409);
   }
 
   const user = new User();
@@ -27,7 +28,17 @@ const userCreateService = async ({
   userRepository.create(user);
   await userRepository.save(user);
 
-  return { ...user, password: undefined };
+  return await userRepository
+    .createQueryBuilder("user")
+    .select([
+      "user.name",
+      "user.email",
+      "user.description",
+      "user.created_at",
+      "user.updated_at",
+    ])
+    .where({ id: user.id })
+    .getOne();
 };
 
 export default userCreateService;

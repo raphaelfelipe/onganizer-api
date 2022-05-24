@@ -2,6 +2,7 @@ import { Project } from "../../entities/project.entity";
 import { IProjectCreate } from "../../interfaces/projects";
 import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/user.entity";
+import { AppError } from "../../errors/appError";
 
 const projectCreateService = async ({
   user_id,
@@ -15,7 +16,7 @@ const projectCreateService = async ({
     (project) => project.name === name
   );
   if (projectAlreadyExists) {
-    throw new Error("Project already exists");
+    throw new AppError("Project already exists", 409);
   }
 
   const projectUserRepository = AppDataSource.getRepository(User);
