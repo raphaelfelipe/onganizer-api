@@ -8,14 +8,23 @@ export const authUUID = async (
 ) => {
     try {
         const { id: projectId } = req.params;
+        const { user_id } = req.body
 
         if (!projectId) {
+            return next()
+        }
+
+        if (!user_id) {
             return next()
         }
 
         const validate = require('uuid-validate');
 
         if (!validate(projectId)) {
+            throw new AppError("uuid not value", 400);
+        }
+
+        if (!validate(user_id)) {
             throw new AppError("uuid not value", 400);
         }
 
