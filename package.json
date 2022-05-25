@@ -28,7 +28,8 @@
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.6",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "uuid-validate": "^0.0.3"
   },
   "config": {
     "commitizen": {
