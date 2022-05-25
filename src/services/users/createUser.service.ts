@@ -31,6 +31,7 @@ const userCreateService = async ({
   return await userRepository
     .createQueryBuilder("user")
     .select([
+      "user.id",
       "user.name",
       "user.email",
       "user.description",
