@@ -102,14 +102,17 @@ Por enquanto, não foi implementada autenticação.
   - [PATCH - /users/:id](#17-atualizar-usuário)
   - [DELETE - /users/:id](#18-excluir-usuário)
 - [Projects](#2-projects)
-  - [POST - /users](#21-criação-de-usuário)
-  - [POST - /users/login](#22-fazer-login)
-  - [GET - /users](#23-listando-usuários)
-  - [GET - /users/:user_id](#24-listar-usuário-por-id)
-  - [GET - /users/me/info](#25-listar-usuário-logado)
-  - [GET - /users/me/feed](#26-listar-feed-de-usuário-logado)
-  - [PATCH - /users/:id](#27-atualizar-usuário)
-  - [DELETE - /users/:id](#28-excluir-usuário)
+  - [POST - /project](#21-criação-de-projeto)
+  - [GET - /project](#22-listando-projetos)
+  - [GET - /project/:id](#23-listar-projeto-por-id)
+  - [GET - /project/:id/users](#24-listar-usuarios-por-projeto)
+  - [GET - /project/:id/posts](#25-listar-usuarios-por-posts)
+  - [POST - /project/follow/:id](#26-seguir-projeto)
+  - [DELETE - /project/follow/:id](#27-parar-de-seguir-um-projeto)
+  - [POST - /project/:id/users](#28-adicionar-admin-ao-projeto)
+  - [POST - /project/:id/posts](#29-criar-post-no-projeto)
+  - [PATCH - /project/:id](#210-atualizar-projeto)
+  - [DELETE - /project/:id](#211-excluir-projeto)
 - [Posts](#3-posts)
 - [Donations](#4-donations)
 
@@ -482,9 +485,10 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição      |
-| ---------------- | -------------- |
-| 401 Unauthorized | Invalid token. |
+| Código do Erro   | Descrição       |
+| ---------------- | --------------- |
+| 404 Not Found    | User not found. |
+| 401 Unauthorized | Invalid token.  |
 
 ---
 
@@ -497,7 +501,7 @@ Content-type: application/json
 ### Exemplo de Request:
 
 ```
-PATCH /users/faea5cca-e10d-4440-9849-c19610d6aabf
+DELETE /users/faea5cca-e10d-4440-9849-c19610d6aabf
 Host: https://api-onganizer.herokuapp.com/
 Authorization: Bearer <token>
 Content-type: application/json
@@ -558,7 +562,7 @@ O objeto Project é definido como:
 | GET    | /project/:id/posts  | Lista todos os posts de projeto usando seu ID como parâmetro    |
 | POST   | /project/follow/:id | Segue o projeto usando seu ID como parâmetro                    |
 | DELETE | /project/follow/:id | Para de seguir o projeto usando seu ID como parâmetro           |
-| POST   | /project/:id/users/ | Vira um administrador do projeto usando seu ID como parâmetro   |
+| POST   | /project/:id/users/ | Vira administrador do projeto usando seu ID como parâmetro      |
 | POST   | /project/:id/posts/ | Cria um post no projeto usando seu ID como parâmetro            |
 | PATCH  | /project/:id        | Atualiza um projeto usando seu ID como parâmetro                |
 | DELETE | /project/:id        | Apaga um projeto usando seu ID como parâmetro                   |
@@ -739,6 +743,12 @@ Authorization: None
 Content-type: application/json
 ```
 
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
+
 ### Corpo da Requisição:
 
 ```json
@@ -789,6 +799,12 @@ Authorization: None
 Content-type: application/json
 ```
 
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
+
 ### Corpo da Requisição:
 
 ```json
@@ -828,55 +844,11 @@ Authorization: Bearer <token>
 Content-type: application/json
 ```
 
-### Corpo da Requisição:
+### Parâmetros da Requisição:
 
-```json
-{
-  "email": "OswaldoDeco@kenzie.com.br",
-  "name": "Oswaldo Deco"
-}
-```
-
-### Exemplo de Response:
-
-```
-200 OK
-```
-
-```json
-{
-  "user": {
-    "message": "User successfully updated",
-    "UpdatedInfo": {
-      "name": "Oswaldo Deco",
-      "email": "OswaldoDeco@kenzie.com.br"
-    }
-  }
-}
-```
-
-### Possíveis Erros:
-
-| Código do Erro   | Descrição      |
-| ---------------- | -------------- |
-| 401 Unauthorized | Invalid token. |
-
----
-
-### 2.8. **Excluir Usuário**
-
-[ Voltar aos Endpoints ](#5-endpoints)
-
-### `/project/:id`
-
-### Exemplo de Request:
-
-```
-PATCH /project/faea5cca-e10d-4440-9849-c19610d6aabf
-Host: https://api-onganizer.herokuapp.com/
-Authorization: Bearer <token>
-Content-type: application/json
-```
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
 
 ### Corpo da Requisição:
 
@@ -892,15 +864,396 @@ Vazio
 
 ```json
 {
-  "message": "User deleted with success"
+  "id": "7a0192db-2967-4114-b4e3-788b34051cfa",
+  "project_id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
+  "user_id": "c8bc69f5-fa6e-4ff8-9478-1c7e5e5426ec",
+  "created_at": "2022-05-24T23:30:14.296Z"
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição       |
-| ---------------- | --------------- |
-| 401 Unauthorized | Invalid token.  |
-| 400 Bad Request  | User not found. |
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Project not found. |
+| 401 Unauthorized | Invalid token.     |
+
+---
+
+### 2.7. **Parar de seguir um Projeto**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/project/follow/:id`
+
+### Exemplo de Request:
+
+```
+DELETE /project/follow/faea5cca-e10d-4440-9849-c19610d6aabf
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "message": "Project unfollowed"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Project not found. |
+| 401 Unauthorized | Invalid token.     |
+
+---
+
+### 2.8. **Virar Administrador de um Projeto**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/project/:id/users`
+
+### Exemplo de Request:
+
+```
+POST /project/faea5cca-e10d-4440-9849-c19610d6aabf/users
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
+  "name": "Projeto animaravilhoso",
+  "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!",
+  "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
+  "created_at": "2022-05-24T22:02:19.740Z",
+  "updated_at": "2022-05-24T22:02:19.740Z",
+  "active": true,
+  "users": [
+    {
+      "id": "faea5cca-e10d-4440-9849-c19610d6aabf",
+      "email": "OswaldoDeco@kenzie.com.br",
+      "name": "Oswaldo Deco",
+      "description": "Sou uma descrição daquelas Amazing"
+    }
+  ]
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Project not found. |
+| 401 Unauthorized | Invalid token.     |
+
+---
+
+### 2.9. **Criar Post em um Projeto**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/project/:id/posts`
+
+### Exemplo de Request:
+
+```
+POST /project/faea5cca-e10d-4440-9849-c19610d6aabf/posts
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
+
+### Corpo da Requisição:
+
+```json
+{
+  "title": "Doação Canil",
+  "content": "Doe e ajude esta causa!"
+}
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "id": "ba3281e1-3797-41b7-868b-7627783bf7a5",
+  "title": "Doação Canil",
+  "content": "Doe e ajude esta causa!",
+  "project": {
+    "id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
+    "name": "Projeto animaravilhoso",
+    "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!",
+    "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
+    "created_at": "2022-05-24T22:02:19.740Z",
+    "updated_at": "2022-05-24T22:02:19.740Z",
+    "active": true
+  },
+  "created_at": "2022-05-25T00:24:16.360Z",
+  "updated_at": "2022-05-25T00:24:16.360Z"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Project not found. |
+| 401 Unauthorized | Invalid token.     |
+
+---
+
+### 2.10. **Atualizar Projeto**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/project/:id`
+
+### Exemplo de Request:
+
+```
+PATCH /project/faea5cca-e10d-4440-9849-c19610d6aabf
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
+
+### Corpo da Requisição:
+
+```json
+{
+  "active": false,
+  "objective": "Ajudar ONGs que cuidam de animais de rua",
+  "name": "Projeto animarvelous",
+  "description": "Ajude quem ajuda esses animais encontrando um novo lar!"
+}
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "message": "Project updated",
+  "project": {
+    "message": "Project successfully updated",
+    "UpdatedInfo": {
+      "name": "Projeto animarvelous",
+      "description": "Ajude quem ajuda esses animais encontrando um novo lar!",
+      "objective": "Ajudar ONGs que cuidam de animais de rua",
+      "active": false
+    }
+  }
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Project not found. |
+| 401 Unauthorized | Invalid token.     |
+
+---
+
+### 2.11. **Excluir Projeto**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/users/:id`
+
+### Exemplo de Request:
+
+```
+DELETE /projects/faea5cca-e10d-4440-9849-c19610d6aabf
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "message": "Project deleted with success"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 401 Unauthorized | Invalid token.     |
+| 400 Bad Request  | Project not found. |
+
+---
+
+## 3. **Posts**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+O objeto Project é definido como:
+
+| Campo       | Tipo    | Descrição                                           |
+| ----------- | ------- | --------------------------------------------------- |
+| id          | string  | Identificador único do projeto                      |
+| name        | string  | O nome do projeto.                                  |
+| description | string  | A descrição projeto do usuário.                     |
+| objective   | string  | O objetivo do projeto.                              |
+| active      | boolean | Define se o projeto está ativo ou não.              |
+| users       | Array   | Lista todos os usuários administradores do projeto. |
+| created_at  | Date    | Data de criação do projeto.                         |
+| updated_at  | Date    | Data de atualização do projeto.                     |
+
+### Endpoints
+
+| Método | Rota                | Descrição                                                       |
+| ------ | ------------------- | --------------------------------------------------------------- |
+| POST   | /project            | Criação de um projeto.                                          |
+| GET    | /project            | Lista todos os projetos.                                        |
+| GET    | /project/:id        | Lista um projeto usando seu ID como parâmetro                   |
+| GET    | /project/:id/users  | Lista todos os usuários de projeto usando seu ID como parâmetro |
+| GET    | /project/:id/posts  | Lista todos os posts de projeto usando seu ID como parâmetro    |
+| POST   | /project/follow/:id | Segue o projeto usando seu ID como parâmetro                    |
+| DELETE | /project/follow/:id | Para de seguir o projeto usando seu ID como parâmetro           |
+| POST   | /project/:id/users/ | Vira administrador do projeto usando seu ID como parâmetro      |
+| POST   | /project/:id/posts/ | Cria um post no projeto usando seu ID como parâmetro            |
+| PATCH  | /project/:id        | Atualiza um projeto usando seu ID como parâmetro                |
+| DELETE | /project/:id        | Apaga um projeto usando seu ID como parâmetro                   |
+
+---
+
+### 3.1. **Criação de Projeto**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/project`
+
+### Exemplo de Request:
+
+```
+POST /project
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+{
+  "name": "Projeto animaravilhoso",
+  "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
+  "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!"
+}
+```
+
+### Exemplo de Response:
+
+```
+201 Created
+```
+
+```json
+{
+  "id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
+  "name": "Projeto animaravilhoso",
+  "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!",
+  "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
+  "active": true,
+  "users": [
+    {
+      "id": "faea5cca-e10d-4440-9849-c19610d6aabf",
+      "name": "Oswaldo Deco",
+      "description": "Sou uma descrição daquelas Amazing"
+    }
+  ],
+  "created_at": "2022-05-24T22:02:19.740Z",
+  "updated_at": "2022-05-24T22:02:19.740Z"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição               |
+| ---------------- | ----------------------- |
+| 409 Conflict     | Project already exists. |
+| 401 Unauthorized | Invalid token.          |
 
 ---
