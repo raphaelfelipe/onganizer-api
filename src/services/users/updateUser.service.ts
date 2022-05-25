@@ -24,7 +24,7 @@ const updateUserService = async ({
   await repository.update(user!.id, {
     name: name,
     email: email,
-    password: bcrypt.hashSync(password, 10),
+    password: password && bcrypt.hashSync(password, 10),
     description: description,
   });
 
