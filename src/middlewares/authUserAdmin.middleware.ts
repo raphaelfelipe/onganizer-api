@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities/user.entity";
-import { AppError } from "../errors/appError";
+import { AppError, handleError } from "../errors/appError";
 
 export const authUserOrAdmin = async (
   req: Request,
@@ -17,14 +17,14 @@ export const authUserOrAdmin = async (
       return next();
     }
 
-    const { id: userId } = req.params;
+    const { id } = req.params;
 
-    if (req.userId === userId) {
+    if (account?.id === id) {
       return next();
     } else {
       throw new AppError("Unauthorised access", 401);
     }
   } catch (error) {
-    throw new AppError("Unauthorised access", 401);
+    if (error instanceof AppError) handleError(error, res);
   }
 };
