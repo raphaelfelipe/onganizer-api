@@ -17,20 +17,8 @@ export class Post_Comments {
   @PrimaryColumn("uuid")
   readonly id: string;
 
-  @ManyToOne((type) => User, {
-    eager: true,
-  })
-  @JoinColumn()
-  user: User;
-
   @Column("uuid")
   user_id: string;
-
-  @ManyToOne((type) => Project_Posts, {
-    eager: true,
-  })
-  @JoinColumn()
-  post: Project_Posts;
 
   @Column("uuid")
   post_id: string;
