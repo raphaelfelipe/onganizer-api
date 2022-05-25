@@ -18,7 +18,6 @@ const userProjectCreateService = async ({ project_id, user_id }: IFollowCreate) 
 
     project!.users.push(user!)
 
-    console.log([...project!.users, user!])
     await projectRepository.save(project!)
 
     return await projectRepository.createQueryBuilder('project')
