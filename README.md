@@ -30,6 +30,7 @@ Visão geral do projeto, um pouco das tecnologias usadas.
 - [reflect-metadata](https://www.npmjs.com/package/reflect-metadata)
 - [Commitizen](https://www.npmjs.com/package/commitizen)
 - [Jest](https://www.npmjs.com/package/jest)
+- [UUID-validate](https://www.npmjs.com/package/uuid-validate)
 
 A URL base da aplicação:
 https://api-onganizer.herokuapp.com/
