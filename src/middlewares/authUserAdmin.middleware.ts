@@ -25,6 +25,9 @@ export const authUserOrAdmin = async (
       throw new AppError("Unauthorised access", 401);
     }
   } catch (error) {
-    if (error instanceof AppError) handleError(error, res);
+    if (error instanceof AppError) {
+      handleError(error, res)
+    }
+
   }
 };
