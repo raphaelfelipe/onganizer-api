@@ -16,6 +16,7 @@ postRoutes.use(authToken)
 postRoutes.post("/:id/comments", authUUID, postController.storeCommentary)
 postRoutes.patch("/comments/:id", authUUID, postController.updateComentary)
 postRoutes.delete("/comments/:id", authUUID, postController.deleteCommentary)
+
 postRoutes.use(authPostOrAdmin)
 postRoutes.patch("/:id", authUUID, postController.updatePost)
 postRoutes.delete("/:id", authUUID, postController.deletePost)
