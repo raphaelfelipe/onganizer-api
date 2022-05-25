@@ -114,7 +114,20 @@ Por enquanto, não foi implementada autenticação.
   - [PATCH - /project/:id](#210-atualizar-projeto)
   - [DELETE - /project/:id](#211-excluir-projeto)
 - [Posts](#3-posts)
+  - [GET - /posts](#31-listar-post-por-id)
+  - [GET - /posts/:id/comments](#32-listar-comentarios-por-post)
+  - [GET - /posts/comments/:id](#33-listar-comentario-por-id)
+  - [POST - /posts/:id/comments](#34-criar-comentario-em-post)
+  - [PATCH - /posts/comments/:id](#35-atualizar-comentario)
+  - [DELETE - /posts/comments/:id](#36-excluir-comentario)
+  - [PATCH - /posts/:id](#37-atualizar-post)
+  - [DELETE - /posts/:id](#38-excluir-post)
 - [Donations](#4-donations)
+  - [GET - /donations](#41-listar-doacao-por-id)
+  - [GET - /donations/user/:id](#42-listar-doacoes-por-usuario)
+  - [GET - /donations/project/:id](#43-listar-doacoes-por-projeto)
+  - [POST - /donations/project/:id](#44-atualizar-doacao)
+  - [PATCH - /donations/:id](#45-atualizar-doacao)
 
 ---
 
@@ -818,7 +831,15 @@ Vazio
 ```
 
 ```json
-[]
+[
+  {
+    "id": "ba3281e1-3797-41b7-868b-7627783bf7a5",
+    "title": "Doação Canil",
+    "content": "Doe e ajude esta causa!",
+    "created_at": "2022-05-25T00:24:16.360Z",
+    "updated_at": "2022-05-25T00:24:16.360Z"
+  }
+]
 ```
 
 ### Possíveis Erros:
@@ -1168,59 +1189,214 @@ Vazio
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
-O objeto Project é definido como:
+O objeto Post é definido como:
 
-| Campo       | Tipo    | Descrição                                           |
-| ----------- | ------- | --------------------------------------------------- |
-| id          | string  | Identificador único do projeto                      |
-| name        | string  | O nome do projeto.                                  |
-| description | string  | A descrição projeto do usuário.                     |
-| objective   | string  | O objetivo do projeto.                              |
-| active      | boolean | Define se o projeto está ativo ou não.              |
-| users       | Array   | Lista todos os usuários administradores do projeto. |
-| created_at  | Date    | Data de criação do projeto.                         |
-| updated_at  | Date    | Data de atualização do projeto.                     |
+| Campo      | Tipo   | Descrição                    |
+| ---------- | ------ | ---------------------------- |
+| id         | string | Identificador único do post  |
+| title      | string | O título do post.            |
+| content    | string | O conteúdo do post.          |
+| created_at | Date   | Data de criação do post.     |
+| updated_at | Date   | Data de atualização do post. |
 
 ### Endpoints
 
-| Método | Rota                | Descrição                                                       |
-| ------ | ------------------- | --------------------------------------------------------------- |
-| POST   | /project            | Criação de um projeto.                                          |
-| GET    | /project            | Lista todos os projetos.                                        |
-| GET    | /project/:id        | Lista um projeto usando seu ID como parâmetro                   |
-| GET    | /project/:id/users  | Lista todos os usuários de projeto usando seu ID como parâmetro |
-| GET    | /project/:id/posts  | Lista todos os posts de projeto usando seu ID como parâmetro    |
-| POST   | /project/follow/:id | Segue o projeto usando seu ID como parâmetro                    |
-| DELETE | /project/follow/:id | Para de seguir o projeto usando seu ID como parâmetro           |
-| POST   | /project/:id/users/ | Vira administrador do projeto usando seu ID como parâmetro      |
-| POST   | /project/:id/posts/ | Cria um post no projeto usando seu ID como parâmetro            |
-| PATCH  | /project/:id        | Atualiza um projeto usando seu ID como parâmetro                |
-| DELETE | /project/:id        | Apaga um projeto usando seu ID como parâmetro                   |
+| Método | Rota                 | Descrição                                                       |
+| ------ | -------------------- | --------------------------------------------------------------- |
+| GET    | /posts/:id           | Lista um post usando seu ID como parâmetro                      |
+| GET    | /posts/:id/comments/ | Lista todos os comentários do post usando seu ID como parâmetro |
+| GET    | /posts/comments/:id  | Lista um comentário usando seu ID como parâmetro                |
+| POST   | /posts/:id/comments/ | Cria um comentário no post                                      |
+| PATCH  | /posts/comments/:id  | Atualiza um comentário usando seu ID como parâmetro             |
+| DELETE | /posts/comments/:id  | Apaga um comentário usando seu ID como parâmetro                |
+| PATCH  | /posts/:id           | Atualiza um post usando seu ID como parâmetro                   |
+| DELETE | /posts/:id           | Apaga um post usando seu ID como parâmetro                      |
 
 ---
 
-### 3.1. **Criação de Projeto**
+### 3.1. **Listar Post por ID**
 
-[ Voltar para os Endpoints ](#5-endpoints)
+[ Voltar aos Endpoints ](#5-endpoints)
 
-### `/project`
+### `/posts/:id`
 
 ### Exemplo de Request:
 
 ```
-POST /project
+GET /posts/ba3281e1-3797-41b7-868b-7627783bf7a5
+Host: https://api-onganizer.herokuapp.com/
+Authorization: None
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                          |
+| --------- | ------ | ---------------------------------- |
+| id        | string | Identificador único do post (Post) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "id": "ba3281e1-3797-41b7-868b-7627783bf7a5",
+  "title": "Doação Canil",
+  "content": "Doe e ajude esta causa!",
+  "created_at": "2022-05-25T00:24:16.360Z",
+  "updated_at": "2022-05-25T00:24:16.360Z"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro | Descrição       |
+| -------------- | --------------- |
+| 404 Not Found  | Post not found. |
+
+---
+
+### 3.2. **Listar Comentários de um Post**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/posts/:id/comments`
+
+### Exemplo de Request:
+
+```
+GET /posts/ba3281e1-3797-41b7-868b-7627783bf7a5/comments
+Host: https://api-onganizer.herokuapp.com/
+Authorization: None
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                          |
+| --------- | ------ | ---------------------------------- |
+| id        | string | Identificador único do post (Post) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "4cb29d8f-21cd-4c94-8cd0-efc4cabe4db4",
+    "post_id": "a703ccee-9074-465c-a55c-9735f26a9973",
+    "user_id": "6ef24fb7-b530-4056-9791-97fdab109d8b",
+    "comment": "Eu gosto de animais, vou ajudar com certeza!",
+    "created_at": "2022-05-25T01:41:03.991Z",
+    "updated_at": "2022-05-25T01:41:03.991Z"
+  }
+]
+```
+
+### Possíveis Erros:
+
+| Código do Erro | Descrição       |
+| -------------- | --------------- |
+| 404 Not Found  | Post not found. |
+
+---
+
+### 3.3. **Listar Comentário por ID**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/posts/comments/:id`
+
+### Exemplo de Request:
+
+```
+GET /posts/comments/4cb29d8f-21cd-4c94-8cd0-efc4cabe4db4
+Host: https://api-onganizer.herokuapp.com/
+Authorization: None
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                   |
+| --------- | ------ | ------------------------------------------- |
+| id        | string | Identificador único do comentário (Comment) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "id": "4cb29d8f-21cd-4c94-8cd0-efc4cabe4db4",
+  "post_id": "a703ccee-9074-465c-a55c-9735f26a9973",
+  "user_id": "6ef24fb7-b530-4056-9791-97fdab109d8b",
+  "comment": "Eu gosto de animais, vou ajudar com certeza!",
+  "created_at": "2022-05-25T01:41:03.991Z",
+  "updated_at": "2022-05-25T01:41:03.991Z"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro | Descrição          |
+| -------------- | ------------------ |
+| 404 Not Found  | Comment not found. |
+
+---
+
+### 3.4. **Criação de Comentário**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/posts/:id/comments`
+
+### Exemplo de Request:
+
+```
+POST /posts/ba3281e1-3797-41b7-868b-7627783bf7a5/comments
 Host: https://api-onganizer.herokuapp.com/
 Authorization: Bearer <token>
 Content-type: application/json
 ```
 
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                          |
+| --------- | ------ | ---------------------------------- |
+| id        | string | Identificador único do post (Post) |
+
 ### Corpo da Requisição:
 
 ```json
 {
-  "name": "Projeto animaravilhoso",
-  "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
-  "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!"
+  "comment": "Eu gosto de animais, vou ajudar com certeza!"
 }
 ```
 
@@ -1232,28 +1408,518 @@ Content-type: application/json
 
 ```json
 {
-  "id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
-  "name": "Projeto animaravilhoso",
-  "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!",
-  "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
-  "active": true,
-  "users": [
-    {
-      "id": "faea5cca-e10d-4440-9849-c19610d6aabf",
-      "name": "Oswaldo Deco",
-      "description": "Sou uma descrição daquelas Amazing"
-    }
-  ],
-  "created_at": "2022-05-24T22:02:19.740Z",
-  "updated_at": "2022-05-24T22:02:19.740Z"
+  "id": "4cb29d8f-21cd-4c94-8cd0-efc4cabe4db4",
+  "post_id": "a703ccee-9074-465c-a55c-9735f26a9973",
+  "user_id": "6ef24fb7-b530-4056-9791-97fdab109d8b",
+  "comment": "Eu gosto de animais, vou ajudar com certeza!",
+  "created_at": "2022-05-25T01:41:03.991Z",
+  "updated_at": "2022-05-25T01:41:03.991Z"
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição               |
-| ---------------- | ----------------------- |
-| 409 Conflict     | Project already exists. |
-| 401 Unauthorized | Invalid token.          |
+| Código do Erro   | Descrição       |
+| ---------------- | --------------- |
+| 404 Not Found    | Post not found. |
+| 401 Unauthorized | Invalid token.  |
+
+---
+
+### 3.5. **Atualizar Comentário**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/posts/comments/:id`
+
+### Exemplo de Request:
+
+```
+PATCH /posts/comments/4cb29d8f-21cd-4c94-8cd0-efc4cabe4db4
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                   |
+| --------- | ------ | ------------------------------------------- |
+| id        | string | Identificador único do comentário (Comment) |
+
+### Corpo da Requisição:
+
+```json
+{
+  "comment": "Eu gosto de animais, vou ajudar com certeza e chamar os amigos também!"
+}
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "message": "Comment updated",
+  "comment": {
+    "message": "Comment successfully updated",
+    "UpdatedInfo": {
+      "comment": "Eu gosto de animais, vou ajudar com certeza e chamar os amigos também!"
+    }
+  }
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Comment not found. |
+| 401 Unauthorized | Invalid token.     |
+
+---
+
+### 3.6. **Excluir Comentário**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/posts/comments/:id`
+
+### Exemplo de Request:
+
+```
+DELETE /posts/comments/4cb29d8f-21cd-4c94-8cd0-efc4cabe4db4
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                   |
+| --------- | ------ | ------------------------------------------- |
+| id        | string | Identificador único do comentário (Comment) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "message": "Comment deleted with success"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 401 Unauthorized | Invalid token.     |
+| 400 Bad Request  | Comment not found. |
+
+---
+
+### 3.7. **Atualizar Post**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/posts/:id`
+
+### Exemplo de Request:
+
+```
+PATCH /posts/ba3281e1-3797-41b7-868b-7627783bf7a5
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                          |
+| --------- | ------ | ---------------------------------- |
+| id        | string | Identificador único do post (Post) |
+
+### Corpo da Requisição:
+
+```json
+{
+  "title": "Doação Canil!!!",
+  "content": "Doe e ajude esta causa, precisamos de você!"
+}
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "message": "Post successfully updated",
+  "UpdatedInfo": {
+    "title": "Doação Canil!!!",
+    "content": "Doe e ajude esta causa, precisamos de você!"
+  }
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição       |
+| ---------------- | --------------- |
+| 404 Not Found    | Post not found. |
+| 401 Unauthorized | Invalid token.  |
+
+---
+
+### 3.8. **Excluir Post**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/posts/:id`
+
+### Exemplo de Request:
+
+```
+DELETE /posts/ba3281e1-3797-41b7-868b-7627783bf7a5
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                          |
+| --------- | ------ | ---------------------------------- |
+| id        | string | Identificador único do post (Post) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "message": "Post deleted with success"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição       |
+| ---------------- | --------------- |
+| 401 Unauthorized | Invalid token.  |
+| 400 Bad Request  | Post not found. |
+
+---
+
+## 4. **Donations**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+O objeto Donations é definido como:
+
+| Campo      | Tipo   | Descrição                      |
+| ---------- | ------ | ------------------------------ |
+| id         | string | Identificador único da doação  |
+| message    | string | A mensagem da doação.          |
+| value      | number | O valor do doação.             |
+| created_at | Date   | Data da doação.                |
+| updated_at | Date   | Data de atualização da doação. |
+
+### Endpoints
+
+| Método | Rota                    | Descrição                                        |
+| ------ | ----------------------- | ------------------------------------------------ |
+| GET    | /donations/:id          | Lista uma doação usando seu ID como parâmetro    |
+| GET    | /donations/user/:id     | Lista doações de um usuário                      |
+| GET    | /donations/project/:id  | Lista doações de um projeto                      |
+| POST   | /donations/project/:id/ | Faz doação para um projeto                       |
+| PATCH  | /donations/:id          | Atualiza uma doação usando seu ID como parâmetro |
+
+---
+
+### 4.1. **Listar Doação por ID**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/donations/:id`
+
+### Exemplo de Request:
+
+```
+GET /donations/e38b74a1-a5af-44a5-905d-b0bfe99bf04d
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único da doação (Donation) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
+  "message": "Doe e ajude esta causa!",
+  "value": 100,
+  "created_at": "2022-05-25T00:24:16.360Z",
+  "updated_at": "2022-05-25T00:24:16.360Z"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição           |
+| ---------------- | ------------------- |
+| 404 Not Found    | Donation not found. |
+| 401 Unauthorized | Invalid token.      |
+
+---
+
+### 4.2. **Listar Doações de Usuário**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/donations/user/:id`
+
+### Exemplo de Request:
+
+```
+GET /donations/user/6ef24fb7-b530-4056-9791-97fdab109d8b
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                             |
+| --------- | ------ | ------------------------------------- |
+| id        | string | Identificador único do usuário (User) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
+    "message": "Doe e ajude esta causa!",
+    "value": 100,
+    "created_at": "2022-05-25T00:24:16.360Z",
+    "updated_at": "2022-05-25T00:24:16.360Z"
+  }
+]
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição       |
+| ---------------- | --------------- |
+| 404 Not Found    | User not found. |
+| 401 Unauthorized | Invalid token.  |
+
+---
+
+### 4.3. **Listar Doações de Projeto**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/donations/project/:id`
+
+### Exemplo de Request:
+
+```
+GET /donations/project/faea5cca-e10d-4440-9849-c19610d6aabf
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
+    "message": "Doe e ajude esta causa!",
+    "value": 100,
+    "created_at": "2022-05-25T00:24:16.360Z",
+    "updated_at": "2022-05-25T00:24:16.360Z"
+  }
+]
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Project not found. |
+| 401 Unauthorized | Invalid token.     |
+
+---
+
+### 4.4. **Criação de Doação**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/donations/project/:id`
+
+### Exemplo de Request:
+
+```
+POST /donations/project/ba3281e1-3797-41b7-868b-7627783bf7a5
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
+
+### Corpo da Requisição:
+
+```json
+{
+  "message": "Doe e ajude esta causa!",
+  "value": 100
+}
+```
+
+### Exemplo de Response:
+
+```
+201 Created
+```
+
+```json
+{}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Project not found. |
+| 401 Unauthorized | Invalid token.     |
+
+---
+
+### 4.5. **Atualizar Doação**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/donations/:id`
+
+### Exemplo de Request:
+
+```
+PATCH /donations/faea5cca-e10d-4440-9849-c19610d6aabf
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único da doação (Donation) |
+
+### Corpo da Requisição:
+
+```json
+{
+  "message": "Doei e ajudei esta causa!"
+}
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
+    "message": "Doei e ajudei esta causa!",
+    "value": 100,
+    "created_at": "2022-05-25T00:24:16.360Z",
+    "updated_at": "2022-05-25T00:24:16.360Z"
+  }
+]
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição           |
+| ---------------- | ------------------- |
+| 404 Not Found    | Donation not found. |
+| 401 Unauthorized | Invalid token.      |
 
 ---
