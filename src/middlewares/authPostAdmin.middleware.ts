@@ -34,10 +34,7 @@ export const authPostOrAdmin = async (req: Request, res: Response, next: NextFun
             user.id === req.userId ? selectedUser = true : selectedUser = selectedUser
         });
 
-        console.log(selectedUser)
-
         if (selectedUser) {
-            console.log("entrou", selectedUser)
             next();
         }
 
