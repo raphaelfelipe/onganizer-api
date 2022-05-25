@@ -50,7 +50,7 @@ export default class ProjectsController {
 
   async createProjectUsers(req: Request, res: Response) {
     try {
-      const user_id = req.body;
+      const { user_id } = req.body;
       const { id: project_id } = req.params;
       const newProjectUsers = await userProjectCreateService({
         project_id,

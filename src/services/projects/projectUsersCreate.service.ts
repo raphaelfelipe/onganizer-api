@@ -2,6 +2,7 @@ import { IFollowCreate } from "../../interfaces/projects";
 import { AppDataSource } from "../../data-source";
 import { Project } from "../../entities/project.entity";
 import { User } from "../../entities/user.entity";
+import { AppError } from "../../errors/appError";
 
 const userProjectCreateService = async ({ project_id, user_id }: IFollowCreate) => {
 
@@ -11,10 +12,18 @@ const userProjectCreateService = async ({ project_id, user_id }: IFollowCreate) 
         relations: ["users"]
     });
 
+    if (!project) {
+        throw new AppError("Project not found", 404)
+    }
+
     const userRepository = AppDataSource.getRepository(User)
     const user = await userRepository.findOne({
         where: { id: user_id }
     })
+
+    if (!user) {
+        throw new AppError("User not found", 404)
+    }
 
     project!.users.push(user!)
 
