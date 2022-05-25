@@ -1,22 +1,28 @@
 import { AppDataSource } from "../../data-source";
-import {Follow_Projects} from "../../entities/followed_projects.entity"
-import {Project_Posts} from "../../entities/project_posts.entity"
+import { Follow_Projects } from "../../entities/followed_projects.entity"
+import { Project } from "../../entities/project.entity";
+import { Project_Posts } from "../../entities/project_posts.entity"
 
 const userListMeFeedService = async (id: string) => {
 
     const followProjectsRepository = AppDataSource.getRepository(Follow_Projects)
-    const followProjects = await followProjectsRepository.find()
-    const follows = followProjects.filter(followProject => followProject.user_id === id)
-    
+    const followProjects = await followProjectsRepository.find({
+        relations: ["user", "project"]
+    })
+    const follows = followProjects.filter(followProject =>
+        followProject.user_id === id
+    )
+
     const projectsPostsRepository = AppDataSource.getRepository(Project_Posts)
-    const projectsPosts = await projectsPostsRepository.find()
+    const projectsPosts = await projectsPostsRepository.find({
+        relations: ["project"]
+    })
 
-    let feed: Project_Posts[][] = []
-    follows.forEach(follow => {
-        feed.push(projectsPosts.filter(post => post.project === follow.project))
-    });
+    const postFeed = projectsPosts.filter(post =>
+        follows.some(project => post.project.id === project.project_id)
+    )
 
-    return feed
+    return postFeed
 }
 
 export default userListMeFeedService
