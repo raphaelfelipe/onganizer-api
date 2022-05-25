@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { AppError } from "../errors/appError";
+import { AppError, handleError } from "../errors/appError";
 
 export const authToken = (
   request: Request,
@@ -14,12 +14,17 @@ export const authToken = (
       token as string,
       process.env.JWT_SECRET as string,
       (err: any, decoded: any) => {
-        request.userEmail = decoded.email;
-        request.userId = decoded.id;
-        next();
+        if (!err) {
+          request.userEmail = decoded.email;
+          request.userId = decoded.id;
+          return next();
+        }
       }
     );
-  } catch (error) {
     throw new AppError("Invalid token", 401);
+  } catch (error) {
+    if (error instanceof AppError) {
+      handleError(error, response);
+    }
   }
 };
