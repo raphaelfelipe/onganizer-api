@@ -14,8 +14,7 @@ usersRoutes.get("/:id", usersController.listById);
 usersRoutes.use(authToken);
 usersRoutes.get("/me/info", usersController.userListMe);
 usersRoutes.get("/me/feed", usersController.userListMeFeed);
-usersRoutes.use(authUserOrAdmin);
-usersRoutes.patch("/:id", usersController.update);
-usersRoutes.delete("/:id", usersController.delete);
+usersRoutes.patch("/:id", authUserOrAdmin, usersController.update);
+usersRoutes.delete("/:id", authUserOrAdmin, usersController.delete);
 
 export default usersRoutes;
