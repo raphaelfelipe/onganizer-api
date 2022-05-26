@@ -79,14 +79,6 @@ yarn typeorm migration:run -d src/data-source.ts
 
 ---
 
-## 4. Autenticação
-
-[ Voltar para o topo ](#tabela-de-conteúdos)
-
-Por enquanto, não foi implementada autenticação.
-
----
-
 ## 5. Endpoints
 
 [ Voltar para o topo ](#tabela-de-conteúdos)
@@ -426,7 +418,24 @@ Vazio
 ```
 
 ```json
-[]
+[
+  {
+    "id": "6271497d-e143-456a-801b-d090839a5698",
+    "title": "Doação Canil",
+    "content": "Doe e ajude esta causa!",
+    "created_at": "2022-05-26T02:49:01.506Z",
+    "updated_at": "2022-05-26T02:49:01.506Z",
+    "project": {
+      "id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
+      "name": "Projeto animarvelous",
+      "description": "Ajude quem ajuda esses animais encontrando um novo lar!",
+      "objective": "Ajudar ONGs que cuidam de animais de rua",
+      "created_at": "2022-05-26T01:21:41.245Z",
+      "updated_at": "2022-05-26T02:58:04.442Z",
+      "active": false
+    }
+  }
+]
 ```
 
 ### Possíveis Erros:
@@ -1048,7 +1057,7 @@ Content-type: application/json
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
@@ -1072,10 +1081,10 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
@@ -1114,7 +1123,7 @@ Content-type: application/json
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
@@ -1134,10 +1143,10 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
@@ -1182,10 +1191,10 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 401 Unauthorized | Invalid token.     |
-| 400 Bad Request  | Project not found. |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 401 Unauthorized | Invalid token     |
+| 400 Bad Request  | Project not found |
 
 ---
 
@@ -1197,24 +1206,24 @@ O objeto Post é definido como:
 
 | Campo      | Tipo   | Descrição                    |
 | ---------- | ------ | ---------------------------- |
-| id         | string | Identificador único do post  |
-| title      | string | O título do post.            |
-| content    | string | O conteúdo do post.          |
+| id         | string | Identificador único do post. |
+| title      | string | Título do post.              |
+| content    | string | Conteúdo do post.            |
 | created_at | Date   | Data de criação do post.     |
 | updated_at | Date   | Data de atualização do post. |
 
 ### Endpoints
 
-| Método | Rota                 | Descrição                                                       |
-| ------ | -------------------- | --------------------------------------------------------------- |
-| GET    | /posts/:id           | Lista um post usando seu ID como parâmetro                      |
-| GET    | /posts/:id/comments/ | Lista todos os comentários do post usando seu ID como parâmetro |
-| GET    | /posts/comments/:id  | Lista um comentário usando seu ID como parâmetro                |
-| POST   | /posts/:id/comments/ | Cria um comentário no post                                      |
-| PATCH  | /posts/comments/:id  | Atualiza um comentário usando seu ID como parâmetro             |
-| DELETE | /posts/comments/:id  | Apaga um comentário usando seu ID como parâmetro                |
-| PATCH  | /posts/:id           | Atualiza um post usando seu ID como parâmetro                   |
-| DELETE | /posts/:id           | Apaga um post usando seu ID como parâmetro                      |
+| Método | Rota                 | Descrição                                                        |
+| ------ | -------------------- | ---------------------------------------------------------------- |
+| GET    | /posts/:id           | Lista um post usando seu ID como parâmetro.                      |
+| GET    | /posts/:id/comments/ | Lista todos os comentários do post usando seu ID como parâmetro. |
+| GET    | /posts/comments/:id  | Lista um comentário usando seu ID como parâmetro.                |
+| POST   | /posts/:id/comments/ | Cria um comentário no post.                                      |
+| PATCH  | /posts/comments/:id  | Atualiza um comentário usando seu ID como parâmetro.             |
+| DELETE | /posts/comments/:id  | Exclui um comentário usando seu ID como parâmetro.               |
+| PATCH  | /posts/:id           | Atualiza um post usando seu ID como parâmetro.                   |
+| DELETE | /posts/:id           | Exclui um post usando seu ID como parâmetro.                     |
 
 ---
 
@@ -1263,9 +1272,9 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição       |
-| -------------- | --------------- |
-| 404 Not Found  | Post not found. |
+| Código do Erro | Descrição      |
+| -------------- | -------------- |
+| 404 Not Found  | Post not found |
 
 ---
 
@@ -1317,9 +1326,9 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição       |
-| -------------- | --------------- |
-| 404 Not Found  | Post not found. |
+| Código do Erro | Descrição      |
+| -------------- | -------------- |
+| 404 Not Found  | Post not found |
 
 ---
 
@@ -1369,13 +1378,13 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição          |
-| -------------- | ------------------ |
-| 404 Not Found  | Comment not found. |
+| Código do Erro | Descrição         |
+| -------------- | ----------------- |
+| 404 Not Found  | Comment not found |
 
 ---
 
-### 3.4. **Criação de Comentário**
+### 3.4. **Criar Comentário**
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
@@ -1423,10 +1432,10 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição       |
-| ---------------- | --------------- |
-| 404 Not Found    | Post not found. |
-| 401 Unauthorized | Invalid token.  |
+| Código do Erro   | Descrição      |
+| ---------------- | -------------- |
+| 404 Not Found    | Post not found |
+| 401 Unauthorized | Invalid token  |
 
 ---
 
@@ -1467,22 +1476,19 @@ Content-type: application/json
 
 ```json
 {
-  "message": "Comment updated",
-  "comment": {
-    "message": "Comment successfully updated",
-    "UpdatedInfo": {
-      "comment": "Eu gosto de animais, vou ajudar com certeza e chamar os amigos também!"
-    }
+  "message": "Comment successfully updated",
+  "UpdatedInfo": {
+    "comment": "Eu gosto de animais, vou ajudar com certeza e chamar os amigos também!"
   }
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Comment not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Comment not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
@@ -1527,10 +1533,10 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 401 Unauthorized | Invalid token.     |
-| 400 Bad Request  | Comment not found. |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 401 Unauthorized | Invalid token     |
+| 400 Bad Request  | Comment not found |
 
 ---
 
@@ -1582,10 +1588,10 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição       |
-| ---------------- | --------------- |
-| 404 Not Found    | Post not found. |
-| 401 Unauthorized | Invalid token.  |
+| Código do Erro   | Descrição      |
+| ---------------- | -------------- |
+| 404 Not Found    | Post not found |
+| 401 Unauthorized | Invalid token  |
 
 ---
 
@@ -1624,16 +1630,16 @@ Vazio
 
 ```json
 {
-  "message": "Post deleted with success"
+  "message": "Post successfully deleted"
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição       |
-| ---------------- | --------------- |
-| 401 Unauthorized | Invalid token.  |
-| 400 Bad Request  | Post not found. |
+| Código do Erro   | Descrição      |
+| ---------------- | -------------- |
+| 401 Unauthorized | Invalid token  |
+| 400 Bad Request  | Post not found |
 
 ---
 
@@ -1645,21 +1651,21 @@ O objeto Donations é definido como:
 
 | Campo      | Tipo   | Descrição                      |
 | ---------- | ------ | ------------------------------ |
-| id         | string | Identificador único da doação  |
-| message    | string | A mensagem da doação.          |
-| value      | number | O valor do doação.             |
+| id         | string | Identificador único da doação. |
+| message    | string | Mensagem da doação.            |
+| value      | number | Valor do doação.               |
 | created_at | Date   | Data da doação.                |
 | updated_at | Date   | Data de atualização da doação. |
 
 ### Endpoints
 
-| Método | Rota                    | Descrição                                        |
-| ------ | ----------------------- | ------------------------------------------------ |
-| GET    | /donations/:id          | Lista uma doação usando seu ID como parâmetro    |
-| GET    | /donations/user/:id     | Lista doações de um usuário                      |
-| GET    | /donations/project/:id  | Lista doações de um projeto                      |
-| POST   | /donations/project/:id/ | Faz doação para um projeto                       |
-| PATCH  | /donations/:id          | Atualiza uma doação usando seu ID como parâmetro |
+| Método | Rota                    | Descrição                                                    |
+| ------ | ----------------------- | ------------------------------------------------------------ |
+| GET    | /donations/:id          | Lista uma doação usando seu ID como parâmetro.               |
+| GET    | /donations/user/:id     | Lista doações de um usuário usando seu ID como parâmetro.    |
+| GET    | /donations/project/:id  | Lista doações de um projeto usando seu ID como parâmetro.    |
+| POST   | /donations/project/:id/ | Faz uma doação para um projeto usando seu ID como parâmetro. |
+| PATCH  | /donations/:id          | Atualiza uma doação usando seu ID como parâmetro.            |
 
 ---
 
@@ -1693,25 +1699,28 @@ Vazio
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
 {
-  "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
-  "message": "Doe e ajude esta causa!",
+  "id": "4bf62487-31ab-44ea-83a5-c028a4e635df",
+  "user_id": "007a14af-7856-40fb-8d26-1091346d8df7",
+  "project_id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
   "value": 100,
-  "created_at": "2022-05-25T00:24:16.360Z",
-  "updated_at": "2022-05-25T00:24:16.360Z"
+  "message": "Doe e ajude esta causa!",
+  "created_at": "2022-05-26T03:51:21.769Z",
+  "user": null,
+  "project": null
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição           |
-| ---------------- | ------------------- |
-| 404 Not Found    | Donation not found. |
-| 401 Unauthorized | Invalid token.      |
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Donation not found |
+| 401 Unauthorized | Invalid token      |
 
 ---
 
@@ -1745,27 +1754,30 @@ Vazio
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
 [
   {
-    "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
-    "message": "Doe e ajude esta causa!",
+    "id": "4bf62487-31ab-44ea-83a5-c028a4e635df",
+    "user_id": "007a14af-7856-40fb-8d26-1091346d8df7",
+    "project_id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
     "value": 100,
-    "created_at": "2022-05-25T00:24:16.360Z",
-    "updated_at": "2022-05-25T00:24:16.360Z"
+    "message": "Doe e ajude esta causa!",
+    "created_at": "2022-05-26T03:51:21.769Z",
+    "user": null,
+    "project": null
   }
 ]
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição       |
-| ---------------- | --------------- |
-| 404 Not Found    | User not found. |
-| 401 Unauthorized | Invalid token.  |
+| Código do Erro   | Descrição      |
+| ---------------- | -------------- |
+| 404 Not Found    | User not found |
+| 401 Unauthorized | Invalid token  |
 
 ---
 
@@ -1799,31 +1811,34 @@ Vazio
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
 [
   {
-    "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
-    "message": "Doe e ajude esta causa!",
+    "id": "4bf62487-31ab-44ea-83a5-c028a4e635df",
+    "user_id": "007a14af-7856-40fb-8d26-1091346d8df7",
+    "project_id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
     "value": 100,
-    "created_at": "2022-05-25T00:24:16.360Z",
-    "updated_at": "2022-05-25T00:24:16.360Z"
+    "message": "Doe e ajude esta causa!",
+    "created_at": "2022-05-26T03:51:21.769Z",
+    "user": null,
+    "project": null
   }
 ]
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
-### 4.4. **Criação de Doação**
+### 4.4. **Criar Doação**
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
@@ -1860,15 +1875,22 @@ Content-type: application/json
 ```
 
 ```json
-{}
+{
+  "id": "1968edeb-5874-4123-8765-7e50d9bb43c2",
+  "project_id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
+  "user_id": "007a14af-7856-40fb-8d26-1091346d8df7",
+  "value": 100,
+  "message": "Doe e ajude esta causa!",
+  "created_at": "2022-05-26T03:48:23.255Z"
+}
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
@@ -1904,26 +1926,24 @@ Content-type: application/json
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
-[
-  {
-    "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
-    "message": "Doei e ajudei esta causa!",
+{
+  "message": "Donation successfully updated",
+  "UpdatedInfo": {
     "value": 100,
-    "created_at": "2022-05-25T00:24:16.360Z",
-    "updated_at": "2022-05-25T00:24:16.360Z"
+    "message": "Doei e ajudei esta causa!"
   }
-]
+}
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição           |
-| ---------------- | ------------------- |
-| 404 Not Found    | Donation not found. |
-| 401 Unauthorized | Invalid token.      |
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Donation not found |
+| 401 Unauthorized | Invalid token      |
 
 ---
