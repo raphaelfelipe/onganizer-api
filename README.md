@@ -487,11 +487,12 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição           |
-| ---------------- | ------------------- |
-| 409 Conflict     | Email already taken |
-| 404 Not Found    | User not found      |
-| 401 Unauthorized | Invalid token       |
+| Código do Erro   | Descrição            |
+| ---------------- | -------------------- |
+| 401 Unauthorized | Unauthorized access  |
+| 409 Conflict     | Email already in use |
+| 404 Not Found    | User not found       |
+| 401 Unauthorized | Invalid token        |
 
 ---
 
@@ -882,10 +883,7 @@ Vazio
 
 ```json
 {
-  "id": "7a0192db-2967-4114-b4e3-788b34051cfa",
-  "project_id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
-  "user_id": "c8bc69f5-fa6e-4ff8-9478-1c7e5e5426ec",
-  "created_at": "2022-05-24T23:30:14.296Z"
+  "message": "Project unfollowed"
 }
 ```
 
@@ -946,7 +944,7 @@ Vazio
 
 ---
 
-### 2.8. **Virar Administrador de um Projeto**
+### 2.8. **Adicionar Administrador em um Projeto**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
@@ -970,30 +968,38 @@ Content-type: application/json
 ### Corpo da Requisição:
 
 ```json
-Vazio
+{
+  "user_id": "170917b4-bf4e-4a92-9e88-f70d9a61e879"
+}
 ```
 
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
 {
-  "id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
-  "name": "Projeto animaravilhoso",
+  "id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
+  "name": "Projeto nimaravilhoso",
   "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!",
   "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
-  "created_at": "2022-05-24T22:02:19.740Z",
-  "updated_at": "2022-05-24T22:02:19.740Z",
+  "created_at": "2022-05-26T01:21:41.245Z",
+  "updated_at": "2022-05-26T01:21:41.245Z",
   "active": true,
   "users": [
     {
-      "id": "faea5cca-e10d-4440-9849-c19610d6aabf",
-      "email": "OswaldoDeco@kenzie.com.br",
-      "name": "Oswaldo Deco",
+      "id": "007a14af-7856-40fb-8d26-1091346d8df7",
+      "email": "RaphaelFelipeMLima@kenzie.com.br",
+      "name": "Raphael Felipe M Lima",
       "description": "Sou uma descrição daquelas Amazing"
+    },
+    {
+      "id": "170917b4-bf4e-4a92-9e88-f70d9a61e879",
+      "email": "CarlosVitor@kenzie.com.br",
+      "name": "Carlos Vitor",
+      "description": "Eu tenho uma descrição muito mais irada"
     }
   ]
 }
@@ -1001,10 +1007,11 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 409 Conflict     | uuid not value    |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
