@@ -13,9 +13,9 @@ const data_source_1 = require("../../data-source");
 const post_comments_entity_1 = require("../../entities/post_comments.entity");
 const appError_1 = require("../../errors/appError");
 const listAllPostCommentariesService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const repository = data_source_1.AppDataSource.getRepository(post_comments_entity_1.Post_Comments);
-    const posts = yield repository.find();
-    const postCommentaries = posts.find(post => post.post_id === id);
+    const commentsRepository = data_source_1.AppDataSource.getRepository(post_comments_entity_1.Post_Comments);
+    const comments = yield commentsRepository.find();
+    const postCommentaries = comments.filter(comment => comment.post_id === id);
     if (!postCommentaries) {
         throw new appError_1.AppError("Post not found", 404);
     }

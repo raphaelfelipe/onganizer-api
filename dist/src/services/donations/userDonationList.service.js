@@ -12,14 +12,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const donation_entity_1 = require("../../entities/donation.entity");
 const data_source_1 = require("../../data-source");
 const appError_1 = require("../../errors/appError");
+const user_entity_1 = require("../../entities/user.entity");
 const userDonationsService = ({ user_id }) => __awaiter(void 0, void 0, void 0, function* () {
     const donationsRepository = data_source_1.AppDataSource.getRepository(donation_entity_1.Donation);
-    const donations = yield donationsRepository.find({
-        relations: ["user", "project"]
-    });
-    const userDonations = donations.filter((donation) => donation.user_id === user_id);
+    const donations = yield donationsRepository.find();
+    const userDonations = donations.filter(donation => donation.user_id === user_id);
     if (!userDonations) {
         throw new appError_1.AppError("User donations not found", 404);
+    }
+    const usersRepository = data_source_1.AppDataSource.getRepository(user_entity_1.User);
+    const users = yield usersRepository.find();
+    const user = users.find(user => user.id === user_id);
+    if (!user) {
+        throw new appError_1.AppError("User not found", 404);
     }
     return userDonations;
 });

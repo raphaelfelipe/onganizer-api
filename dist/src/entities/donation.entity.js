@@ -11,8 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Donation = void 0;
 const typeorm_1 = require("typeorm");
-const user_entity_1 = require("./user.entity");
-const project_entity_1 = require("./project.entity");
 const uuid_1 = require("uuid");
 let Donation = class Donation {
     constructor() {
@@ -26,23 +24,9 @@ __decorate([
     __metadata("design:type", String)
 ], Donation.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, {
-        eager: true,
-    }),
-    (0, typeorm_1.JoinColumn)(),
-    __metadata("design:type", user_entity_1.User)
-], Donation.prototype, "user", void 0);
-__decorate([
     (0, typeorm_1.Column)("uuid"),
     __metadata("design:type", String)
 ], Donation.prototype, "user_id", void 0);
-__decorate([
-    (0, typeorm_1.OneToOne)((type) => project_entity_1.Project, {
-        eager: true,
-    }),
-    (0, typeorm_1.JoinColumn)(),
-    __metadata("design:type", project_entity_1.Project)
-], Donation.prototype, "project", void 0);
 __decorate([
     (0, typeorm_1.Column)("uuid"),
     __metadata("design:type", String)

@@ -9,12 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const project_posts_entity_1 = require("../../entities/project_posts.entity");
-const data_source_1 = require("../../data-source");
-const projectPostsService = ({ id }) => __awaiter(void 0, void 0, void 0, function* () {
-    const projectPostsRepository = data_source_1.AppDataSource.getRepository(project_posts_entity_1.Project_Posts);
-    const projectPosts = yield projectPostsRepository.find();
-    const posts = projectPosts.filter((post) => post.project_id === id);
-    return posts;
-});
-exports.default = projectPostsService;
+exports.initialMigration1653588585347 = void 0;
+class initialMigration1653588585347 {
+    up(queryRunner) {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
+    down(queryRunner) {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
+}
+exports.initialMigration1653588585347 = initialMigration1653588585347;

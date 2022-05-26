@@ -25,7 +25,7 @@ __decorate([
     __metadata("design:type", String)
 ], Project_Posts.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => project_entity_1.Project, (project) => project),
+    (0, typeorm_1.ManyToOne)(() => project_entity_1.Project, (project) => project, { onDelete: "CASCADE" }),
     __metadata("design:type", project_entity_1.Project)
 ], Project_Posts.prototype, "project", void 0);
 __decorate([

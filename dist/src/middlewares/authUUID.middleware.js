@@ -8,25 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authUUID = void 0;
 const appError_1 = require("../errors/appError");
+const uuidValidator_1 = __importDefault(require("../utils/uuidValidator"));
 const authUUID = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id: projectId } = req.params;
-        const { user_id } = req.body;
-        if (!projectId) {
-            return next();
-        }
-        if (!user_id) {
-            return next();
-        }
-        const validate = require('uuid-validate');
-        if (!validate(projectId)) {
-            throw new appError_1.AppError("uuid not value", 400);
-        }
-        if (!validate(user_id)) {
-            throw new appError_1.AppError("uuid not value", 400);
+        const { id } = req.params;
+        if (!(0, uuidValidator_1.default)(id)) {
+            throw new appError_1.AppError("id not valid", 422);
         }
         return next();
     }

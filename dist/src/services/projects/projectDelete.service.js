@@ -14,12 +14,15 @@ const project_entity_1 = require("../../entities/project.entity");
 const appError_1 = require("../../errors/appError");
 const projectDeleteSelfService = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const projectRepository = data_source_1.AppDataSource.getRepository(project_entity_1.Project);
+    console.log("test");
     const projects = yield projectRepository.find();
     const projectDeleted = projects.find((project) => project.id === id);
+    console.log(projectDeleted);
     if (!projectDeleted) {
         throw new appError_1.AppError("Project not found", 404);
     }
     yield projectRepository.delete(projectDeleted.id);
+    console.log("testeeeeeeee");
     return true;
 });
 exports.default = projectDeleteSelfService;

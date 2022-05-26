@@ -17,9 +17,6 @@ const createCommentService = async ({ post_id, user_id, comment }: ICreateCommen
         throw new AppError("Project not found", 404)
     }
 
-    if (post) {
-        throw new AppError("Post already exists", 404)
-    }
 
     const commentary = new Post_Comments()
     commentary.post_id = post_id

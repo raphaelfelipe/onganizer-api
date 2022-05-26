@@ -13,7 +13,7 @@ const project_entity_1 = require("../../entities/project.entity");
 const data_source_1 = require("../../data-source");
 const user_entity_1 = require("../../entities/user.entity");
 const appError_1 = require("../../errors/appError");
-const projectCreateService = ({ user_id, name, description, objective }) => __awaiter(void 0, void 0, void 0, function* () {
+const projectCreateService = ({ user_id, name, description, objective, }) => __awaiter(void 0, void 0, void 0, function* () {
     const projectRepository = data_source_1.AppDataSource.getRepository(project_entity_1.Project);
     const projects = yield projectRepository.find();
     const projectAlreadyExists = projects.find((project) => project.name === name);
@@ -23,8 +23,11 @@ const projectCreateService = ({ user_id, name, description, objective }) => __aw
     const projectUserRepository = data_source_1.AppDataSource.getRepository(user_entity_1.User);
     const user = yield projectUserRepository.find({
         select: ["id", "name", "description"],
-        where: { id: user_id }
+        where: { id: user_id },
     });
+    if (!name || !description || !objective) {
+        throw new appError_1.AppError("Missing name, description or objectve", 422);
+    }
     const project = new project_entity_1.Project();
     project.name = name;
     project.description = description;

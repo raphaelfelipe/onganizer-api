@@ -14,9 +14,7 @@ const data_source_1 = require("../../data-source");
 const appError_1 = require("../../errors/appError");
 const donationListOneService = ({ id }) => __awaiter(void 0, void 0, void 0, function* () {
     const donationRepository = data_source_1.AppDataSource.getRepository(donation_entity_1.Donation);
-    const donations = yield donationRepository.find({
-        relations: ["user", "project"]
-    });
+    const donations = yield donationRepository.find();
     const donation = donations.find((donation) => donation.id === id);
     if (!donation) {
         throw new appError_1.AppError("Donation not found", 404);
