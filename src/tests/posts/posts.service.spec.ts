@@ -204,7 +204,6 @@ test("User should be able to update a post", async()=>{
     content = "Post content test"
     const postData = {id,title, content}
     const testData = await postUpdateService(postData)
-    console.log(testData)
     expect(testData.UpdatedInfo).toEqual(
       expect.objectContaining({
         title,

@@ -16,7 +16,6 @@ const deleteUserService = async (id: string) => {
     project.users.some((item) => item.id === id)
   );
 
-  console.log(projectArray);
 
   projectArray.forEach(async (project) => {
     if (project.users.length === 1) {

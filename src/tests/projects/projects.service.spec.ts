@@ -112,12 +112,36 @@ describe("Project tests", () => {
     expect(projectTest?.users).toHaveLength(1);
   });
 
+  test("Should create a new project user", async () => {
+    const project_id = project_id_test;
+
+    const email = "test2@gmail.com";
+    const name = "testName2";
+    const password = "HiIamAPassword2";
+    const description = "Test description 2";
+    const userData = { email, name, password, description };
+    const userTest = await userCreateService(userData);
+    const user_id = userTest!.id;
+    const newUserData = { project_id, user_id};
+    const projectTest = await userProjectCreateService(newUserData);
+    expect(projectTest!.users.length).toEqual(2);
+    expect(projectTest).toHaveProperty("users");
+    expect(projectTest!.users[1]).toEqual(
+      expect.objectContaining({
+        id: user_id,
+        name,
+        email,
+        description
+      })
+    )
+  });
+
+
   test("Should list all project users", async () => {
     const project_id = project_id_test;
-    const user_id = user_id_test;
-    const projectData = { project_id, user_id };
-    const projectTest = await userProjectCreateService(projectData);
-    expect(projectTest?.users).toHaveLength(1);
+    const projectData = { id:project_id};
+    const projectTest = await projectUsersService(projectData);
+    expect(projectTest?.users).toHaveLength(2);
   });
 
   test("Should delete one project", async () => {
