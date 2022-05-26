@@ -4,21 +4,24 @@ import { authPostOrAdmin } from "../middlewares/authPostAdmin.middleware";
 import { authToken } from "../middlewares/authToken.middleware";
 import { authUUID } from "../middlewares/authUUID.middleware";
 
-const postRoutes = Router()
+const postRoutes = Router();
 
-const postController = new PostsController()
+const postController = new PostsController();
 
-postRoutes.get("/:id", authUUID, postController.indexPost)
-postRoutes.get("/:id/comments", authUUID, postController.indexAllPostCommentaries)
-postRoutes.get("/comments/:id", authUUID, postController.indexCommentary)
+postRoutes.get("/:id", authUUID, postController.indexPost);
+postRoutes.get(
+  "/:id/comments",
+  authUUID,
+  postController.indexAllPostCommentaries
+);
+postRoutes.get("/comments/:id", authUUID, postController.indexCommentary);
 
-postRoutes.use(authToken)
-postRoutes.post("/:id/comments", authUUID, postController.storeCommentary)
-postRoutes.patch("/comments/:id", authUUID, postController.updateComentary)
-postRoutes.delete("/comments/:id", authUUID, postController.deleteCommentary)
+postRoutes.use(authToken);
+postRoutes.post("/:id/comments", authUUID, postController.storeCommentary);
+postRoutes.patch("/comments/:id", authUUID, postController.updateComentary);
+postRoutes.delete("/comments/:id", authUUID, postController.deleteCommentary);
 
-postRoutes.patch("/:id", authUUID,authPostOrAdmin, postController.updatePost)
-postRoutes.delete("/:id", authUUID,authPostOrAdmin, postController.deletePost)
+postRoutes.patch("/:id", authUUID, authPostOrAdmin, postController.updatePost);
+postRoutes.delete("/:id", authUUID, authPostOrAdmin, postController.deletePost);
 
-
-export default postRoutes
+export default postRoutes;

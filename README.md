@@ -79,14 +79,6 @@ yarn typeorm migration:run -d src/data-source.ts
 
 ---
 
-## 4. Autenticação
-
-[ Voltar para o topo ](#tabela-de-conteúdos)
-
-Por enquanto, não foi implementada autenticação.
-
----
-
 ## 5. Endpoints
 
 [ Voltar para o topo ](#tabela-de-conteúdos)
@@ -138,33 +130,32 @@ Por enquanto, não foi implementada autenticação.
 
 O objeto User é definido como:
 
-| Campo       | Tipo    | Descrição                                    |
-| ----------- | ------- | -------------------------------------------- |
-| id          | string  | Identificador único do usuário               |
-| name        | string  | O nome do usuário.                           |
-| description | string  | A descrição / bio do usuário.                |
-| email       | string  | O e-mail do usuário.                         |
-| password    | string  | A senha de acesso do usuário                 |
-| is_admin    | boolean | Define se um usuário é Administrador ou não. |
-| created_at  | Date    | Data de criação do usuário.                  |
-| updated_at  | Date    | Data de atualização do usuário.              |
+| Campo       | Tipo   | Descrição                       |
+| ----------- | ------ | ------------------------------- |
+| id          | string | Identificador único do usuário. |
+| name        | string | Nome do usuário.                |
+| description | string | Descrição do usuário.           |
+| email       | string | E-mail de acesso do usuário.    |
+| password    | string | Senha de acesso do usuário.     |
+| created_at  | Date   | Data de criação do usuário.     |
+| updated_at  | Date   | Data de atualização do usuário. |
 
 ### Endpoints
 
-| Método | Rota           | Descrição                                          |
-| ------ | -------------- | -------------------------------------------------- |
-| POST   | /users         | Criação de um usuário.                             |
-| POST   | /users/login   | Faz login com os dados de um usuário.              |
-| GET    | /users         | Lista todos os usuários.                           |
-| GET    | /users/:id     | Lista um usuário usando seu ID como parâmetro      |
-| GET    | /users/me/info | Lista o usuário que está logado atualmente         |
-| GET    | /users/me/feed | Lista o feed do usuário que está logado atualmente |
-| PATCH  | /users/:id     | Atualiza um usuário usando seu ID como parâmetro   |
-| DELETE | /users/:id     | Apaga um usuário usando seu ID como parâmetro      |
+| Método | Rota           | Descrição                                                 |
+| ------ | -------------- | --------------------------------------------------------- |
+| POST   | /users         | Cria um usuário.                                          |
+| POST   | /users/login   | Faz login com o email e senha do usuário.                 |
+| GET    | /users         | Lista todos os usuários.                                  |
+| GET    | /users/:id     | Lista um usuário usando seu ID como parâmetro.            |
+| GET    | /users/me/info | Lista as informações do usuário que está logado.          |
+| GET    | /users/me/feed | Lista os posts dos projetos seguidos pelo usuário logado. |
+| PATCH  | /users/:id     | Atualiza um usuário usando seu ID como parâmetro.         |
+| DELETE | /users/:id     | Exclui um usuário usando seu ID como parâmetro.           |
 
 ---
 
-### 1.1. **Criação de Usuário**
+### 1.1. **Criar Usuário**
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
@@ -201,9 +192,7 @@ Content-type: application/json
   "id": "bc5e288f-ca5a-4f61-9d73-cfc454a40296",
   "name": "Raphael Felipe M Lima",
   "email": "RaphaelFelipeMLima@kenzie.com.br",
-  "password": "$2b$10$zjbYnAwqymrrfcSiq6.vLeBj57TtZhW15/MqGARUG5yRCSCWxXGoK",
   "description": "Sou uma descrição daquelas Amazing",
-  "is_admin": true,
   "created_at": "2022-05-23T23:26:02.737Z",
   "updated_at": "2022-05-23T23:26:02.737Z"
 }
@@ -211,13 +200,14 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro  | Descrição             |
-| --------------- | --------------------- |
-| 400 Bad Request | Email already exists. |
+| Código do Erro           | Descrição                       |
+| ------------------------ | ------------------------------- |
+| 422 Unprocessable Entity | Missing name, email or password |
+| 409 Conflict             | Email already in use            |
 
 ---
 
-### 1.2. **Fazer login**
+### 1.2. **Fazer Login**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
@@ -255,13 +245,14 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro  | Descrição             |
-| --------------- | --------------------- |
-| 400 Bad Request | Wrong email/password. |
+| Código do Erro           | Descrição              |
+| ------------------------ | ---------------------- |
+| 422 Unprocessable Entity | Missing email/password |
+| 403 Forbidden            | Wrong email/password   |
 
 ---
 
-### 1.3. **Listando Usuários**
+### 1.3. **Listar Todos os Usuários**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
@@ -293,11 +284,7 @@ Vazio
   {
     "id": "bc5e288f-ca5a-4f61-9d73-cfc454a40296",
     "name": "Raphael Felipe M Lima",
-    "email": "RaphaelFelipeMLima@kenzie.com.br",
-    "description": "Sou uma descrição daquelas Amazing",
-    "is_admin": true,
-    "created_at": "2022-05-23T23:26:02.737Z",
-    "updated_at": "2022-05-23T23:26:02.737Z"
+    "description": "Sou uma descrição daquelas Amazing"
   }
 ]
 ```
@@ -345,19 +332,15 @@ Vazio
 {
   "id": "bc5e288f-ca5a-4f61-9d73-cfc454a40296",
   "name": "Raphael Felipe M Lima",
-  "email": "RaphaelFelipeMLima@kenzie.com.br",
-  "description": "Sou uma descrição daquelas Amazing",
-  "is_admin": true,
-  "created_at": "2022-05-23T23:26:02.737Z",
-  "updated_at": "2022-05-23T23:26:02.737Z"
+  "description": "Sou uma descrição daquelas Amazing"
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro  | Descrição       |
-| --------------- | --------------- |
-| 400 Bad Request | User not found. |
+| Código do Erro | Descrição      |
+| -------------- | -------------- |
+| 404 Not Found  | User not found |
 
 ---
 
@@ -370,55 +353,7 @@ Vazio
 ### Exemplo de Request:
 
 ```
-GET /users/me/inf2
-Host: https://api-onganizer.herokuapp.com/
-Authorization: Bearer <token>
-Content-type: application/json
-```
-
-### Corpo da Requisição:
-
-```json
-Vazio
-```
-
-### Exemplo de Response:
-
-```
-200 OK
-```
-
-```json
-{
-  "id": "faea5cca-e10d-4440-9849-c19610d6aabf",
-  "email": "RaphaelFelipeMLima@kenzie.com.br",
-  "name": "Raphael Felipe M Lima",
-  "description": "Sou uma descrição daquelas Amazing",
-  "password": "$2b$10$5r0Gbu/5RcxHwMxiF7188esfFtsKwoy/D3HzQ3dTdjuef0JH.o6qC",
-  "created_at": "2022-05-23T23:52:26.173Z",
-  "updated_at": "2022-05-23T23:52:26.173Z",
-  "is_admin": true
-}
-```
-
-### Possíveis Erros:
-
-| Código do Erro   | Descrição      |
-| ---------------- | -------------- |
-| 401 Unauthorized | Invalid token. |
-
----
-
-### 1.6. **Listar Feed de Usuário Logado**
-
-[ Voltar aos Endpoints ](#5-endpoints)
-
-### `/users/me/info`
-
-### Exemplo de Request:
-
-```
-GET /users/me/inf2
+GET /users/me/info
 Host: https://api-onganizer.herokuapp.com/
 Authorization: Bearer <token>
 Content-type: application/json
@@ -449,9 +384,65 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição      |
-| ---------------- | -------------- |
-| 401 Unauthorized | Invalid token. |
+| Código do Erro   | Descrição     |
+| ---------------- | ------------- |
+| 401 Unauthorized | Invalid token |
+
+---
+
+### 1.6. **Listar Feed de Usuário Logado**
+
+[ Voltar aos Endpoints ](#5-endpoints)
+
+### `/users/me/feed`
+
+### Exemplo de Request:
+
+```
+GET /users/me/feed
+Host: https://api-onganizer.herokuapp.com/
+Authorization: Bearer <token>
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "6271497d-e143-456a-801b-d090839a5698",
+    "title": "Doação Canil",
+    "content": "Doe e ajude esta causa!",
+    "created_at": "2022-05-26T02:49:01.506Z",
+    "updated_at": "2022-05-26T02:49:01.506Z",
+    "project": {
+      "id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
+      "name": "Projeto animarvelous",
+      "description": "Ajude quem ajuda esses animais encontrando um novo lar!",
+      "objective": "Ajudar ONGs que cuidam de animais de rua",
+      "created_at": "2022-05-26T01:21:41.245Z",
+      "updated_at": "2022-05-26T02:58:04.442Z",
+      "active": false
+    }
+  }
+]
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição     |
+| ---------------- | ------------- |
+| 401 Unauthorized | Invalid token |
 
 ---
 
@@ -470,6 +461,12 @@ Authorization: Bearer <token>
 Content-type: application/json
 ```
 
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                             |
+| --------- | ------ | ------------------------------------- |
+| id        | string | Identificador único do usuário (User) |
+
 ### Corpo da Requisição:
 
 ```json
@@ -482,7 +479,7 @@ Content-type: application/json
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
@@ -499,10 +496,12 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição       |
-| ---------------- | --------------- |
-| 404 Not Found    | User not found. |
-| 401 Unauthorized | Invalid token.  |
+| Código do Erro   | Descrição            |
+| ---------------- | -------------------- |
+| 401 Unauthorized | Unauthorized access  |
+| 409 Conflict     | Email already in use |
+| 404 Not Found    | User not found       |
+| 401 Unauthorized | Invalid token        |
 
 ---
 
@@ -520,6 +519,12 @@ Host: https://api-onganizer.herokuapp.com/
 Authorization: Bearer <token>
 Content-type: application/json
 ```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                             |
+| --------- | ------ | ------------------------------------- |
+| id        | string | Identificador único do usuário (User) |
 
 ### Corpo da Requisição:
 
@@ -541,10 +546,11 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição       |
-| ---------------- | --------------- |
-| 401 Unauthorized | Invalid token.  |
-| 400 Bad Request  | User not found. |
+| Código do Erro   | Descrição           |
+| ---------------- | ------------------- |
+| 401 Unauthorized | Unauthorized access |
+| 404 Not Found    | User not found      |
+| 401 Unauthorized | Invalid token       |
 
 ---
 
@@ -554,36 +560,36 @@ Vazio
 
 O objeto Project é definido como:
 
-| Campo       | Tipo    | Descrição                                           |
-| ----------- | ------- | --------------------------------------------------- |
-| id          | string  | Identificador único do projeto                      |
-| name        | string  | O nome do projeto.                                  |
-| description | string  | A descrição projeto do usuário.                     |
-| objective   | string  | O objetivo do projeto.                              |
-| active      | boolean | Define se o projeto está ativo ou não.              |
-| users       | Array   | Lista todos os usuários administradores do projeto. |
-| created_at  | Date    | Data de criação do projeto.                         |
-| updated_at  | Date    | Data de atualização do projeto.                     |
+| Campo       | Tipo    | Descrição                            |
+| ----------- | ------- | ------------------------------------ |
+| id          | string  | Identificador único do projeto.      |
+| name        | string  | Nome do projeto.                     |
+| description | string  | Descrição do projeto.                |
+| objective   | string  | Objetivo do projeto.                 |
+| active      | boolean | Status do projeto.                   |
+| users       | Array   | Lista de administradores do projeto. |
+| created_at  | Date    | Data de criação do projeto.          |
+| updated_at  | Date    | Data de atualização do projeto.      |
 
 ### Endpoints
 
-| Método | Rota                | Descrição                                                       |
-| ------ | ------------------- | --------------------------------------------------------------- |
-| POST   | /project            | Criação de um projeto.                                          |
-| GET    | /project            | Lista todos os projetos.                                        |
-| GET    | /project/:id        | Lista um projeto usando seu ID como parâmetro                   |
-| GET    | /project/:id/users  | Lista todos os usuários de projeto usando seu ID como parâmetro |
-| GET    | /project/:id/posts  | Lista todos os posts de projeto usando seu ID como parâmetro    |
-| POST   | /project/follow/:id | Segue o projeto usando seu ID como parâmetro                    |
-| DELETE | /project/follow/:id | Para de seguir o projeto usando seu ID como parâmetro           |
-| POST   | /project/:id/users/ | Vira administrador do projeto usando seu ID como parâmetro      |
-| POST   | /project/:id/posts/ | Cria um post no projeto usando seu ID como parâmetro            |
-| PATCH  | /project/:id        | Atualiza um projeto usando seu ID como parâmetro                |
-| DELETE | /project/:id        | Apaga um projeto usando seu ID como parâmetro                   |
+| Método | Rota                | Descrição                                                          |
+| ------ | ------------------- | ------------------------------------------------------------------ |
+| POST   | /project            | Cria um projeto.                                                   |
+| GET    | /project            | Lista todos os projetos.                                           |
+| GET    | /project/:id        | Lista um projeto usando seu ID como parâmetro.                     |
+| GET    | /project/:id/users  | Lista todos os usuários de um projeto.                             |
+| GET    | /project/:id/posts  | Lista todos os posts de um projeto.                                |
+| POST   | /project/follow/:id | Segue um projeto usando seu ID como parâmetro.                     |
+| DELETE | /project/follow/:id | Deixa de seguir um projeto usando seu ID como parâmetro.           |
+| POST   | /project/:id/users/ | Adiciona um administrador ao projeto usando seu ID como parâmetro. |
+| POST   | /project/:id/posts/ | Cria um post em um projeto usando seu ID como parâmetro.           |
+| PATCH  | /project/:id        | Atualiza um projeto usando seu ID como parâmetro.                  |
+| DELETE | /project/:id        | Exclui um projeto usando seu ID como parâmetro.                    |
 
 ---
 
-### 2.1. **Criação de Projeto**
+### 2.1. **Criar Projeto**
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
@@ -623,8 +629,8 @@ Content-type: application/json
   "active": true,
   "users": [
     {
-      "id": "faea5cca-e10d-4440-9849-c19610d6aabf",
-      "name": "Oswaldo Deco",
+      "id": "bc5e288f-ca5a-4f61-9d73-cfc454a40296",
+      "name": "Raphael Felipe M Lima",
       "description": "Sou uma descrição daquelas Amazing"
     }
   ],
@@ -635,14 +641,14 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição               |
-| ---------------- | ----------------------- |
-| 409 Conflict     | Project already exists. |
-| 401 Unauthorized | Invalid token.          |
+| Código do Erro   | Descrição              |
+| ---------------- | ---------------------- |
+| 409 Conflict     | Project already exists |
+| 401 Unauthorized | Invalid token          |
 
 ---
 
-### 2.2. **Listando Projetos**
+### 2.2. **Listar Todos os Projetos**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
@@ -666,7 +672,7 @@ Vazio
 ### Exemplo de Response:
 
 ```
-201 Created
+200 OK
 ```
 
 ```json
@@ -736,13 +742,13 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição          |
-| -------------- | ------------------ |
-| 404 Not Found  | Project not found. |
+| Código do Erro | Descrição         |
+| -------------- | ----------------- |
+| 404 Not Found  | Project not found |
 
 ---
 
-### 2.4. **Listar Usuários de um Projeto**
+### 2.4. **Listar Todos os Usuários de um Projeto**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
@@ -792,13 +798,13 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição          |
-| -------------- | ------------------ |
-| 404 Not Found  | Project not found. |
+| Código do Erro | Descrição         |
+| -------------- | ----------------- |
+| 404 Not Found  | Project not found |
 
 ---
 
-### 2.5. **Listar Feed de Usuário Logado**
+### 2.5. **Listar Todos os Posts de um Projeto**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
@@ -845,9 +851,9 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição          |
-| -------------- | ------------------ |
-| 404 Not Found  | Project not found. |
+| Código do Erro | Descrição         |
+| -------------- | ----------------- |
+| 404 Not Found  | Project not found |
 
 ---
 
@@ -881,24 +887,21 @@ Vazio
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
 {
-  "id": "7a0192db-2967-4114-b4e3-788b34051cfa",
-  "project_id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
-  "user_id": "c8bc69f5-fa6e-4ff8-9478-1c7e5e5426ec",
-  "created_at": "2022-05-24T23:30:14.296Z"
+  "message": "Project unfollowed"
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
@@ -950,7 +953,7 @@ Vazio
 
 ---
 
-### 2.8. **Virar Administrador de um Projeto**
+### 2.8. **Adicionar Administrador em um Projeto**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
@@ -974,30 +977,38 @@ Content-type: application/json
 ### Corpo da Requisição:
 
 ```json
-Vazio
+{
+  "user_id": "170917b4-bf4e-4a92-9e88-f70d9a61e879"
+}
 ```
 
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
 {
-  "id": "d78b7b9b-f9bd-4976-9e54-a06b24033bd9",
-  "name": "Projeto animaravilhoso",
+  "id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
+  "name": "Projeto nimaravilhoso",
   "description": "Ajude quem ajuda esses animaizinhos a encontrar um novo lar!",
   "objective": "Arrecadar fundos para ajudar ONGs que cuidam de animais de rua",
-  "created_at": "2022-05-24T22:02:19.740Z",
-  "updated_at": "2022-05-24T22:02:19.740Z",
+  "created_at": "2022-05-26T01:21:41.245Z",
+  "updated_at": "2022-05-26T01:21:41.245Z",
   "active": true,
   "users": [
     {
-      "id": "faea5cca-e10d-4440-9849-c19610d6aabf",
-      "email": "OswaldoDeco@kenzie.com.br",
-      "name": "Oswaldo Deco",
+      "id": "007a14af-7856-40fb-8d26-1091346d8df7",
+      "email": "RaphaelFelipeMLima@kenzie.com.br",
+      "name": "Raphael Felipe M Lima",
       "description": "Sou uma descrição daquelas Amazing"
+    },
+    {
+      "id": "170917b4-bf4e-4a92-9e88-f70d9a61e879",
+      "email": "CarlosVitor@kenzie.com.br",
+      "name": "Carlos Vitor",
+      "description": "Eu tenho uma descrição muito mais irada"
     }
   ]
 }
@@ -1005,10 +1016,11 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 409 Conflict     | uuid not value    |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
@@ -1045,7 +1057,7 @@ Content-type: application/json
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
@@ -1069,10 +1081,10 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
@@ -1111,7 +1123,7 @@ Content-type: application/json
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
@@ -1131,10 +1143,10 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
@@ -1179,10 +1191,10 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 401 Unauthorized | Invalid token.     |
-| 400 Bad Request  | Project not found. |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 401 Unauthorized | Invalid token     |
+| 400 Bad Request  | Project not found |
 
 ---
 
@@ -1194,24 +1206,24 @@ O objeto Post é definido como:
 
 | Campo      | Tipo   | Descrição                    |
 | ---------- | ------ | ---------------------------- |
-| id         | string | Identificador único do post  |
-| title      | string | O título do post.            |
-| content    | string | O conteúdo do post.          |
+| id         | string | Identificador único do post. |
+| title      | string | Título do post.              |
+| content    | string | Conteúdo do post.            |
 | created_at | Date   | Data de criação do post.     |
 | updated_at | Date   | Data de atualização do post. |
 
 ### Endpoints
 
-| Método | Rota                 | Descrição                                                       |
-| ------ | -------------------- | --------------------------------------------------------------- |
-| GET    | /posts/:id           | Lista um post usando seu ID como parâmetro                      |
-| GET    | /posts/:id/comments/ | Lista todos os comentários do post usando seu ID como parâmetro |
-| GET    | /posts/comments/:id  | Lista um comentário usando seu ID como parâmetro                |
-| POST   | /posts/:id/comments/ | Cria um comentário no post                                      |
-| PATCH  | /posts/comments/:id  | Atualiza um comentário usando seu ID como parâmetro             |
-| DELETE | /posts/comments/:id  | Apaga um comentário usando seu ID como parâmetro                |
-| PATCH  | /posts/:id           | Atualiza um post usando seu ID como parâmetro                   |
-| DELETE | /posts/:id           | Apaga um post usando seu ID como parâmetro                      |
+| Método | Rota                 | Descrição                                                        |
+| ------ | -------------------- | ---------------------------------------------------------------- |
+| GET    | /posts/:id           | Lista um post usando seu ID como parâmetro.                      |
+| GET    | /posts/:id/comments/ | Lista todos os comentários do post usando seu ID como parâmetro. |
+| GET    | /posts/comments/:id  | Lista um comentário usando seu ID como parâmetro.                |
+| POST   | /posts/:id/comments/ | Cria um comentário no post.                                      |
+| PATCH  | /posts/comments/:id  | Atualiza um comentário usando seu ID como parâmetro.             |
+| DELETE | /posts/comments/:id  | Exclui um comentário usando seu ID como parâmetro.               |
+| PATCH  | /posts/:id           | Atualiza um post usando seu ID como parâmetro.                   |
+| DELETE | /posts/:id           | Exclui um post usando seu ID como parâmetro.                     |
 
 ---
 
@@ -1260,9 +1272,9 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição       |
-| -------------- | --------------- |
-| 404 Not Found  | Post not found. |
+| Código do Erro | Descrição      |
+| -------------- | -------------- |
+| 404 Not Found  | Post not found |
 
 ---
 
@@ -1314,9 +1326,9 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição       |
-| -------------- | --------------- |
-| 404 Not Found  | Post not found. |
+| Código do Erro | Descrição      |
+| -------------- | -------------- |
+| 404 Not Found  | Post not found |
 
 ---
 
@@ -1366,13 +1378,13 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição          |
-| -------------- | ------------------ |
-| 404 Not Found  | Comment not found. |
+| Código do Erro | Descrição         |
+| -------------- | ----------------- |
+| 404 Not Found  | Comment not found |
 
 ---
 
-### 3.4. **Criação de Comentário**
+### 3.4. **Criar Comentário**
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
@@ -1420,10 +1432,10 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição       |
-| ---------------- | --------------- |
-| 404 Not Found    | Post not found. |
-| 401 Unauthorized | Invalid token.  |
+| Código do Erro   | Descrição      |
+| ---------------- | -------------- |
+| 404 Not Found    | Post not found |
+| 401 Unauthorized | Invalid token  |
 
 ---
 
@@ -1464,22 +1476,19 @@ Content-type: application/json
 
 ```json
 {
-  "message": "Comment updated",
-  "comment": {
-    "message": "Comment successfully updated",
-    "UpdatedInfo": {
-      "comment": "Eu gosto de animais, vou ajudar com certeza e chamar os amigos também!"
-    }
+  "message": "Comment successfully updated",
+  "UpdatedInfo": {
+    "comment": "Eu gosto de animais, vou ajudar com certeza e chamar os amigos também!"
   }
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Comment not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Comment not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
@@ -1524,10 +1533,10 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 401 Unauthorized | Invalid token.     |
-| 400 Bad Request  | Comment not found. |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 401 Unauthorized | Invalid token     |
+| 400 Bad Request  | Comment not found |
 
 ---
 
@@ -1579,10 +1588,10 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição       |
-| ---------------- | --------------- |
-| 404 Not Found    | Post not found. |
-| 401 Unauthorized | Invalid token.  |
+| Código do Erro   | Descrição      |
+| ---------------- | -------------- |
+| 404 Not Found    | Post not found |
+| 401 Unauthorized | Invalid token  |
 
 ---
 
@@ -1621,16 +1630,16 @@ Vazio
 
 ```json
 {
-  "message": "Post deleted with success"
+  "message": "Post successfully deleted"
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição       |
-| ---------------- | --------------- |
-| 401 Unauthorized | Invalid token.  |
-| 400 Bad Request  | Post not found. |
+| Código do Erro   | Descrição      |
+| ---------------- | -------------- |
+| 401 Unauthorized | Invalid token  |
+| 400 Bad Request  | Post not found |
 
 ---
 
@@ -1642,21 +1651,21 @@ O objeto Donations é definido como:
 
 | Campo      | Tipo   | Descrição                      |
 | ---------- | ------ | ------------------------------ |
-| id         | string | Identificador único da doação  |
-| message    | string | A mensagem da doação.          |
-| value      | number | O valor do doação.             |
+| id         | string | Identificador único da doação. |
+| message    | string | Mensagem da doação.            |
+| value      | number | Valor do doação.               |
 | created_at | Date   | Data da doação.                |
 | updated_at | Date   | Data de atualização da doação. |
 
 ### Endpoints
 
-| Método | Rota                    | Descrição                                        |
-| ------ | ----------------------- | ------------------------------------------------ |
-| GET    | /donations/:id          | Lista uma doação usando seu ID como parâmetro    |
-| GET    | /donations/user/:id     | Lista doações de um usuário                      |
-| GET    | /donations/project/:id  | Lista doações de um projeto                      |
-| POST   | /donations/project/:id/ | Faz doação para um projeto                       |
-| PATCH  | /donations/:id          | Atualiza uma doação usando seu ID como parâmetro |
+| Método | Rota                    | Descrição                                                    |
+| ------ | ----------------------- | ------------------------------------------------------------ |
+| GET    | /donations/:id          | Lista uma doação usando seu ID como parâmetro.               |
+| GET    | /donations/user/:id     | Lista doações de um usuário usando seu ID como parâmetro.    |
+| GET    | /donations/project/:id  | Lista doações de um projeto usando seu ID como parâmetro.    |
+| POST   | /donations/project/:id/ | Faz uma doação para um projeto usando seu ID como parâmetro. |
+| PATCH  | /donations/:id          | Atualiza uma doação usando seu ID como parâmetro.            |
 
 ---
 
@@ -1690,25 +1699,28 @@ Vazio
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
 {
-  "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
-  "message": "Doe e ajude esta causa!",
+  "id": "4bf62487-31ab-44ea-83a5-c028a4e635df",
+  "user_id": "007a14af-7856-40fb-8d26-1091346d8df7",
+  "project_id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
   "value": 100,
-  "created_at": "2022-05-25T00:24:16.360Z",
-  "updated_at": "2022-05-25T00:24:16.360Z"
+  "message": "Doe e ajude esta causa!",
+  "created_at": "2022-05-26T03:51:21.769Z",
+  "user": null,
+  "project": null
 }
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição           |
-| ---------------- | ------------------- |
-| 404 Not Found    | Donation not found. |
-| 401 Unauthorized | Invalid token.      |
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Donation not found |
+| 401 Unauthorized | Invalid token      |
 
 ---
 
@@ -1742,27 +1754,30 @@ Vazio
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
 [
   {
-    "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
-    "message": "Doe e ajude esta causa!",
+    "id": "4bf62487-31ab-44ea-83a5-c028a4e635df",
+    "user_id": "007a14af-7856-40fb-8d26-1091346d8df7",
+    "project_id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
     "value": 100,
-    "created_at": "2022-05-25T00:24:16.360Z",
-    "updated_at": "2022-05-25T00:24:16.360Z"
+    "message": "Doe e ajude esta causa!",
+    "created_at": "2022-05-26T03:51:21.769Z",
+    "user": null,
+    "project": null
   }
 ]
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição       |
-| ---------------- | --------------- |
-| 404 Not Found    | User not found. |
-| 401 Unauthorized | Invalid token.  |
+| Código do Erro   | Descrição      |
+| ---------------- | -------------- |
+| 404 Not Found    | User not found |
+| 401 Unauthorized | Invalid token  |
 
 ---
 
@@ -1796,31 +1811,34 @@ Vazio
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
 [
   {
-    "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
-    "message": "Doe e ajude esta causa!",
+    "id": "4bf62487-31ab-44ea-83a5-c028a4e635df",
+    "user_id": "007a14af-7856-40fb-8d26-1091346d8df7",
+    "project_id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
     "value": 100,
-    "created_at": "2022-05-25T00:24:16.360Z",
-    "updated_at": "2022-05-25T00:24:16.360Z"
+    "message": "Doe e ajude esta causa!",
+    "created_at": "2022-05-26T03:51:21.769Z",
+    "user": null,
+    "project": null
   }
 ]
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
-### 4.4. **Criação de Doação**
+### 4.4. **Criar Doação**
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
@@ -1857,15 +1875,22 @@ Content-type: application/json
 ```
 
 ```json
-{}
+{
+  "id": "1968edeb-5874-4123-8765-7e50d9bb43c2",
+  "project_id": "e3c20dbc-3279-40bf-b0ed-d237b4c66ba8",
+  "user_id": "007a14af-7856-40fb-8d26-1091346d8df7",
+  "value": 100,
+  "message": "Doe e ajude esta causa!",
+  "created_at": "2022-05-26T03:48:23.255Z"
+}
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 
@@ -1901,26 +1926,24 @@ Content-type: application/json
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
-[
-  {
-    "id": "e38b74a1-a5af-44a5-905d-b0bfe99bf04d",
-    "message": "Doei e ajudei esta causa!",
+{
+  "message": "Donation successfully updated",
+  "UpdatedInfo": {
     "value": 100,
-    "created_at": "2022-05-25T00:24:16.360Z",
-    "updated_at": "2022-05-25T00:24:16.360Z"
+    "message": "Doei e ajudei esta causa!"
   }
-]
+}
 ```
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição           |
-| ---------------- | ------------------- |
-| 404 Not Found    | Donation not found. |
-| 401 Unauthorized | Invalid token.      |
+| Código do Erro   | Descrição          |
+| ---------------- | ------------------ |
+| 404 Not Found    | Donation not found |
+| 401 Unauthorized | Invalid token      |
 
 ---

@@ -25,6 +25,7 @@ export const authToken = async (
         if (userFound) {
           request.userEmail = decoded.email;
           request.userId = decoded.id;
+
           return next();
         }
         throw new AppError("Invalid token", 401);

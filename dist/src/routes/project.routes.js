@@ -1,0 +1,25 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const projects_controller_1 = __importDefault(require("../controllers/projects.controller"));
+const authProjectOrAdmin_middleware_1 = require("../middlewares/authProjectOrAdmin.middleware");
+const authToken_middleware_1 = require("../middlewares/authToken.middleware");
+const authUUID_middleware_1 = require("../middlewares/authUUID.middleware");
+const router = (0, express_1.Router)({ mergeParams: true });
+const projectsController = new projects_controller_1.default();
+router.get("", projectsController.projectList);
+router.get("/:id", authUUID_middleware_1.authUUID, projectsController.projectListOne);
+router.get("/:id/users", authUUID_middleware_1.authUUID, projectsController.listProjectUsers);
+router.get("/:id/posts", authUUID_middleware_1.authUUID, projectsController.listProjectPosts);
+router.use(authToken_middleware_1.authToken);
+router.post("", projectsController.createProject);
+router.post("/follow/:id", authUUID_middleware_1.authUUID, projectsController.createFollowProject);
+router.delete("/follow/:id", authUUID_middleware_1.authUUID, projectsController.followProjectDelete);
+router.post("/:id/users", authUUID_middleware_1.authUUID, authProjectOrAdmin_middleware_1.authProjectOrAdmin, projectsController.createProjectUsers);
+router.post("/:id/posts", authUUID_middleware_1.authUUID, authProjectOrAdmin_middleware_1.authProjectOrAdmin, projectsController.createPost);
+router.patch("/:id", authUUID_middleware_1.authUUID, authProjectOrAdmin_middleware_1.authProjectOrAdmin, projectsController.projectUpdate);
+router.delete("/:id", authUUID_middleware_1.authUUID, projectsController.projectDelete);
+exports.default = router;
