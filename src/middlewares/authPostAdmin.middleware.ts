@@ -3,6 +3,7 @@ import { AppDataSource } from "../data-source"
 import { User } from "../entities/user.entity"
 import { Project } from "../entities/project.entity"
 import { Project_Posts } from "../entities/project_posts.entity"
+import { AppError } from "../errors/appError"
 
 export const authPostOrAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -21,6 +22,9 @@ export const authPostOrAdmin = async (req: Request, res: Response, next: NextFun
             where: { id: postId },
             relations: ["project"]
         })
+        if (!post){
+            throw new AppError("Post not found", 404)
+        }
 
         const projectUserRepository = AppDataSource.getRepository(Project);
         const project = await projectUserRepository.findOne({
