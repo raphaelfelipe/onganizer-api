@@ -877,7 +877,7 @@ Vazio
 ### Exemplo de Response:
 
 ```
-200 OK
+201 Created
 ```
 
 ```json
@@ -891,10 +891,10 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição          |
-| ---------------- | ------------------ |
-| 404 Not Found    | Project not found. |
-| 401 Unauthorized | Invalid token.     |
+| Código do Erro   | Descrição         |
+| ---------------- | ----------------- |
+| 404 Not Found    | Project not found |
+| 401 Unauthorized | Invalid token     |
 
 ---
 

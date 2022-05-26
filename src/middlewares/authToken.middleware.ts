@@ -19,18 +19,15 @@ export const authToken = async (
         if (err) {
           throw new AppError("Invalid token", 401);
         }
-
         const userFound = users.find(
           (user) => user.email === decoded.email && user.id === decoded.id
         );
-
         if (userFound) {
           request.userEmail = decoded.email;
           request.userId = decoded.id;
 
           return next();
         }
-
         throw new AppError("Invalid token", 401);
       }
     );
