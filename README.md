@@ -253,9 +253,10 @@ Content-type: application/json
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição            |
-| -------------- | -------------------- |
-| 403 Forbidden  | Wrong email/password |
+| Código do Erro           | Descrição              |
+| ------------------------ | ---------------------- |
+| 422 Unprocessable Entity | Missing email/password |
+| 403 Forbidden            | Wrong email/password   |
 
 ---
 
@@ -737,7 +738,7 @@ Vazio
 
 ---
 
-### 2.4. **Listar Usuários de um Projeto**
+### 2.4. **Listar Todos os Usuários de um Projeto**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
@@ -787,13 +788,13 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição          |
-| -------------- | ------------------ |
-| 404 Not Found  | Project not found. |
+| Código do Erro | Descrição         |
+| -------------- | ----------------- |
+| 404 Not Found  | Project not found |
 
 ---
 
-### 2.5. **Listar Feed de Usuário Logado**
+### 2.5. **Listar Todos os Posts de um Projeto**
 
 [ Voltar aos Endpoints ](#5-endpoints)
 
@@ -840,9 +841,9 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro | Descrição          |
-| -------------- | ------------------ |
-| 404 Not Found  | Project not found. |
+| Código do Erro | Descrição         |
+| -------------- | ----------------- |
+| 404 Not Found  | Project not found |
 
 ---
 
