@@ -32,6 +32,10 @@ const userProjectCreateService = async ({
     throw new AppError("User not found", 404);
   }
 
+  if (project!.users.some(user => user.id === user_id)) {
+    throw new AppError("user is already a project administrator", 409);
+  }
+
   project!.users.push(user!);
 
   await projectRepository.save(project!);
