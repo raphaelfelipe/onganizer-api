@@ -91,10 +91,6 @@ describe("Donation tests", () => {
     const user_id = "1";
     const donationData = { user_id };
     const donation = await userDonationsService(donationData);
-    expect(donation[0]).toHaveProperty("message");
-    expect(donation[0]).toHaveProperty("user_id");
-    expect(donation[0]).toHaveProperty("project_id");
-    expect(donation[0]).toHaveProperty("project");
-    expect(donation[0]).toHaveProperty("user");
+    expect(donation).toHaveLength(1);
   });
 });

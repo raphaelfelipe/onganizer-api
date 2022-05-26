@@ -24,7 +24,6 @@ describe("User tests", () => {
     const description = "Test description";
     const userData = { email, name, password, description };
     const userTest = await userCreateService(userData);
-
     expect(userTest).toHaveProperty("id");
     expect(userTest).toHaveProperty("created_at");
     expect(userTest).toHaveProperty("updated_at");
