@@ -8,7 +8,9 @@ import { AppError } from "../../errors/appError";
 const userLoginService = async ({email, password}:IUserLogin) => {
     const userRepository = AppDataSource.getRepository(User)
     const users = await userRepository.find()
-
+    if (!email||!password){
+        throw new AppError("Missing email/password", 422)}
+        
     const account = users.find(user => user.email === email)
 
     if(!account){
