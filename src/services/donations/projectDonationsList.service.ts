@@ -6,9 +6,7 @@ import { AppError } from "../../errors/appError"
 const projectDonationsService = async ({ project_id }: IDonationProjectId) => {
     const donationRepository = AppDataSource.getRepository(Donation)
 
-    const donations = await donationRepository.find({
-        relations: ["user", "project"]
-    })
+    const donations = await donationRepository.find()
 
     const projectDonations = donations.filter((donation) => donation.project_id === project_id)
 

@@ -17,7 +17,7 @@ export class Project_Posts {
   @PrimaryColumn("uuid")
   readonly id: string;
 
-  @ManyToOne(() => Project, (project) => project)
+  @ManyToOne(() => Project, (project) => project, { onDelete: "CASCADE" })
   project: Project;
 
   @Column({

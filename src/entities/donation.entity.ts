@@ -17,20 +17,20 @@ export class Donation {
   @PrimaryColumn("uuid")
   readonly id: string;
 
-  @ManyToOne((type) => User, {
-    eager: true,
-  })
-  @JoinColumn()
-  user: User;
+  // @ManyToOne((type) => User, {
+  //   eager: true,
+  // })
+  // @JoinColumn()
+  // user: User;
 
   @Column("uuid")
   user_id: string;
 
-  @OneToOne((type) => Project, {
-    eager: true,
-  })
-  @JoinColumn()
-  project: Project;
+  // @OneToOne((type) => Project, {
+  //   eager: true,
+  // })
+  // @JoinColumn()
+  // project: Project;
 
   @Column("uuid")
   project_id: string;
