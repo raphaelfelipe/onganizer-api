@@ -21,6 +21,12 @@ const updateUserService = async ({
     throw new AppError("User not found", 404);
   }
 
+  const emailFound = users.find((user) => user.email === email);
+
+  if (emailFound) {
+    throw new AppError("Email already in use", 409);
+  }
+
   await repository.update(user!.id, {
     name: name,
     email: email,
