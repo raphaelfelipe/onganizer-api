@@ -17,9 +17,8 @@ postRoutes.post("/:id/comments", authUUID, postController.storeCommentary)
 postRoutes.patch("/comments/:id", authUUID, postController.updateComentary)
 postRoutes.delete("/comments/:id", authUUID, postController.deleteCommentary)
 
-postRoutes.use(authPostOrAdmin)
-postRoutes.patch("/:id", authUUID, postController.updatePost)
-postRoutes.delete("/:id", authUUID, postController.deletePost)
+postRoutes.patch("/:id", authUUID,authPostOrAdmin, postController.updatePost)
+postRoutes.delete("/:id", authUUID,authPostOrAdmin, postController.deletePost)
 
 
 export default postRoutes
