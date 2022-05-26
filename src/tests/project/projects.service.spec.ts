@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import { AppDataSource } from "../../data-source";
 import projectCreateService from "../../services/projects/projectCreate.service";
 
-describe("User creation", () => {
+describe("Project tests", () => {
   let connection: DataSource;
 
   beforeAll(async () => {
@@ -17,12 +17,12 @@ describe("User creation", () => {
     await connection.destroy();
   });
 
-  test("Should create a new user in the database", async () => {
-    const user_id = "1"
+  test("Should create a new project in the database", async () => {
+    const user_id = "1";
     const name = "testName";
     const objective = "None";
     const description = "Test description";
-    const userData = {user_id, name, description, objective};
+    const userData = { user_id, name, description, objective };
     const userTest = await projectCreateService(userData);
 
     expect(userTest).toHaveProperty("id");
@@ -32,7 +32,7 @@ describe("User creation", () => {
       expect.objectContaining({
         name,
         description,
-        objective
+        objective,
       })
     );
   });
