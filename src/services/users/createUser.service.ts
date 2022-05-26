@@ -19,6 +19,14 @@ const userCreateService = async ({
     throw new AppError("Email already in use", 409);
   }
 
+  if (!name || !email || !password) {
+    throw new AppError("Missing name, email or password", 422);
+  }
+
+  if (!description) {
+    description = "";
+  }
+
   const user = new User();
   user.name = name;
   user.email = email;
