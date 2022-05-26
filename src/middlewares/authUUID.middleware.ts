@@ -1,38 +1,23 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError, handleError } from "../errors/appError";
+import uuidValidateV4 from "../utils/uuidValidator";
 
 export const authUUID = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
-    try {
-        const { id: projectId } = req.params;
-        const { user_id } = req.body
+  try {
+    const { id } = req.params;
 
-        if (!projectId) {
-            return next()
-        }
-
-        if (!user_id) {
-            return next()
-        }
-
-        const validate = require('uuid-validate');
-
-        if (!validate(projectId)) {
-            throw new AppError("uuid not value", 400);
-        }
-
-        if (!validate(user_id)) {
-            throw new AppError("uuid not value", 400);
-        }
-
-        return next()
-
-    } catch (err) {
-        if (err instanceof AppError) {
-            handleError(err, res)
-        }
+    if (!uuidValidateV4(id)) {
+      throw new AppError("id not valid", 422);
     }
-}
+
+    return next();
+  } catch (err) {
+    if (err instanceof AppError) {
+      handleError(err, res);
+    }
+  }
+};
