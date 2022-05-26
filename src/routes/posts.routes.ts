@@ -9,11 +9,7 @@ const postRoutes = Router();
 const postController = new PostsController();
 
 postRoutes.get("/:id", authUUID, postController.indexPost);
-postRoutes.get(
-  "/:id/comments",
-  authUUID,
-  postController.indexAllPostCommentaries
-);
+postRoutes.get("/:id/comments", authUUID, postController.indexAllPostCommentaries);
 postRoutes.get("/comments/:id", authUUID, postController.indexCommentary);
 
 postRoutes.use(authToken);
