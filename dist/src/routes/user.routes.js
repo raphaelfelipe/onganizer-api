@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const users_controller_1 = __importDefault(require("../controllers/users.controller"));
+const authToken_middleware_1 = require("../middlewares/authToken.middleware");
+const authUserAdmin_middleware_1 = require("../middlewares/authUserAdmin.middleware");
+const authUUID_middleware_1 = require("../middlewares/authUUID.middleware");
+const usersController = new users_controller_1.default();
+const usersRoutes = (0, express_1.Router)();
+usersRoutes.post("", usersController.create);
+usersRoutes.post("/login", usersController.login);
+usersRoutes.get("", usersController.list);
+usersRoutes.get("/:id", authUUID_middleware_1.authUUID, usersController.listById);
+usersRoutes.use(authToken_middleware_1.authToken);
+usersRoutes.get("/me/info", usersController.userListMe);
+usersRoutes.get("/me/feed", usersController.userListMeFeed);
+usersRoutes.patch("/:id", authUUID_middleware_1.authUUID, authUserAdmin_middleware_1.authUserOrAdmin, usersController.update);
+usersRoutes.delete("/:id", authUUID_middleware_1.authUUID, authUserAdmin_middleware_1.authUserOrAdmin, usersController.delete);
+exports.default = usersRoutes;

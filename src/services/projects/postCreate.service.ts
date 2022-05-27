@@ -10,14 +10,11 @@ const postCreateService = async ({ project_id, title, content }: IPostCreate) =>
         where: { id: project_id }
     })
 
-    console.log(project_id, project)
-
     const post = new Project_Posts()
     post.title = title
     post.content = content
 
     post.project = project[0]
-
 
     postsRepository.create(post)
     await postsRepository.save(post)

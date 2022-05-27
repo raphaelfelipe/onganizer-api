@@ -8,7 +8,7 @@ const projectCreateService = async ({
   user_id,
   name,
   description,
-  objective
+  objective,
 }: IProjectCreate) => {
   const projectRepository = AppDataSource.getRepository(Project);
   const projects = await projectRepository.find();
@@ -22,8 +22,12 @@ const projectCreateService = async ({
   const projectUserRepository = AppDataSource.getRepository(User);
   const user = await projectUserRepository.find({
     select: ["id", "name", "description"],
-    where: { id: user_id }
-  })
+    where: { id: user_id },
+  });
+
+  if (!name || !description || !objective) {
+    throw new AppError("Missing name, description or objectve", 422);
+  }
 
   const project = new Project();
   project.name = name;
@@ -31,7 +35,7 @@ const projectCreateService = async ({
   project.objective = objective;
   project.active = true;
 
-  project.users = [user[0]]
+  project.users = [user[0]];
 
   projectRepository.create(project);
   await projectRepository.save(project);

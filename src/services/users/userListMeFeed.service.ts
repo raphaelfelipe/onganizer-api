@@ -1,6 +1,5 @@
 import { AppDataSource } from "../../data-source";
 import { Follow_Projects } from "../../entities/followed_projects.entity"
-import { Project } from "../../entities/project.entity";
 import { Project_Posts } from "../../entities/project_posts.entity"
 
 const userListMeFeedService = async (id: string) => {

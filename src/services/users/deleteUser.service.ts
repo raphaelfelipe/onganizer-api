@@ -1,21 +1,35 @@
-import { AppDataSource } from "../../data-source"
-import { User } from "../../entities/user.entity"
-import { AppError } from "../../errors/appError"
+import { AppDataSource } from "../../data-source";
+import { User } from "../../entities/user.entity";
+import { Project } from "../../entities/project.entity";
+import { AppError } from "../../errors/appError";
 
-const deleteUserService = async(id:string)=>{
-    const repository = AppDataSource.getRepository(User)
+const deleteUserService = async (id: string) => {
+  const userRepository = AppDataSource.getRepository(User);
+  const projectRepository = AppDataSource.getRepository(Project);
 
-    const users = await repository.find()
+  const users = await userRepository.find();
+  const projects = await projectRepository.find({ relations: ["users"] });
 
-    const user = users.find(user=>user.id === id)
-    
-    if(!user){
-        throw new AppError ("User not found", 404)
+  const user = users.find((user) => user.id === id);
+
+  const projectArray = projects.filter((project) =>
+    project.users.some((item) => item.id === id)
+  );
+
+
+  projectArray.forEach(async (project) => {
+    if (project.users.length === 1) {
+      await projectRepository.update(project!.id, { active: false });
     }
+  });
 
-    await repository.delete(user!.id)
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
 
-    return true
-}
+  await userRepository.delete(user!.id);
 
-export default deleteUserService
+  return true;
+};
+
+export default deleteUserService;
